@@ -55,12 +55,15 @@ export function AddImagesButton({ onAdded, size = "md" }: { onAdded?: (added: As
   );
 }
 
-/** 등록해 둔 이미지 중 하나 고르기. 빈 값 = 자동으로 골라 씀 */
-export function AssetSelect({ value, onChange, emptyLabel = "이미지 자동 선택" }: { value: string; onChange: (id: string) => void; emptyLabel?: string }) {
+export const NO_IMAGE = "__none__";
+
+/** 등록해 둔 이미지 중 하나 고르기. 빈 값 = 자동으로 골라 씀, NO_IMAGE = 이미지 없이 */
+export function AssetSelect({ value, onChange, emptyLabel = "이미지 자동 선택", allowNone = false }: { value: string; onChange: (id: string) => void; emptyLabel?: string; allowNone?: boolean }) {
   const { assets } = useStore();
   return (
     <select className={`${inputBase} h-8 min-w-0 flex-1 text-xs`} value={value} onChange={(e) => onChange(e.target.value)}>
       <option value="">{emptyLabel}</option>
+      {allowNone && <option value={NO_IMAGE}>이미지 없이 (색·그라데이션만)</option>}
       {assets.map((a) => (
         <option key={a.id} value={a.id}>
           {a.name}

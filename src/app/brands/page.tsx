@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { AddImagesButton, AssetSelect, AssetThumb } from "@/components/AssetPicker";
+import { AddImagesButton, AssetSelect, AssetThumb, NO_IMAGE } from "@/components/AssetPicker";
 import { BrandPreview, BrandStatusBadge } from "@/components/BrandBits";
 import { Badge, Button, Card, Field, Modal, PageHead, Segmented, Table, inputCls, td } from "@/components/ui";
 import { CHANNEL_ICON, RESERVED_SLUGS, emptyTracking, nextDraft } from "@/lib/dummy";
@@ -119,13 +119,14 @@ function CreateModal({ open, onClose }: { open: boolean; onClose: () => void }) 
   const [keyword, setKeyword] = useState("");
   const [imageId, setImageId] = useState("");
   const image = assets.find((a) => a.id === imageId) ?? null;
+  const noImage = imageId === NO_IMAGE;
   const [draft, setDraft] = useState<BrandDraft | null>(null);
   const [loading, setLoading] = useState(false);
 
   const generate = () => {
     setLoading(true);
     window.setTimeout(() => {
-      setDraft(nextDraft(keyword.trim(), image, assets));
+      setDraft(nextDraft(keyword.trim(), noImage ? "none" : image, assets));
       setLoading(false);
     }, 700);
   };
@@ -196,11 +197,13 @@ function CreateModal({ open, onClose }: { open: boolean; onClose: () => void }) 
       </div>
       <div className="mt-2 flex items-center gap-2">
         <AddImagesButton size="sm" onAdded={(added) => setImageId(added[0].id)} />
-        <AssetSelect value={imageId} onChange={setImageId} />
+        <AssetSelect value={imageId} onChange={setImageId} allowNone />
         {image && <AssetThumb asset={image} className="h-8 w-8" />}
       </div>
       <p className="mt-1.5 text-xs text-muted">
-        {keyword.trim() && image ? "키워드와 이미지에 맞춰 만들어요." : keyword.trim() ? "키워드에 맞춰 만들고, 배경은 등록된 이미지 중 어울리는 걸 골라요." : image ? "고른 이미지 분위기에 맞춰 만들어요." : "둘 다 비우면 완전 랜덤으로 만들고, 배경은 등록된 이미지 중에서 골라요."}
+        {noImage
+          ? keyword.trim() ? "키워드에 맞춰 이미지 없이 색·그라데이션으로만 만들어요." : "이미지 없이 색·그라데이션으로만, 완전 랜덤으로 만들어요."
+          : keyword.trim() && image ? "키워드와 이미지에 맞춰 만들어요." : keyword.trim() ? "키워드에 맞춰 만들고, 배경은 등록된 이미지 중 어울리는 걸 골라요." : image ? "고른 이미지 분위기에 맞춰 만들어요." : "둘 다 비우면 완전 랜덤으로 만들고, 배경은 등록된 이미지 중에서 골라요."}
       </p>
 
       {!draft && !loading && <p className="mt-6 text-center text-sm text-muted">상호명·주소·컬러·톤·소개글·광고 카피를 한 번에 만들어요.</p>}
