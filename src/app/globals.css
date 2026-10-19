@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* 명월재 톤(남색·금색)에 맞춘 관리자 색 */
+@theme {
+  --color-ink: #0d253b;
+  --color-gold: #c0944d;
+  --color-paper: #f6f6f4;
+  --color-line: #e7e5e0;
+  --color-muted: #6b7280;
+  --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
