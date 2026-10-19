@@ -22,3 +22,12 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* 예시 브랜드 페이지: 포스터 스킨 흐르는 띠 */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee {
+  animation: marquee 18s linear infinite;
+}

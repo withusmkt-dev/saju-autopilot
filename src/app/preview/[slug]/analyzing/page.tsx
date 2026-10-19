@@ -27,17 +27,17 @@ export default function AnalyzingPage() {
   return (
     <section className="flex min-h-[70vh] flex-col items-center justify-center px-6 py-16 text-center">
       <div className="relative h-24 w-24">
-        <div className="absolute inset-0 animate-spin rounded-full border-4 border-[var(--p)]/15 border-t-[var(--a)]" />
-        <span className="absolute inset-0 grid place-items-center text-2xl font-bold text-[var(--p)]" style={{ fontFamily: "var(--hf)" }}>
+        <div className="absolute inset-0 animate-spin rounded-full border-4 border-[var(--line)] border-t-[var(--a)]" />
+        <span className="absolute inset-0 grid place-items-center text-2xl font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>
           {brand.name[0]}
         </span>
       </div>
-      <p className="mt-8 text-lg font-bold text-[var(--p)]" style={{ fontFamily: "var(--hf)" }}>
+      <p className="mt-8 text-lg font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>
         {intake.name}님의 {josa(page.topic, "을", "를")} 읽고 있어요
       </p>
       <ul className="mt-6 space-y-2 text-left text-sm">
         {STEPS.map((s, i) => (
-          <li key={s} className={`flex items-center gap-2 transition ${i < step ? "text-[var(--p)]" : "text-[#bbb]"}`}>
+          <li key={s} className={`flex items-center gap-2 transition ${i < step ? "text-[var(--ink)]" : "text-[var(--sub)] opacity-50"}`}>
             <span>{i < step ? "✓" : "·"}</span>
             {s}
           </li>

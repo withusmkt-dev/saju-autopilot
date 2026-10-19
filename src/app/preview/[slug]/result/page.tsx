@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MockNote, PTitle, usePreview } from "@/components/preview/PreviewShell";
+import { MockNote, PCard, PTitle, usePreview } from "@/components/preview/PreviewShell";
 import { ElementBars, MonthFlow, PillarTable } from "@/components/preview/SajuChart";
 import { PAID_CHAPTERS, PAID_SAMPLE } from "@/lib/preview/brandPages";
 import { useIntake, useOrder } from "@/lib/preview/mock";
@@ -34,28 +34,29 @@ export default function PaidResultPage() {
       </section>
 
       <section className="px-5 py-6">
-        <div className="rounded-2xl bg-white p-4 shadow-sm">
+        <PCard>
           <PillarTable />
           <div className="mt-4">
             <ElementBars />
           </div>
-        </div>
+        </PCard>
       </section>
 
       <section className="px-5 pb-6">
         <PTitle eyebrow="목차">열 장의 이야기</PTitle>
         <ol className="space-y-2">
           {PAID_CHAPTERS.map((c, i) => (
-            <li key={c} className="overflow-hidden rounded-2xl bg-white shadow-sm">
+            <li key={c}>
+              <PCard className="!p-0 overflow-hidden">
               <button type="button" onClick={() => setOpen(open === i ? -1 : i)} className="flex w-full items-center justify-between px-4 py-3.5 text-left">
-                <span className="font-bold text-[var(--p)]">
+                <span className="font-bold text-[var(--ink)]">
                   <span className="mr-2 text-[var(--a)]">{String(i + 1).padStart(2, "0")}</span>
                   {c}
                 </span>
-                <span className="text-xs text-[#999]">{open === i ? "접기" : "펼치기"}</span>
+                <span className="text-xs text-[var(--sub)]">{open === i ? "접기" : "펼치기"}</span>
               </button>
               {open === i && (
-                <div className="border-t border-black/5 px-4 py-4 text-[15px] leading-relaxed text-[#333]">
+                <div className="border-t border-[var(--line)] px-4 py-4 text-[15px] leading-relaxed">
                   {i === 7 ? (
                     <MonthFlow />
                   ) : (
@@ -63,6 +64,7 @@ export default function PaidResultPage() {
                   )}
                 </div>
               )}
+              </PCard>
             </li>
           ))}
         </ol>
@@ -71,7 +73,7 @@ export default function PaidResultPage() {
 
       <section className="px-5 pb-10">
         <div className="grid grid-cols-2 gap-2">
-          <button type="button" onClick={() => setNote("PDF 저장은 실서비스에서 /api/pdf 로 만들어요 (목업)")} className="rounded-xl border border-black/10 bg-white py-3 text-sm">
+          <button type="button" onClick={() => setNote("PDF 저장은 실서비스에서 /api/pdf 로 만들어요 (목업)")} className="border border-[var(--line)] py-3 text-sm">
             📄 PDF로 저장
           </button>
           <button
@@ -80,13 +82,13 @@ export default function PaidResultPage() {
               navigator.clipboard?.writeText(order?.shortLink ?? "").catch(() => {});
               setNote("결과 링크를 복사했어요");
             }}
-            className="rounded-xl border border-black/10 bg-white py-3 text-sm"
+            className="border border-[var(--line)] py-3 text-sm"
           >
             🔗 링크 복사
           </button>
         </div>
-        {note && <p className="mt-2 text-center text-xs text-[var(--p)]">{note}</p>}
-        <p className="mt-4 text-center text-xs text-[#999]">이 해설서는 1년 동안 &lsquo;결과 다시 보기&rsquo;에서 다시 열 수 있어요.</p>
+        {note && <p className="mt-2 text-center text-xs text-[var(--ink)]">{note}</p>}
+        <p className="mt-4 text-center text-xs text-[var(--sub)]">이 해설서는 1년 동안 &lsquo;결과 다시 보기&rsquo;에서 다시 열 수 있어요.</p>
       </section>
     </>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getBrandPage, SHOWCASE } from "@/lib/preview/brandPages";
+import { SKINS } from "@/lib/preview/skins";
 
 export const metadata = { title: "예시 브랜드 페이지", robots: { index: false, follow: false } };
 
@@ -26,7 +27,7 @@ export default function PreviewIndex() {
               <div className="p-4">
                 <p className="text-sm whitespace-pre-line text-ink">{page.heroTitle}</p>
                 <p className="mt-2 text-xs text-muted">
-                  /{brand.slug} · {page.formType === "couple" ? "두 사람 입력" : "한 사람 입력"} · {page.motif === "none" ? "이미지 없음" : "그림 있음"}
+                  /{brand.slug} · {page.formType === "couple" ? "두 사람 입력" : "한 사람 입력"} · {SKINS[page.skin].label} 스킨
                 </p>
               </div>
             </Link>

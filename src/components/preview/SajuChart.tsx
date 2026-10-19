@@ -6,7 +6,7 @@ export function PillarTable() {
     <div className="grid grid-cols-4 gap-1.5 text-center">
       {SAMPLE_SAJU.pillars.map((p) => (
         <div key={p.label}>
-          <p className="mb-1 text-[11px] text-[#999]">{p.label}</p>
+          <p className="mb-1 text-[11px] text-[var(--sub)]">{p.label}</p>
           <Cell char={p.stem} ko={p.stemKo} el={p.stemEl} />
           <div className="h-1.5" />
           <Cell char={p.branch} ko={p.branchKo} el={p.branchEl} />
@@ -34,10 +34,10 @@ export function ElementBars() {
         return (
           <li key={el} className="flex items-center gap-2 text-xs">
             <span className="w-4 font-bold" style={{ color: ELEMENT[el].color }}>{el}</span>
-            <span className="h-2.5 flex-1 overflow-hidden rounded-full bg-black/5">
+            <span className="h-2.5 flex-1 overflow-hidden rounded-full bg-[var(--line)]">
               <span className="block h-full rounded-full" style={{ width: `${(n / total) * 100}%`, background: ELEMENT[el].color }} />
             </span>
-            <span className="w-5 text-right text-[#888]">{n}</span>
+            <span className="w-5 text-right text-[var(--sub)]">{n}</span>
           </li>
         );
       })}
@@ -59,11 +59,11 @@ export function MonthFlow({ locked = false }: { locked?: boolean }) {
               className="w-full rounded-t"
               style={{
                 height: `${(v / 100) * 100}px`,
-                background: !locked && v === max ? "var(--a)" : !locked && v === min ? "#e57373" : "var(--p)",
+                background: !locked && v === max ? "var(--a)" : !locked && v === min ? "#e57373" : "var(--ink)",
                 opacity: !locked && (v === max || v === min) ? 1 : 0.55,
               }}
             />
-            <span className="text-[9px] text-[#999]">{i + 1}</span>
+            <span className="text-[9px] text-[var(--sub)]">{i + 1}</span>
           </div>
         ))}
       </div>

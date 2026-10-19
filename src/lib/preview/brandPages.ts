@@ -2,6 +2,7 @@
 // 실서비스에서는 site_config(브랜드 생성 때 Claude 가 만든 값)에서 읽는다.
 import { BRANDS } from "@/lib/dummy";
 import type { Brand } from "@/lib/types";
+import type { SkinKey } from "./skins";
 
 export type Motif = "moon" | "none" | "flower" | "coin" | "cloud";
 
@@ -13,6 +14,7 @@ export interface PageProduct {
 }
 
 export interface BrandPage {
+  skin: SkinKey;
   topic: string; // 이 브랜드가 파는 주제
   formType: "single" | "couple"; // couple = 상대방 정보도 받음
   motif: Motif;
@@ -34,6 +36,7 @@ export const SHOWCASE = ["dalbit", "destiny-call", "love-lab", "geumbit", "cheon
 
 const PAGES: Record<string, BrandPage> = {
   dalbit: {
+    skin: "night",
     topic: "종합 사주",
     formType: "single",
     motif: "moon",
@@ -59,6 +62,7 @@ const PAGES: Record<string, BrandPage> = {
     paidIntro: "달빛 아래에서 천천히 읽어 내려가듯, 당신의 사주를 열 장에 나누어 담았어요.",
   },
   "destiny-call": {
+    skin: "poster",
     topic: "팩폭 사주",
     formType: "single",
     motif: "none",
@@ -84,6 +88,7 @@ const PAGES: Record<string, BrandPage> = {
     paidIntro: "좋은 말만 듣고 싶으면 여기서 닫으세요. 지금부터는 진짜 이야기예요.",
   },
   "love-lab": {
+    skin: "soft",
     topic: "연애운",
     formType: "single",
     motif: "flower",
@@ -109,6 +114,7 @@ const PAGES: Record<string, BrandPage> = {
     paidIntro: "연애는 타이밍이에요. 당신의 사주에 적힌 사랑의 시간표를 펼쳐 볼게요.",
   },
   geumbit: {
+    skin: "finance",
     topic: "재물운",
     formType: "single",
     motif: "coin",
@@ -134,6 +140,7 @@ const PAGES: Record<string, BrandPage> = {
     paidIntro: "재물은 그릇과 때가 맞아야 쌓여요. 당신의 그릇과 때를 열 장에 정리했어요.",
   },
   cheongwol: {
+    skin: "hanji",
     topic: "정통 명리",
     formType: "single",
     motif: "cloud",
@@ -159,6 +166,7 @@ const PAGES: Record<string, BrandPage> = {
     paidIntro: "삼가 귀하의 명조를 살펴, 열 장의 해설로 정리하였습니다.",
   },
   "saju-secret": {
+    skin: "calendar",
     topic: "2027 신년운세",
     formType: "single",
     motif: "cloud",
@@ -184,6 +192,7 @@ const PAGES: Record<string, BrandPage> = {
     paidIntro: "정미년 한 해를 열두 달로 나누어, 당신에게 오는 기운을 차례로 짚었어요.",
   },
   "fact-saju": {
+    skin: "office",
     topic: "이직·취업운",
     formType: "single",
     motif: "none",
@@ -209,6 +218,7 @@ const PAGES: Record<string, BrandPage> = {
     paidIntro: "듣기 좋은 커리어 조언은 많아요. 여기선 당신 사주에 맞는 진짜 타이밍만 말할게요.",
   },
   "today-myeongri": {
+    skin: "daily",
     topic: "오늘의 운세",
     formType: "single",
     motif: "moon",
@@ -234,6 +244,7 @@ const PAGES: Record<string, BrandPage> = {
     paidIntro: "앞으로 30일, 하루하루의 기운을 미리 펼쳐 볼게요.",
   },
   "soul-saju": {
+    skin: "duo",
     topic: "궁합",
     formType: "couple",
     motif: "flower",
@@ -259,6 +270,7 @@ const PAGES: Record<string, BrandPage> = {
     paidIntro: "두 사람의 사주를 나란히 놓고, 서로에게 어떤 사람인지 열 장에 담았어요.",
   },
   hongyeon: {
+    skin: "letter",
     topic: "재회운",
     formType: "single",
     motif: "flower",
