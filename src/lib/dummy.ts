@@ -9,6 +9,7 @@ import type {
   ContentItem,
   FontKey,
   KillRule,
+  PixelKey,
   Order,
 } from "./types";
 import { footerNoteOf, josa } from "./format";
@@ -30,6 +31,20 @@ export const FONT_LABEL: Record<FontKey, string> = {
   joseon: "조선궁서",
   gmarket: "G마켓 산스",
 };
+
+/** 브랜드 페이지에 심을 수 있는 픽셀. 페이지 쪽은 값이 있는 것만 스크립트를 넣는다 */
+export const PIXELS: { key: PixelKey; label: string; placeholder: string; hint: string }[] = [
+  { key: "meta", label: "Meta 픽셀", placeholder: "1234567890123456", hint: "인스타·페이스북·스레드 광고" },
+  { key: "ga4", label: "GA4 측정 ID", placeholder: "G-XXXXXXXXXX", hint: "구글 애널리틱스" },
+  { key: "googleAds", label: "Google Ads 전환", placeholder: "AW-123456789/라벨", hint: "유튜브·구글 광고" },
+  { key: "tiktok", label: "TikTok 픽셀", placeholder: "C1A2B3C4D5E6F7G8H9", hint: "틱톡 광고" },
+  { key: "kakao", label: "카카오 픽셀", placeholder: "1234567890123456789", hint: "카카오모먼트" },
+  { key: "naver", label: "네이버 전환 추적", placeholder: "s_1a2b3c4d5e6f", hint: "네이버 검색·성과형 광고" },
+  { key: "daangn", label: "당근 픽셀", placeholder: "당근 비즈니스 픽셀 ID", hint: "당근 광고" },
+  { key: "x", label: "X 픽셀", placeholder: "o1a2b", hint: "X(트위터) 광고" },
+];
+
+export const emptyTracking = (): Record<PixelKey, string> => ({ meta: "", ga4: "", googleAds: "", tiktok: "", kakao: "", naver: "", daangn: "", x: "" });
 
 export const CHANNEL_LABEL: Record<Channel, string> = {
   threads: "스레드",
@@ -98,7 +113,7 @@ export const BRANDS: Brand[] = SEEDS.map(
     },
     orderNamePrefix: name,
     footerNote: footerNoteOf(name),
-    tracking: { metaPixelId: status === "draft" ? "" : `81${i}20394857`, ga4Id: status === "draft" ? "" : `G-${slug.slice(0, 4).toUpperCase()}${i}X`, tiktokPixelId: "" },
+    tracking: { ...emptyTracking(), ...(status === "draft" ? {} : { meta: `81${i}20394857`, ga4: `G-${slug.slice(0, 4).toUpperCase()}${i}X` }), ...(i % 3 === 0 ? { daangn: `dg_${slug}` } : {}) },
     sns: [
       { channel: "threads", handle: status === "draft" ? null : `@${slug.replace("-", "_")}`, connected: status !== "draft", tokenExpiresAt: status === "draft" ? null : i === 2 ? "2026-10-22" : "2026-12-10" },
       { channel: "instagram", handle: i % 2 === 0 && status !== "draft" ? `@${slug.replace("-", "_")}` : null, connected: i % 2 === 0 && status !== "draft", tokenExpiresAt: null },

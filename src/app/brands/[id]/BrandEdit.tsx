@@ -6,7 +6,7 @@ import { use, useState } from "react";
 import { BrandPreview, BrandStatusBadge, Dropzone } from "@/components/BrandBits";
 import CopyPackage from "@/components/CopyPackage";
 import { Badge, Button, Card, Field, PageHead, Segmented, inputCls, textareaCls } from "@/components/ui";
-import { CHANNEL_ICON, CHANNEL_LABEL, FONT_LABEL } from "@/lib/dummy";
+import { CHANNEL_ICON, CHANNEL_LABEL, FONT_LABEL, PIXELS } from "@/lib/dummy";
 import { useStore } from "@/lib/store";
 import type { Brand, FontKey } from "@/lib/types";
 
@@ -161,16 +161,24 @@ export default function BrandEdit({ params }: { params: Promise<{ id: string }> 
 
           {tab === "connect" && (
             <div className="space-y-5">
-              <div className="grid gap-3 sm:grid-cols-3">
-                <Field label="Meta 픽셀 ID">
-                  <input className={inputCls} value={form.tracking.metaPixelId} onChange={(e) => set({ tracking: { ...form.tracking, metaPixelId: e.target.value } })} />
-                </Field>
-                <Field label="GA4 ID">
-                  <input className={inputCls} value={form.tracking.ga4Id} onChange={(e) => set({ tracking: { ...form.tracking, ga4Id: e.target.value } })} />
-                </Field>
-                <Field label="TikTok 픽셀 ID">
-                  <input className={inputCls} value={form.tracking.tiktokPixelId} onChange={(e) => set({ tracking: { ...form.tracking, tiktokPixelId: e.target.value } })} />
-                </Field>
+              <div>
+                <div className="mb-2 flex items-center justify-between">
+                  <p className="text-xs font-medium">추적 픽셀</p>
+                  <Badge color="blue">사용 {PIXELS.filter((px) => form.tracking[px.key]).length}개</Badge>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {PIXELS.map((px) => (
+                    <Field key={px.key} label={px.label} hint={px.hint}>
+                      <input
+                        className={inputCls}
+                        placeholder={px.placeholder}
+                        value={form.tracking[px.key]}
+                        onChange={(e) => set({ tracking: { ...form.tracking, [px.key]: e.target.value.trim() } })}
+                      />
+                    </Field>
+                  ))}
+                </div>
+                <p className="mt-2 text-xs text-muted">비워 두면 안 심어요. 보내는 이벤트: 방문 · 무료 풀이 신청 · 결제 완료 (매체별 표준 이벤트로 변환)</p>
               </div>
               <div>
                 <p className="mb-2 text-xs font-medium">SNS 계정 연결</p>

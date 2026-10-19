@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { BrandPreview, BrandStatusBadge } from "@/components/BrandBits";
 import { Badge, Button, Card, Field, Modal, PageHead, Segmented, Table, inputCls, td } from "@/components/ui";
-import { CHANNEL_ICON, RESERVED_SLUGS, nextDraft } from "@/lib/dummy";
+import { CHANNEL_ICON, RESERVED_SLUGS, emptyTracking, nextDraft } from "@/lib/dummy";
 import { footerNoteOf } from "@/lib/format";
 import { useStore } from "@/lib/store";
 import type { Brand, BrandDraft, BrandStatus } from "@/lib/types";
@@ -133,7 +133,7 @@ function CreateModal({ open, onClose }: { open: boolean; onClose: () => void }) 
       tone: draft.tone,
       orderNamePrefix: draft.name,
       footerNote: footerNoteOf(draft.name),
-      tracking: { metaPixelId: "", ga4Id: "", tiktokPixelId: "" },
+      tracking: emptyTracking(),
       sns: (["threads", "instagram", "tiktok", "youtube"] as const).map((channel) => ({ channel, handle: null, connected: false, tokenExpiresAt: null })),
       status: "draft",
       createdAt: "2026-10-19",

@@ -4,6 +4,7 @@ export type BrandStatus = "live" | "paused" | "draft";
 export type FontKey = "pretendard" | "maruburi" | "joseon" | "gmarket";
 export type Channel = "threads" | "instagram" | "tiktok" | "youtube";
 export type AdChannel = "meta" | "tiktok" | "youtube";
+export type PixelKey = "meta" | "ga4" | "googleAds" | "tiktok" | "kakao" | "naver" | "daangn" | "x";
 
 /* ---------- 브랜드 (site_config) ---------- */
 
@@ -38,7 +39,7 @@ export interface SiteConfig {
   tone: BrandTone;
   orderNamePrefix: string; // 토스 orderName 앞부분, 예: "달빛운세"
   footerNote: string; // "달빛운세는 명월재가 운영하는 사주 서비스입니다"
-  tracking: { metaPixelId: string; ga4Id: string; tiktokPixelId: string };
+  tracking: Record<PixelKey, string>; // 빈 값 = 안 심음
   sns: SnsConnection[];
 }
 
