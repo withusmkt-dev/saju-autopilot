@@ -65,7 +65,10 @@ export default function CrmPage() {
               <td className={td}><PayBadge s={o.paymentStatus} /></td>
               <td className={td}><DeliveryBadge s={o.delivery} /></td>
               <td className={td} onClick={(e) => e.stopPropagation()}>
-                <ResendButton order={o} />
+                <div className="flex gap-1">
+                  <ResendButton order={o} />
+                  <EmailButton order={o} />
+                </div>
               </td>
             </tr>
           ))}
@@ -104,6 +107,24 @@ function ResendButton({ order }: { order: Order }) {
       }}
     >
       재발송
+    </Button>
+  );
+}
+
+function EmailButton({ order }: { order: Order }) {
+  const { notify } = useStore();
+  return (
+    <Button
+      size="sm"
+      variant="ghost"
+      disabled={order.paymentStatus !== "paid" || !order.email}
+      title={order.email ? order.email : "이메일 없음"}
+      onClick={() => {
+        // TODO(API): POST /api/orders/{id}/resend-email (Resend)
+        notify(`${order.email}로 결과 메일을 보냈어요`);
+      }}
+    >
+      이메일
     </Button>
   );
 }

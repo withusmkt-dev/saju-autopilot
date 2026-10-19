@@ -56,7 +56,7 @@ export default function ContentPage() {
       const stamp = Date.now().toString(36);
       const made: ContentItem[] = brandIds.flatMap((bid) =>
         Array.from({ length: count }, (_, i) => {
-          const item = makeContent(`cnt_${stamp}${bid}${i}`, bid, concept, mode, chosenChannels);
+          const item = makeContent(`cnt_${stamp}${bid}${i}`, bid, concept, mode, chosenChannels, upload);
           item.channels = item.channels.map((c) => ({ ...c, parts: c.parts.filter((p) => parts.includes(p.key)) }));
           return item;
         }),
@@ -169,10 +169,11 @@ function ContentCard({ item, brandName }: { item: ContentItem; brandName: string
   const [open, setOpen] = useState(true);
 
   const post = () => {
-    // TODO(API): POST /api/content/{id}/post { channels }
+    // TODO(API): auto 면 POST /api/content/{id}/post { channels }, manual 이면 게시 완료 표시만
     const at = "2026-10-19 16:45";
     setContents((list) => list.map((x) => (x.id === item.id ? { ...x, channels: x.channels.map((c) => (picked.includes(c.channel) ? { ...c, status: "posted", postedAt: at } : c)) } : x)));
-    notify(`${picked.map((c) => CHANNEL_LABEL[c]).join("·")}에 올렸어요`);
+    const names = picked.map((c) => CHANNEL_LABEL[c]).join("·");
+    notify(item.upload === "auto" ? `${names}에 올렸어요` : `${names} 업로드 완료로 표시했어요`);
     setPicked([]);
   };
 
@@ -241,7 +242,7 @@ function ContentCard({ item, brandName }: { item: ContentItem; brandName: string
             <p className="truncate text-xs text-muted">🔗 {item.shortLink}</p>
             <div className="flex gap-2">
               <Button size="sm" className="flex-1" onClick={copyAll}>문구 복사</Button>
-              <Button size="sm" variant="primary" className="flex-1" disabled={picked.length === 0} onClick={post}>선택 포스팅</Button>
+              <Button size="sm" variant="primary" className="flex-1" disabled={picked.length === 0} onClick={post}>{item.upload === "auto" ? "🚀 즉시 포스팅" : "업로드 완료 표시"}</Button>
             </div>
           </div>
         </div>

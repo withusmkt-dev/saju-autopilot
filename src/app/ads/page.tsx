@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Badge, Button, Card, Field, PageHead, Segmented, Stat, Table, Toggle, inputCls, td } from "@/components/ui";
+import KillSwitchPanel from "@/components/KillSwitchPanel";
 import { num, pct, roas, won } from "@/lib/format";
 import { useBrandMap, useStore } from "@/lib/store";
 import type { AdCampaign, AdChannel } from "@/lib/types";
@@ -62,6 +63,16 @@ export default function AdsPage() {
         <Stat label="CPC" value={won(sum.clicks ? Math.round(sum.spend / sum.clicks) : 0)} />
       </div>
 
+
+      <div className="mt-3 grid gap-3 sm:grid-cols-3">
+        {(Object.keys(CH_LABEL) as AdChannel[]).map((k) => {
+          const rows = campaigns.filter((c) => c.channel === k);
+          const sp = rows.reduce((a, c) => a + c.spend, 0);
+          const rv = rows.reduce((a, c) => a + c.revenue, 0);
+          return <Stat key={k} label={`${CH_LABEL[k]} · 캠페인 ${rows.length}개`} value={rows.length ? `ROAS ${pct(roas(rv, sp))}` : "연결 전"} sub={rows.length ? `광고비 ${won(sp)} · 매출 ${won(rv)}` : undefined} />;
+        })}
+      </div>
+
       <Card title={`캠페인 ${list.length}개`} className="mt-5">
         <Table head={["ON", "캠페인", "매체", "상태", "일 예산", "광고비", "클릭", "전환", "매출", "ROAS"]}>
           {list.map((c) => {
@@ -97,6 +108,10 @@ export default function AdsPage() {
           })}
         </Table>
       </Card>
+
+      <div className="mt-5">
+        <KillSwitchPanel />
+      </div>
 
       <Card
         title="킬 스위치 · 예산 규칙"

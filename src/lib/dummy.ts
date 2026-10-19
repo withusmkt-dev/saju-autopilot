@@ -64,14 +64,14 @@ const SEEDS: Seed[] = [
   ["b02", "destiny-call", "운명소환소", "live", "#111827", "#ef4444", "gmarket", "MZ 팩폭", 6310, 905, 58, 240000],
   ["b03", "saju-secret", "사주시크릿", "live", "#0f3d3e", "#e0b973", "pretendard", "고급 정통", 2140, 233, 9, 150000],
   ["b04", "love-lab", "연애사주연구소", "live", "#7a1f4b", "#ffb4c8", "pretendard", "연애 특화", 5530, 840, 47, 210000],
-  ["b05", "cheongwol", "청월당", "live", "#14325c", "#c0944d", "joseon", "고급 정통", 1780, 190, 12, 60000],
+  ["b05", "cheongwol", "청월당", "live", "#14325c", "#c0944d", "joseon", "고급 정통", 1780, 190, 12, 130000],
   ["b06", "fact-saju", "팩폭사주", "paused", "#1f1f1f", "#facc15", "gmarket", "MZ 팩폭", 3900, 402, 6, 190000],
-  ["b07", "today-myeongri", "오늘의명리", "live", "#3d2c1e", "#d9a066", "maruburi", "따뜻한 정통", 2600, 298, 19, 90000],
+  ["b07", "today-myeongri", "오늘의명리", "live", "#3d2c1e", "#d9a066", "maruburi", "따뜻한 정통", 2600, 298, 19, 250000],
   ["b08", "geumbit", "금빛운세", "live", "#5b3a00", "#ffd166", "pretendard", "재물 특화", 3320, 371, 25, 120000],
   ["b09", "soul-saju", "소울사주", "paused", "#24304d", "#8ab4f8", "pretendard", "힐링", 1450, 120, 2, 80000],
-  ["b10", "hongyeon", "홍연사주", "live", "#6d1a1a", "#f4a261", "joseon", "연애 특화", 2980, 355, 22, 110000],
+  ["b10", "hongyeon", "홍연사주", "live", "#6d1a1a", "#f4a261", "joseon", "연애 특화", 2980, 355, 22, 240000],
   ["b11", "dawn-saju", "새벽사주", "draft", "#1b263b", "#e0e1dd", "pretendard", "힐링", 0, 0, 0, 0],
-  ["b12", "myosi", "묘시운", "live", "#2d4a22", "#c5e384", "maruburi", "직설 조언", 1210, 140, 8, 50000],
+  ["b12", "myosi", "묘시운", "live", "#2d4a22", "#c5e384", "maruburi", "직설 조언", 1210, 140, 8, 100000],
 ];
 
 const PRICE = 9900;
@@ -149,7 +149,7 @@ export function nextDraft(keyword: string): BrandDraft {
 
 /* ---------- 콘텐츠 ---------- */
 
-export function makeContent(id: string, brandId: string, concept: string, mode: "text" | "video", channels: Channel[]): ContentItem {
+export function makeContent(id: string, brandId: string, concept: string, mode: "text" | "video", channels: Channel[], upload: "auto" | "manual" = "auto"): ContentItem {
   const brand = BRANDS.find((b) => b.id === brandId) ?? BRANDS[0];
   const link = `myeongwoljae.com/r/${id.slice(-6)}`;
   const parts: Record<Channel, ContentItem["channels"][number]["parts"]> = {
@@ -179,6 +179,7 @@ export function makeContent(id: string, brandId: string, concept: string, mode: 
     concept,
     createdAt: "2026-10-19 16:40",
     mode,
+    upload,
     shortLink: link,
     channels: channels.map((channel) => ({ channel, parts: parts[channel], status: "ready", postedAt: null })),
     assets: [
@@ -212,7 +213,7 @@ export const CAMPAIGNS: AdCampaign[] = BRANDS.filter((b) => b.status !== "draft"
 
 export const KILL_RULE: KillRule = {
   enabled: true,
-  minRoas: 100,
+  minRoas: 150,
   windowDays: 3,
   minSpend: 30000,
   boostEnabled: false,

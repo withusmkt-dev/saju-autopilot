@@ -4,6 +4,16 @@ import { Badge } from "./ui";
 import { FONT_LABEL } from "@/lib/dummy";
 import type { BrandStatus, BrandTheme } from "@/lib/types";
 
+/** 이미지 업로드 자리 (TODO(API): Supabase Storage 업로드) */
+export function Dropzone({ label, onPick }: { label: string; onPick: (name: string) => void }) {
+  return (
+    <label className="block cursor-pointer rounded-lg border border-dashed border-line p-4 text-center text-xs text-muted hover:border-ink">
+      {label} · 끌어다 놓거나 클릭해서 업로드
+      <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && onPick(e.target.files[0].name)} />
+    </label>
+  );
+}
+
 export function BrandStatusBadge({ status }: { status: BrandStatus }) {
   if (status === "live") return <Badge color="green">운영 중</Badge>;
   if (status === "paused") return <Badge color="gray">일시정지</Badge>;

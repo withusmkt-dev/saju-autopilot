@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Badge, Button, Card, Modal, PageHead, Pagination, Segmented, Stat, Table, Toggle, td } from "@/components/ui";
 import { BrandStatusBadge } from "@/components/BrandBits";
+import KillSwitchPanel from "@/components/KillSwitchPanel";
 import { PREV_PERIOD_REVENUE } from "@/lib/dummy";
 import { conversion, num, pct, roas, won } from "@/lib/format";
 import { useStore } from "@/lib/store";
@@ -14,7 +15,7 @@ const PAGE = 7;
 const FACTOR: Record<Period, number> = { today: 0.04, "7d": 0.28, "30d": 1, all: 1.7 };
 
 export default function DashboardPage() {
-  const { brands, campaigns, setBrand, setCampaign, killRule, notify } = useStore();
+  const { brands, setBrand, notify } = useStore();
   const [period, setPeriod] = useState<Period>("30d");
   const [page, setPage] = useState(1);
   const [openId, setOpenId] = useState<string | null>(null);
@@ -38,31 +39,6 @@ export default function DashboardPage() {
     });
     return t;
   }, [brands]);
-
-  const ads = useMemo(() => {
-    const byBrand = new Map<string, { spend: number; revenue: number; active: number }>();
-    let spend = 0;
-    let revenue = 0;
-    const byChannel: Record<string, number> = {};
-    campaigns.forEach((c) => {
-      spend += c.spend;
-      revenue += c.revenue;
-      byChannel[c.channel] = (byChannel[c.channel] ?? 0) + c.spend;
-      const row = byBrand.get(c.brandId) ?? { spend: 0, revenue: 0, active: 0 };
-      row.spend += c.spend;
-      row.revenue += c.revenue;
-      if (c.status === "active") row.active += 1;
-      byBrand.set(c.brandId, row);
-    });
-    const ranked = [...byBrand.entries()].map(([id, r]) => ({ id, ...r, roas: roas(r.revenue, r.spend) })).sort((a, b) => b.roas - a.roas);
-    return { spend, revenue, byChannel, top: ranked.slice(0, 3), low: ranked.filter((r) => r.roas < killRule.minRoas && r.active > 0) };
-  }, [campaigns, killRule.minRoas]);
-
-  const brandName = (id: string) => brands.find((b) => b.id === id)?.name ?? id;
-  const killBrandAds = (brandId: string) => {
-    campaigns.filter((c) => c.brandId === brandId && c.status === "active").forEach((c) => setCampaign(c.id, { status: "killed" }));
-    notify(`${brandName(brandId)} 광고를 껐어요`);
-  };
 
   const live = brands.filter((b) => b.status === "live").length;
   const rows = brands.slice((page - 1) * PAGE, page * PAGE);
@@ -136,65 +112,10 @@ export default function DashboardPage() {
         <Pagination page={page} total={brands.length} size={PAGE} onChange={setPage} />
       </Card>
 
-      <div className="mt-5 grid gap-5 lg:grid-cols-3">
-        <Card title="광고 성과 요약" className="lg:col-span-1">
-          <dl className="grid grid-cols-2 gap-3 text-sm">
-            <div>
-              <dt className="text-xs text-muted">총 광고비</dt>
-              <dd className="font-bold tabular-nums">{won(ads.spend)}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-muted">평균 ROAS</dt>
-              <dd className="font-bold tabular-nums">{pct(roas(ads.revenue, ads.spend))}</dd>
-            </div>
-          </dl>
-          <p className="mt-4 mb-1.5 text-xs text-muted">매체별 광고비 비중</p>
-          <div className="flex h-2.5 overflow-hidden rounded-full bg-paper">
-            {Object.entries(ads.byChannel).map(([ch, v], i) => (
-              <div key={ch} style={{ width: `${(v / ads.spend) * 100}%` }} className={["bg-ink", "bg-gold", "bg-sky-400"][i % 3]} />
-            ))}
-          </div>
-          <div className="mt-1.5 flex gap-3 text-xs text-muted">
-            {Object.entries(ads.byChannel).map(([ch, v], i) => (
-              <span key={ch}>
-                <span className={`mr-1 inline-block h-2 w-2 rounded-full ${["bg-ink", "bg-gold", "bg-sky-400"][i % 3]}`} />
-                {ch === "meta" ? "Meta" : ch === "tiktok" ? "TikTok" : "YouTube"} {pct((v / ads.spend) * 100)}
-              </span>
-            ))}
-          </div>
-        </Card>
-
-        <Card title="효자 브랜드 Top 3">
-          <ol className="space-y-2.5">
-            {ads.top.map((r, i) => (
-              <li key={r.id} className="flex items-center justify-between text-sm">
-                <span>
-                  <span className="mr-2 text-xs text-gold">{i + 1}</span>
-                  {brandName(r.id)}
-                </span>
-                <Badge color="green">ROAS {pct(r.roas)}</Badge>
-              </li>
-            ))}
-          </ol>
-        </Card>
-
-        <Card title={`경고 브랜드 (ROAS ${killRule.minRoas}% 미만)`} right={<Link href="/ads" className="text-xs text-muted hover:text-ink">규칙 →</Link>}>
-          {ads.low.length === 0 ? (
-            <p className="text-sm text-muted">경고 브랜드가 없어요.</p>
-          ) : (
-            <ul className="space-y-2">
-              {ads.low.map((r) => (
-                <li key={r.id} className="flex items-center justify-between gap-2 text-sm">
-                  <span className="truncate">
-                    ⚠️ {brandName(r.id)} <span className="text-xs text-rose-600">{pct(r.roas)}</span>
-                  </span>
-                  <Button size="sm" variant="danger" onClick={() => killBrandAds(r.id)}>광고 OFF</Button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Card>
+      <div className="mt-5">
+        <KillSwitchPanel showSummary />
       </div>
+      <AdExtras />
 
       <Modal
         open={!!open}
@@ -248,6 +169,68 @@ function BrandDetail({ brand, f }: { brand: Brand; f: number }) {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+const CH_COLOR = { meta: "bg-ink", tiktok: "bg-gold", youtube: "bg-sky-400" } as const;
+const CH_NAME = { meta: "Meta", tiktok: "TikTok", youtube: "YouTube" } as const;
+
+/** 효자 브랜드 Top 3 · 매체별 광고비 비중 */
+function AdExtras() {
+  const { campaigns, brands } = useStore();
+  const { top, byChannel, spend } = useMemo(() => {
+    const byBrand = new Map<string, { spend: number; revenue: number }>();
+    const byChannel = { meta: 0, tiktok: 0, youtube: 0 };
+    let spend = 0;
+    campaigns.forEach((c) => {
+      spend += c.spend;
+      byChannel[c.channel] += c.spend;
+      const r = byBrand.get(c.brandId) ?? { spend: 0, revenue: 0 };
+      r.spend += c.spend;
+      r.revenue += c.revenue;
+      byBrand.set(c.brandId, r);
+    });
+    const top = [...byBrand.entries()].map(([id, r]) => ({ id, roas: roas(r.revenue, r.spend), revenue: r.revenue })).sort((a, b) => b.roas - a.roas).slice(0, 3);
+    return { top, byChannel, spend };
+  }, [campaigns]);
+  const name = (id: string) => brands.find((b) => b.id === id)?.name ?? id;
+  const channels = (Object.keys(byChannel) as (keyof typeof byChannel)[]).filter((k) => byChannel[k] > 0);
+
+  return (
+    <div className="mt-5 grid gap-5 md:grid-cols-2">
+      <Card title="효자 브랜드 Top 3" right={<Link href="/ads" className="text-xs text-muted hover:text-ink">광고 →</Link>}>
+        <ol className="space-y-2.5">
+          {top.map((r, i) => (
+            <li key={r.id} className="flex items-center justify-between gap-2 text-sm">
+              <span className="truncate">
+                <span className="mr-2 text-xs font-bold text-gold">{i + 1}</span>
+                {name(r.id)}
+                <span className="ml-2 text-xs text-muted">매출 {won(r.revenue)}</span>
+              </span>
+              <Badge color="green">ROAS {pct(r.roas)}</Badge>
+            </li>
+          ))}
+        </ol>
+      </Card>
+      <Card title="매체별 광고비 비중">
+        <div className="flex h-3 overflow-hidden rounded-full bg-paper">
+          {channels.map((k) => (
+            <div key={k} style={{ width: `${(byChannel[k] / spend) * 100}%` }} className={CH_COLOR[k]} />
+          ))}
+        </div>
+        <ul className="mt-3 space-y-1.5 text-sm">
+          {channels.map((k) => (
+            <li key={k} className="flex items-center justify-between">
+              <span>
+                <span className={`mr-2 inline-block h-2.5 w-2.5 rounded-full ${CH_COLOR[k]}`} />
+                {CH_NAME[k]}
+              </span>
+              <span className="text-muted tabular-nums">{won(byChannel[k])} · {pct((byChannel[k] / spend) * 100)}</span>
+            </li>
+          ))}
+        </ul>
+      </Card>
     </div>
   );
 }

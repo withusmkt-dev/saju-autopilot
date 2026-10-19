@@ -120,6 +120,7 @@ export interface ContentItem {
   concept: string;
   createdAt: string;
   mode: GenerateMode;
+  upload: UploadMode; // auto = API 로 바로 게시, manual = 내려받아 직접 올림
   channels: { channel: Channel; parts: ContentPart[]; status: PostStatus; postedAt: string | null }[];
   assets: ContentAsset[];
   shortLink: string; // CTA 숏링크

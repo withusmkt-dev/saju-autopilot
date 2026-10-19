@@ -50,6 +50,10 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <CurrentNavTabs />
             </Suspense>
           </nav>
+          {/* TODO(API): 마지막 장애 알림 시각으로 상태 판단 */}
+          <span className="hidden shrink-0 items-center gap-1.5 text-xs text-muted md:flex">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" /> 시스템 정상
+          </span>
           <div className="relative shrink-0">
             <button
               type="button"
