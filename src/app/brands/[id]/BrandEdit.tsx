@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { use, useState } from "react";
 import { BrandPreview, BrandStatusBadge, Dropzone } from "@/components/BrandBits";
 import CopyPackage from "@/components/CopyPackage";
+import { AddImagesButton, AssetThumb } from "@/components/AssetPicker";
 import { Badge, Button, Card, Field, PageHead, Segmented, inputCls, textareaCls } from "@/components/ui";
 import { CHANNEL_ICON, CHANNEL_LABEL, FONT_LABEL, PIXELS } from "@/lib/dummy";
 import { useStore } from "@/lib/store";
@@ -12,11 +13,10 @@ import type { Brand, FontKey } from "@/lib/types";
 
 type Tab = "basic" | "design" | "tone" | "connect" | "package";
 
-const BG_ASSETS = ["/assets/bg/oriental_01.webp", "/assets/bg/oriental_02.webp", "/assets/bg/night_02.webp", "/assets/bg/flower_01.webp", "/assets/bg/modern_01.webp"];
 
 export default function BrandEdit({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { brands, setBrand, notify } = useStore();
+  const { brands, setBrand, notify, assets } = useStore();
   const saved = brands.find((b) => b.id === id);
   const [form, setForm] = useState<Brand | null>(saved ?? null);
   const [tab, setTab] = useState<Tab>("basic");
@@ -120,18 +120,20 @@ export default function BrandEdit({ params }: { params: Promise<{ id: string }> 
                 <Field label="SNS 프로필 이미지 (.png)">
                   <Dropzone label="프로필" onPick={(n) => notify(`${n} — 업로드는 백엔드 연결 후 동작해요`)} />
                 </Field>
-                <Field label="배경 이미지 직접 올리기">
-                  <Dropzone label="배경" onPick={(n) => notify(`${n} — 업로드는 백엔드 연결 후 동작해요`)} />
+                <Field label="배경 이미지 직접 올리기" hint="올리면 라이브러리에도 들어가요">
+                  <div className="flex h-[50px] items-center">
+                    <AddImagesButton onAdded={(added) => set({ theme: { ...form.theme, bgAsset: added[0].src } })} />
+                  </div>
                 </Field>
               </div>
-              <Field label="배경 이미지 (에셋 폴더)" hint="선택 안 하면 메인 컬러 그라데이션">
+              <Field label="배경 이미지 (라이브러리)" hint="선택 안 하면 메인 컬러 그라데이션">
                 <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
                   <button type="button" onClick={() => set({ theme: { ...form.theme, bgAsset: null } })} className={`h-16 rounded-lg border-2 text-xs ${form.theme.bgAsset === null ? "border-ink" : "border-line"}`} style={{ background: `linear-gradient(${form.theme.primary}, ${form.theme.primary}aa)`, color: "#fff" }}>
                     없음
                   </button>
-                  {BG_ASSETS.map((a) => (
-                    <button key={a} type="button" onClick={() => set({ theme: { ...form.theme, bgAsset: a } })} className={`h-16 rounded-lg border-2 bg-paper px-1 text-[10px] text-muted ${form.theme.bgAsset === a ? "border-ink" : "border-line"}`}>
-                      {a.split("/").pop()}
+                  {assets.map((a) => (
+                    <button key={a.id} type="button" title={a.name} onClick={() => set({ theme: { ...form.theme, bgAsset: a.src } })} className={`h-16 overflow-hidden rounded-lg border-2 ${form.theme.bgAsset === a.src ? "border-ink" : "border-line"}`}>
+                      <AssetThumb asset={a} className="h-full w-full" />
                     </button>
                   ))}
                 </div>

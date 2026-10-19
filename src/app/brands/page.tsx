@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { AddImagesButton, AssetSelect, AssetThumb } from "@/components/AssetPicker";
 import { BrandPreview, BrandStatusBadge } from "@/components/BrandBits";
 import { Badge, Button, Card, Field, Modal, PageHead, Segmented, Table, inputCls, td } from "@/components/ui";
 import { CHANNEL_ICON, RESERVED_SLUGS, emptyTracking, nextDraft } from "@/lib/dummy";
@@ -24,7 +25,12 @@ export default function BrandsPage() {
       <PageHead
         title="브랜드 관리"
         desc="브랜드 주소는 myeongwoljae.com/{slug} · 페이지 자체는 별도 프로젝트에서 이 설정값을 읽어 그립니다"
-        right={<Button variant="primary" onClick={() => setCreating(true)}>✨ 브랜드 자동 생성</Button>}
+        right={
+          <>
+            <AddImagesButton />
+            <Button variant="primary" onClick={() => setCreating(true)}>✨ 브랜드 자동 생성</Button>
+          </>
+        }
       />
 
       <Card
@@ -72,8 +78,27 @@ export default function BrandsPage() {
         </Table>
       </Card>
 
+      <AssetLibrary />
+
       <CreateModal open={creating} onClose={() => setCreating(false)} />
     </>
+  );
+}
+
+function AssetLibrary() {
+  const { assets } = useStore();
+  return (
+    <Card className="mt-5" title={`이미지 라이브러리 ${assets.length}장`} right={<AddImagesButton size="sm" />}>
+      <ul className="grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-8">
+        {assets.map((a) => (
+          <li key={a.id} className="min-w-0">
+            <AssetThumb asset={a} className="aspect-square w-full" />
+            <p className="mt-1 truncate text-[11px] text-muted" title={a.name}>{a.name}</p>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 text-xs text-muted">브랜드 자동 생성 때 직접 고르거나, 안 고르면 여기서 어울리는 걸 골라 배경으로 써요.</p>
+    </Card>
   );
 }
 
@@ -90,16 +115,17 @@ export function SnsDots({ brand }: { brand: Brand }) {
 }
 
 function CreateModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { brands, addBrand, notify } = useStore();
+  const { brands, addBrand, notify, assets } = useStore();
   const [keyword, setKeyword] = useState("");
+  const [imageId, setImageId] = useState("");
+  const image = assets.find((a) => a.id === imageId) ?? null;
   const [draft, setDraft] = useState<BrandDraft | null>(null);
   const [loading, setLoading] = useState(false);
 
   const generate = () => {
     setLoading(true);
-    // TODO(API): POST /api/brands/draft { keyword } → Claude 가 BrandDraft JSON 반환
     window.setTimeout(() => {
-      setDraft(nextDraft(keyword.trim()));
+      setDraft(nextDraft(keyword.trim(), image, assets));
       setLoading(false);
     }, 700);
   };
@@ -117,6 +143,7 @@ function CreateModal({ open, onClose }: { open: boolean; onClose: () => void }) 
   const close = () => {
     setDraft(null);
     setKeyword("");
+    setImageId("");
     onClose();
   };
 
@@ -162,11 +189,19 @@ function CreateModal({ open, onClose }: { open: boolean; onClose: () => void }) 
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && generate()}
-          placeholder="키워드·디자인 설명 (비우면 완전 랜덤) 예: 20대 여성 팩폭 연애운"
+          placeholder="키워드·디자인 설명 (선택) 예: 20대 여성 팩폭 연애운"
           className={inputCls}
         />
         <Button variant="primary" onClick={generate} disabled={loading}>{loading ? "생성 중…" : "자동 생성"}</Button>
       </div>
+      <div className="mt-2 flex items-center gap-2">
+        <AddImagesButton size="sm" onAdded={(added) => setImageId(added[0].id)} />
+        <AssetSelect value={imageId} onChange={setImageId} />
+        {image && <AssetThumb asset={image} className="h-8 w-8" />}
+      </div>
+      <p className="mt-1.5 text-xs text-muted">
+        {keyword.trim() && image ? "키워드와 이미지에 맞춰 만들어요." : keyword.trim() ? "키워드에 맞춰 만들고, 배경은 등록된 이미지 중 어울리는 걸 골라요." : image ? "고른 이미지 분위기에 맞춰 만들어요." : "둘 다 비우면 완전 랜덤으로 만들고, 배경은 등록된 이미지 중에서 골라요."}
+      </p>
 
       {!draft && !loading && <p className="mt-6 text-center text-sm text-muted">상호명·주소·컬러·톤·소개글·광고 카피를 한 번에 만들어요.</p>}
 
@@ -191,6 +226,16 @@ function CreateModal({ open, onClose }: { open: boolean; onClose: () => void }) 
                 </Field>
               ))}
             </div>
+            <Field label="배경 이미지">
+              <div className="flex items-center gap-2">
+                <AssetSelect
+                  emptyLabel="배경 없음 (그라데이션)"
+                  value={assets.find((a) => a.src === draft.theme.bgAsset)?.id ?? ""}
+                  onChange={(id) => setDraft({ ...draft, theme: { ...draft.theme, bgAsset: assets.find((a) => a.id === id)?.src ?? null } })}
+                />
+                <AddImagesButton size="sm" onAdded={(added) => setDraft({ ...draft, theme: { ...draft.theme, bgAsset: added[0].src } })} />
+              </div>
+            </Field>
             <Field label="톤앤매너">
               <p className="rounded-lg bg-paper px-3 py-2 text-sm">
                 <Badge color="blue">{draft.tone.concept}</Badge> {draft.tone.instruction}

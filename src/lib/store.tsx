@@ -2,8 +2,8 @@
 
 // 더미 데이터를 탭 사이에서 같이 쓰는 임시 저장소. 백엔드가 붙으면 이 자리를 API 호출로 바꾼다.
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
-import { BRANDS, CAMPAIGNS, CONTENT_HISTORY, KILL_RULE, ORDERS } from "./dummy";
-import type { AdCampaign, Brand, ContentItem, KillRule, Order } from "./types";
+import { ASSET_IMAGES, BRANDS, CAMPAIGNS, CONTENT_HISTORY, KILL_RULE, ORDERS } from "./dummy";
+import type { AdCampaign, AssetImage, Brand, ContentItem, KillRule, Order } from "./types";
 
 interface Store {
   brands: Brand[];
@@ -17,6 +17,8 @@ interface Store {
   setContents: (fn: (prev: ContentItem[]) => ContentItem[]) => void;
   orders: Order[];
   setOrder: (id: string, patch: Partial<Order>) => void;
+  assets: AssetImage[];
+  addAssets: (files: File[]) => AssetImage[];
   toast: string | null;
   notify: (msg: string) => void;
 }
@@ -29,6 +31,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [killRule, setKillRule] = useState(KILL_RULE);
   const [contents, setContents] = useState(CONTENT_HISTORY);
   const [orders, setOrders] = useState(ORDERS);
+  const [assets, setAssets] = useState(ASSET_IMAGES);
   const [toast, setToast] = useState<string | null>(null);
 
   const notify = useCallback((msg: string) => {
@@ -49,10 +52,17 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       setContents,
       orders,
       setOrder: (id, patch) => setOrders((list) => list.map((o) => (o.id === id ? { ...o, ...patch } : o))),
+      assets,
+      // TODO(API): Supabase Storage 업로드 후 URL 저장. 지금은 브라우저 안에서만 보이는 임시 URL
+      addAssets: (files) => {
+        const added = files.map((f, i) => ({ id: `img_up_${Date.now()}_${i}`, name: f.name, src: URL.createObjectURL(f), tags: [], addedAt: "2026-10-19" }));
+        setAssets((list) => [...added, ...list]);
+        return added;
+      },
       toast,
       notify,
     }),
-    [brands, campaigns, killRule, contents, orders, toast, notify],
+    [brands, campaigns, killRule, contents, orders, assets, toast, notify],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

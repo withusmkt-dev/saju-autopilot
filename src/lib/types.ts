@@ -70,6 +70,15 @@ export interface BrandDraft {
   profileImageUrl: string | null;
 }
 
+/** 에셋 라이브러리 이미지. 브랜드 생성 때 골라 쓰거나 자동으로 골라 쓴다 */
+export interface AssetImage {
+  id: string;
+  name: string;
+  src: string; // 저장 경로 또는 업로드 URL
+  tags: string[]; // 동양풍·밤하늘·꽃·모던 등
+  addedAt: string;
+}
+
 /* ---------- 대시보드 ---------- */
 
 export type Period = "today" | "7d" | "30d" | "all";

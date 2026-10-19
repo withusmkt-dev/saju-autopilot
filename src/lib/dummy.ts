@@ -1,6 +1,7 @@
 // 백엔드 연결 전까지 화면에 쓰는 더미 데이터. 모양은 types.ts 를 따른다.
 import type {
   AdCampaign,
+  AssetImage,
   AlertSettings,
   ApiKeyStatus,
   Brand,
@@ -153,10 +154,23 @@ const DRAFT_POOL: Omit<BrandDraft, "profileImageUrl">[] = [
 ];
 
 let draftCursor = 0;
-export function nextDraft(keyword: string): BrandDraft {
+/** 미리 넣어 둔 이미지 (실제 파일은 Supabase Storage 에 올라갈 예정) */
+export const ASSET_IMAGES: AssetImage[] = [
+  ["oriental_01", ["동양풍"]], ["oriental_02", ["동양풍"]], ["oriental_03", ["동양풍", "고급"]], ["oriental_04", ["동양풍"]],
+  ["night_02", ["밤하늘", "몽환"]], ["flower_01", ["꽃", "연애"]], ["modern_01", ["모던"]],
+].map(([name, tags], i) => ({ id: `img_${name}`, name: `${name}.webp`, src: `/assets/bg/${name}.webp`, tags: tags as string[], addedAt: `2026-10-${String(1 + i).padStart(2, "0")}` }));
+
+/**
+ * [브랜드 자동 생성] 더미. 키워드·이미지 둘 다 없으면 완전 랜덤,
+ * 이미지를 고르면 그 이미지를 배경으로 쓰고, 안 고르면 라이브러리에서 하나 자동으로 고른다.
+ * TODO(API): POST /api/brands/draft { keyword, imageId } → Claude 가 이미지 분위기·키워드에 맞춰 BrandDraft 생성
+ */
+export function nextDraft(keyword: string, image: AssetImage | null, library: AssetImage[]): BrandDraft {
   const base = DRAFT_POOL[draftCursor++ % DRAFT_POOL.length];
+  const picked = image ?? (library.length ? library[draftCursor % library.length] : null);
   return {
     ...base,
+    theme: { ...base.theme, bgAsset: picked?.src ?? null },
     heroDesc: keyword ? `${keyword} — ${base.heroDesc}` : base.heroDesc,
     profileImageUrl: null,
   };

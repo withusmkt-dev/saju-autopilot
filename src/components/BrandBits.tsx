@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "./ui";
+import { isViewable } from "./AssetPicker";
 import { FONT_LABEL } from "@/lib/dummy";
 import type { BrandStatus, BrandTheme } from "@/lib/types";
 
@@ -38,7 +39,9 @@ export function BrandPreview({ name, heroTitle, heroDesc, theme, footerNote }: {
       <div
         className="px-4 pt-8 pb-6 text-center"
         style={{
-          background: theme.bgAsset
+          background: isViewable(theme.bgAsset)
+            ? `linear-gradient(180deg, ${theme.primary}cc, ${theme.primary}88), center / cover no-repeat url("${theme.bgAsset}")`
+            : theme.bgAsset
             ? `linear-gradient(180deg, ${theme.primary}ee, ${theme.primary}aa), ${theme.primary}`
             : `linear-gradient(180deg, ${theme.primary}, ${theme.primary}cc)`,
           color: "#fff",
@@ -47,7 +50,7 @@ export function BrandPreview({ name, heroTitle, heroDesc, theme, footerNote }: {
         <p className="text-[10px] tracking-widest" style={{ color: theme.accent }}>무료 사주 풀이</p>
         <p className="mt-2 text-lg leading-snug font-bold">{heroTitle}</p>
         <p className="mt-2 text-[11px] opacity-80">{heroDesc}</p>
-        {theme.bgAsset && <p className="mt-2 text-[9px] opacity-50">배경: {theme.bgAsset.split("/").pop()}</p>}
+        {theme.bgAsset && !isViewable(theme.bgAsset) && <p className="mt-2 text-[9px] opacity-50">배경: {theme.bgAsset.split("/").pop()}</p>}
       </div>
       <div className="space-y-2 px-4 py-4">
         {["이름", "생년월일", "태어난 시간"].map((l) => (
