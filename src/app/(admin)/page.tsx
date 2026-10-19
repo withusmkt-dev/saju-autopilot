@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Badge, Button, Card, Modal, PageHead, Pagination, Segmented, Stat, Table, Toggle, td } from "@/components/ui";
-import { BrandStatusBadge } from "@/components/BrandBits";
+import { BrandStatusBadge, PageLink } from "@/components/BrandBits";
 import KillSwitchPanel from "@/components/KillSwitchPanel";
 import { PREV_PERIOD_REVENUE } from "@/lib/dummy";
 import { conversion, num, pct, roas, won } from "@/lib/format";
@@ -125,6 +125,7 @@ export default function DashboardPage() {
           open && (
             <>
               <Button onClick={() => setOpenId(null)}>닫기</Button>
+              <PageLink slug={open.slug} big />
               <Link href={`/brands/${open.id}`} className="inline-flex h-9 items-center rounded-lg bg-ink px-3.5 text-sm font-medium text-white">
                 이 브랜드 수정하기
               </Link>

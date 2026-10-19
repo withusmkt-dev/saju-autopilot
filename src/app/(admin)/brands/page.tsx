@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AddImagesButton, AssetSelect, AssetThumb, NO_IMAGE } from "@/components/AssetPicker";
-import { BrandPreview, BrandStatusBadge } from "@/components/BrandBits";
+import { BrandPreview, BrandStatusBadge, PageLink } from "@/components/BrandBits";
 import { Badge, Button, Card, Field, Modal, PageHead, Segmented, Table, inputCls, td } from "@/components/ui";
 import { CHANNEL_ICON, RESERVED_SLUGS, emptyTracking, nextDraft } from "@/lib/dummy";
 import { footerNoteOf } from "@/lib/format";
@@ -27,6 +27,7 @@ export default function BrandsPage() {
         desc="브랜드 주소는 myeongwoljae.com/{slug} · 페이지 자체는 별도 프로젝트에서 이 설정값을 읽어 그립니다"
         right={
           <>
+            <a href="/preview" target="_blank" rel="noreferrer" className="inline-flex h-9 items-center rounded-lg border border-line bg-white px-3.5 text-sm font-medium hover:bg-paper">예시 페이지 10개 ↗</a>
             <AddImagesButton />
             <Button variant="primary" onClick={() => setCreating(true)}>✨ 브랜드 자동 생성</Button>
           </>
@@ -68,7 +69,8 @@ export default function BrandsPage() {
                 <SnsDots brand={b} />
               </td>
               <td className={`${td} text-muted`}>{b.createdAt}</td>
-              <td className={td}>
+              <td className={`${td} flex gap-1`}>
+                <PageLink slug={b.slug} />
                 <Link href={`/brands/${b.id}`} className="inline-flex h-7 items-center rounded-lg border border-line px-2.5 text-xs font-medium hover:bg-paper">
                   설정·패키지
                 </Link>

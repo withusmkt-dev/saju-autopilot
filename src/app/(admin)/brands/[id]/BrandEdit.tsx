@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useState } from "react";
-import { BrandPreview, BrandStatusBadge, Dropzone } from "@/components/BrandBits";
+import { BrandPreview, BrandStatusBadge, Dropzone, PageLink } from "@/components/BrandBits";
 import CopyPackage from "@/components/CopyPackage";
 import { AddImagesButton, AssetThumb } from "@/components/AssetPicker";
 import { Badge, Button, Card, Field, PageHead, Segmented, inputCls, textareaCls } from "@/components/ui";
@@ -39,6 +39,7 @@ export default function BrandEdit({ params }: { params: Promise<{ id: string }> 
         right={
           <>
             <Link href="/brands" className="inline-flex h-9 items-center rounded-lg border border-line bg-white px-3.5 text-sm">목록</Link>
+            <PageLink slug={saved.slug} big />
             {form.status === "draft" && (
               <Button onClick={() => { setBrand(form.id, { ...form, status: "live" }); setForm({ ...form, status: "live" }); notify(`${form.name} 페이지를 열었어요`); }}>
                 페이지 열기 (라이브)

@@ -2,7 +2,7 @@
 
 import { Badge } from "./ui";
 import { isViewable } from "./AssetPicker";
-import { FONT_LABEL } from "@/lib/dummy";
+import { BRANDS, FONT_LABEL } from "@/lib/dummy";
 import type { BrandStatus, BrandTheme } from "@/lib/types";
 
 /** 이미지 업로드 자리 (TODO(API): Supabase Storage 업로드) */
@@ -67,5 +67,18 @@ export function BrandPreview({ name, heroTitle, heroDesc, theme, footerNote }: {
       </div>
       <p className="bg-black/5 py-1 text-center text-[9px] text-gray-500">{FONT_LABEL[theme.font]}</p>
     </div>
+  );
+}
+
+/** 예시 브랜드 페이지 새 탭으로 열기 (더미 브랜드만 예시 페이지가 있음) */
+export function PageLink({ slug, big = false }: { slug: string; big?: boolean }) {
+  const cls = big
+    ? "inline-flex h-9 items-center rounded-lg border border-line bg-white px-3.5 text-sm font-medium hover:bg-paper"
+    : "inline-flex h-7 items-center rounded-lg border border-line px-2.5 text-xs font-medium hover:bg-paper";
+  if (!BRANDS.some((b) => b.slug === slug)) return <span className={`${cls} cursor-not-allowed opacity-40`} title="예시 페이지는 기존 브랜드에만 있어요">페이지 보기</span>;
+  return (
+    <a href={`/preview/${slug}`} target="_blank" rel="noreferrer" className={cls}>
+      페이지 보기 ↗
+    </a>
   );
 }
