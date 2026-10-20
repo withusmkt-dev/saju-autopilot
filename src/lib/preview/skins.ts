@@ -5,7 +5,12 @@ import type { BrandTheme } from "@/lib/types";
 export type SkinKey = "night" | "poster" | "soft" | "finance" | "hanji" | "calendar" | "office" | "daily" | "duo" | "letter";
 export type Section = "points" | "form" | "reviews" | "product" | "feature" | "about";
 
+export type PillarStyle = "pastel" | "ink" | "dark" | "grid";
+export type ReadingStyle = "cards" | "letter" | "numbered" | "column";
+
 export interface Skin {
+  /** 결과 화면 모양: 원국표·풀이 배치·제목 정렬 */
+  result: { pillar: PillarStyle; reading: ReadingStyle; align: "left" | "center" };
   label: string;
   header: "solid" | "plain" | "center";
   card: string;
@@ -36,6 +41,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-xl border border-white/20 bg-white/10 text-white placeholder:text-white/40 [color-scheme:dark]",
     btn: "rounded-full bg-[var(--a)] text-[var(--p)]",
     order: ["points", "feature", "form", "about", "reviews", "product"],
+    result: { pillar: "dark", reading: "cards", align: "center" },
     vars: (t) => ({ "--pbg": t.primary, "--text": "#ece6f8", "--sub": "rgba(236,230,248,0.8)", "--ink": t.accent, "--line": "rgba(255,255,255,0.12)" }),
   },
   poster: {
@@ -46,6 +52,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-none border-2 border-black bg-white",
     btn: "rounded-none border-2 border-black bg-[var(--a)] text-black shadow-[4px_4px_0_#000]",
     order: ["feature", "points", "reviews", "form", "product", "about"],
+    result: { pillar: "grid", reading: "numbered", align: "left" },
     vars: (t) => light("#f4f1ea", "#111", "#3d3d3d", t, "#111"),
   },
   soft: {
@@ -56,6 +63,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-full border border-[var(--a)] bg-white px-5",
     btn: "rounded-full bg-[var(--p)] text-white",
     order: ["points", "feature", "reviews", "form", "about", "product"],
+    result: { pillar: "pastel", reading: "cards", align: "left" },
     vars: (t) => light("#fff0f4", "#3a2430", "#6e5260", t),
   },
   finance: {
@@ -66,6 +74,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-lg border border-black/15 bg-white",
     btn: "rounded-lg bg-[var(--p)] text-[var(--a)]",
     order: ["feature", "points", "product", "form", "reviews", "about"],
+    result: { pillar: "grid", reading: "numbered", align: "left" },
     vars: (t) => light("#faf7ef", "#2a2216", "#5f533f", t),
   },
   hanji: {
@@ -76,6 +85,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-none border-0 border-b-2 border-[var(--p)]/40 bg-transparent !px-1",
     btn: "rounded-none border-2 border-[var(--p)] bg-[var(--p)] text-[#f3ecdc] tracking-[0.12em]",
     order: ["about", "points", "feature", "form", "reviews", "product"],
+    result: { pillar: "ink", reading: "numbered", align: "center" },
     bodyFont: "'Nanum Myeongjo', serif",
     vars: (t) => light("#f3ecdc", "#2b2a26", "#575144", t),
   },
@@ -87,6 +97,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-md border border-[var(--p)]/25 bg-white",
     btn: "rounded-md bg-[var(--p)] text-[var(--a)]",
     order: ["feature", "points", "form", "product", "reviews", "about"],
+    result: { pillar: "grid", reading: "cards", align: "left" },
     vars: (t) => light("#eef5f4", "#10292a", "#435859", t),
   },
   office: {
@@ -97,6 +108,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-md border border-black/20 bg-[#fafafa] font-mono",
     btn: "rounded-md bg-[#1f1f1f] text-[var(--a)]",
     order: ["points", "feature", "reviews", "form", "product", "about"],
+    result: { pillar: "grid", reading: "numbered", align: "left" },
     vars: (t) => light("#f2f2f0", "#1f1f1f", "#4d4d4d", t, "#1f1f1f"),
   },
   daily: {
@@ -107,6 +119,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-none border border-[var(--p)]/30 bg-[#fffcf5]",
     btn: "rounded-none bg-[var(--p)] text-[#f7f1e6]",
     order: ["feature", "points", "form", "about", "product", "reviews"],
+    result: { pillar: "ink", reading: "column", align: "center" },
     vars: (t) => light("#f7f1e6", "#2e241a", "#5f4f3c", t),
   },
   duo: {
@@ -117,6 +130,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-2xl border border-[var(--a)]/70 bg-white",
     btn: "rounded-2xl bg-gradient-to-r from-[var(--p)] to-[#4a5f8f] text-white",
     order: ["feature", "points", "form", "reviews", "about", "product"],
+    result: { pillar: "pastel", reading: "cards", align: "center" },
     vars: (t) => light("#eef3fc", "#1d2740", "#4b556e", t),
   },
   letter: {
@@ -127,6 +141,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     input: "rounded-none border-0 border-b border-[var(--p)]/40 bg-transparent !px-1",
     btn: "rounded-sm bg-[var(--p)] text-[#fff1e6]",
     order: ["points", "about", "feature", "form", "reviews", "product"],
+    result: { pillar: "ink", reading: "letter", align: "center" },
     bodyFont: "'Gowun Batang', serif",
     vars: (t) => light("#f7ece6", "#3b1f1f", "#6b4d47", t),
   },

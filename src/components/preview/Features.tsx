@@ -5,7 +5,8 @@
 import { useState } from "react";
 import { PCard, PTitle, useAos, usePreview } from "./PreviewShell";
 
-const hf = { fontFamily: "var(--hf)" };
+const hf = { fontFamily: "var(--sf)" };
+const display = { fontFamily: "var(--hf)" }; // 표제용 (큰 숫자·한 줄 문구)
 const serif = { fontFamily: "'Nanum Myeongjo', serif" };
 const sub = "text-[14px] leading-relaxed text-[var(--sub)]";
 
@@ -81,7 +82,7 @@ function FactShuffle() {
   return (
     <section className="bg-[var(--a)] px-5 py-12">
       <p className="text-[13px] font-black tracking-wider">오늘의 팩폭 한 줄 #{String(i + 1).padStart(2, "0")}</p>
-      <p {...aos()} key={i} className="mt-4 min-h-[120px] text-[30px] leading-[1.25] text-black" style={hf}>{FACTS[i]}</p>
+      <p {...aos()} key={i} className="mt-4 min-h-[120px] text-[30px] leading-[1.25] text-black" style={display}>{FACTS[i]}</p>
       <button type="button" onClick={() => setI((v) => (v + 1) % FACTS.length)} className="mt-4 border-2 border-black bg-white px-5 py-2.5 text-[15px] font-black shadow-[4px_4px_0_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none">
         한 대 더 맞기 →
       </button>
@@ -385,7 +386,7 @@ export function About() {
   if (page.skin === "poster") {
     return (
       <section className="bg-black px-5 py-12 text-white">
-        <p {...aos()} className="text-[28px] leading-tight" style={hf}>{a.title}</p>
+        <p {...aos()} className="text-[28px] leading-tight" style={display}>{a.title}</p>
         <p {...aos(1)} className="mt-4 text-[16px] leading-relaxed text-white/85">{a.body}</p>
         <p className="mt-6 text-right text-[14px] text-[var(--a)]">— {a.sign}</p>
       </section>

@@ -4,7 +4,8 @@
 import { PCard, PTitle, useAos, usePreview } from "./PreviewShell";
 import { bgImg } from "@/lib/preview/brandPages";
 
-const hf = { fontFamily: "var(--hf)" };
+const hf = { fontFamily: "var(--sf)" };
+const display = { fontFamily: "var(--hf)" }; // 표제용 (큰 숫자·한 줄 문구)
 const HANJA = ["一", "二", "三"];
 const desc = "text-[14px] leading-relaxed text-[var(--sub)]";
 
@@ -22,7 +23,7 @@ export function Points() {
           <ul className="border-t-2 border-black">
             {pts.map((p, i) => (
               <li key={p.title} {...aos(i + 1)} className="flex items-center gap-4 border-b-2 border-black py-5">
-                <span className="w-14 shrink-0 text-5xl leading-none text-[var(--a)]" style={hf}>{String(i + 1).padStart(2, "0")}</span>
+                <span className="w-14 shrink-0 text-5xl leading-none text-[var(--a)]" style={display}>{String(i + 1).padStart(2, "0")}</span>
                 <div>
                   <p className="text-[19px] font-black">{p.title}</p>
                   <p className={desc}>{p.desc}</p>

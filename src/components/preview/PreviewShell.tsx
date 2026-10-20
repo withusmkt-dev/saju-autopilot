@@ -53,6 +53,8 @@ export default function PreviewShell({ children }: { children: React.ReactNode }
             "--p": t.primary,
             "--a": t.accent,
             "--hf": HEAD_FONT[t.font],
+            // 섹션·카드 제목 글꼴. 표제용 굵은 글꼴(G마켓 대체 Black Han Sans)은 첫 화면 큰 제목에만
+            "--sf": t.font === "gmarket" ? "'Pretendard Variable', sans-serif" : HEAD_FONT[t.font],
             ...skin.vars(t),
           } as React.CSSProperties
         }
@@ -184,7 +186,7 @@ export function PTitle({ eyebrow, children }: { eyebrow?: string; children: Reac
   return (
     <div className="mb-4">
       {eyebrow && <p className="text-xs font-semibold tracking-wider text-[var(--sub)]">{eyebrow}</p>}
-      <h2 className="mt-1 text-xl font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>{children}</h2>
+      <h2 className="mt-1 text-[21px] font-bold text-[var(--ink)]" style={{ fontFamily: "var(--sf)" }}>{children}</h2>
     </div>
   );
 }
