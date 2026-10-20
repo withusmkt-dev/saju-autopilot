@@ -187,9 +187,39 @@ export function nextDraft(keyword: string, image: AssetImage | null | "none", li
   return {
     ...base,
     theme: { ...base.theme, bgAsset: picked?.src ?? null },
-    heroDesc: keyword ? `${keyword} — ${base.heroDesc}` : base.heroDesc,
+    heroDesc: base.heroDesc,
+    tone: keyword ? { ...base.tone, focus: keyword } : base.tone, // 더미: 키워드는 강조 영역에만 반영
     profileImageUrl: null,
   };
+}
+
+/**
+ * [다른 이름 추천] 더미. 이름이 마음에 안 들 때 후보 몇 개를 보여 준다.
+ * TODO(API): POST /api/brands/names { draft, exclude } → 프롬프트 src/lib/prompts/landing.ts namesUserPrompt
+ */
+const NAME_POOL: { name: string; slug: string; why: string }[] = [
+  { name: "달무리", slug: "dalmuri", why: "달 둘레의 빛무리. 밤·달 컨셉에 부드럽게" },
+  { name: "운결", slug: "ungyeol", why: "운의 결. 짧고 차분해서 정통 컨셉에" },
+  { name: "소원상점", slug: "sowon-shop", why: "행운·부적 컨셉에 가볍고 귀엽게" },
+  { name: "오늘한줄", slug: "oneul-hanjul", why: "매일 한 줄 운세. 일진 컨셉에" },
+  { name: "새벽별", slug: "saebyeok-byeol", why: "힐링·위로 컨셉에 조용한 느낌" },
+  { name: "복담", slug: "bokdam", why: "복을 담다. 재물·행운 컨셉에" },
+  { name: "연정당", slug: "yeonjeongdang", why: "연애·궁합 컨셉에 고풍스럽게" },
+  { name: "꽃달", slug: "kkotdal", why: "연애운에 어울리는 두 글자" },
+  { name: "운다방", slug: "undabang", why: "편하게 들르는 운세 다방. 친근한 말투에" },
+  { name: "결사주", slug: "gyeol-saju", why: "결혼·궁합 컨셉에 바로 읽히게" },
+  { name: "팩트명리", slug: "fact-myeongri", why: "직설 팩폭 컨셉에" },
+  { name: "한가람운세", slug: "hangaram", why: "넓은 강처럼 길게 보는 평생 운세에" },
+];
+let nameCursor = 0;
+export function suggestNames(exclude: string[], n = 4) {
+  const out: typeof NAME_POOL = [];
+  for (let k = 0; k < NAME_POOL.length && out.length < n; k++) {
+    const c = NAME_POOL[(nameCursor + k) % NAME_POOL.length];
+    if (!exclude.includes(c.name) && !exclude.includes(c.slug)) out.push(c);
+  }
+  nameCursor = (nameCursor + n) % NAME_POOL.length;
+  return out;
 }
 
 /* ---------- 콘텐츠 ---------- */

@@ -126,6 +126,7 @@ export interface LandingInput {
   library: AssetImage[]; // 고를 수 있는 이미지 전체
   takenSlugs: string[]; // 예약어 + 이미 쓰는 slug
   existing: { name: string; concept: string; skin: SkinKey }[]; // 겹치지 않게 참고
+  keepName?: { name: string; slug: string }; // 관리자가 고정한 이름. 이 이름으로 나머지만 다시 만든다
 }
 
 /** 사용자 메시지 (브랜드마다 바뀌는 부분) */
@@ -138,6 +139,7 @@ export function landingUserPrompt(i: LandingInput): string {
       : "이미지는 아래 라이브러리에서 어울리는 것을 골라 주세요. 없으면 비워 둬도 됩니다.";
   return `키워드: ${i.keyword || "(없음. 기존 브랜드와 겹치지 않는 컨셉으로 자유롭게)"}
 ${img}
+${i.keepName ? `브랜드 이름은 관리자가 정했습니다: ${i.keepName.name} (slug ${i.keepName.slug}). 이름과 slug 는 그대로 쓰고, 이 이름에 어울리게 나머지를 만드세요.` : ""}
 
 이미지 라이브러리 (이름 [태그]):
 ${lib}
@@ -147,6 +149,37 @@ ${i.existing.map((b) => `- ${b.name}: ${b.concept} / ${b.skin}`).join("\n")}
 
 쓸 수 없는 slug: ${i.takenSlugs.join(", ")}`;
 }
+
+/* ---------- 이름만 다시 추천 ---------- */
+
+/** 만든 초안의 이름이 마음에 안 들 때. 컨셉은 그대로 두고 이름 후보만 받는다 (시스템 프롬프트는 landingSystemPrompt 를 같이 씀) */
+export function namesUserPrompt(d: Pick<LandingDraft, "name" | "topic" | "skin" | "tone" | "heroTitle">, exclude: string[], count = 4): string {
+  return `아래 브랜드의 컨셉은 그대로 두고, 이름만 새로 ${count}개 추천해 주세요. suggest_names 도구로만 답합니다.
+지금 이름: ${d.name} (관리자가 마음에 안 들어 함. 비슷한 느낌도 피하기)
+주제: ${d.topic} / 스킨: ${d.skin} / 말투: ${d.tone.concept}
+첫 화면 제목: ${d.heroTitle.replace(/\n/g, " ")}
+쓸 수 없는 이름·slug: ${exclude.join(", ")}
+후보끼리는 느낌이 서로 달라야 합니다 (예: 한 단어형, 'OO당'형, 문장형, 순우리말형).`;
+}
+
+export const NAMES_TOOL = {
+  name: "suggest_names",
+  description: "브랜드 이름 후보를 저장한다",
+  input_schema: {
+    type: "object",
+    properties: {
+      names: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: { name: { type: "string", description: "한글 2~6자" }, slug: { type: "string", description: "소문자 로마자와 하이픈, 20자 이내" }, why: { type: "string", description: "이 이름이 컨셉에 맞는 이유 한 줄" } },
+          required: ["name", "slug", "why"],
+        },
+      },
+    },
+    required: ["names"],
+  },
+} as const;
 
 /* ---------- 도구 스키마 (Claude 가 이 모양으로만 답하게) ---------- */
 

@@ -15,7 +15,7 @@
 /*
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
-import { LANDING_TOOL, landingSystemPrompt, landingUserPrompt, type LandingDraft, type LandingInput } from "@/lib/prompts/landing";
+import { LANDING_TOOL, landingSystemPrompt, landingUserPrompt, NAMES_TOOL, namesUserPrompt, type LandingDraft, type LandingInput } from "@/lib/prompts/landing";
 import { AD_TOOL, adSystemPrompt, adUserPrompt, CONTENT_TOOL, contentSystemPrompt, contentUserPrompt, type AdCreative, type AdInput, type ContentInput } from "@/lib/prompts/adContent";
 import type { ContentPart } from "@/lib/types";
 
@@ -43,6 +43,12 @@ export async function generateLanding(input: LandingInput): Promise<LandingDraft
   // 저장 전 검사: slug 중복·형식, 색 대비, heroTitle 두 줄, points 와 free 제목 일치. 어긋나면 한 번 더 요청
   if (input.takenSlugs.includes(d.slug) || !/^[a-z0-9-]{2,20}$/.test(d.slug)) throw new Error(`쓸 수 없는 slug: ${d.slug}`);
   return d;
+}
+
+// 이름만 다시 추천 (POST /api/brands/names). 컨셉은 그대로, 후보 4개
+export async function suggestBrandNames(draft: LandingDraft, exclude: string[]): Promise<{ name: string; slug: string; why: string }[]> {
+  const r = await callTool<{ names: { name: string; slug: string; why: string }[] }>(MODEL_BRAND, landingSystemPrompt(), namesUserPrompt(draft, exclude), NAMES_TOOL, 800);
+  return r.names.filter((n) => !exclude.includes(n.slug) && /^[a-z0-9-]{2,20}$/.test(n.slug));
 }
 
 export async function generateContents(input: ContentInput): Promise<{ angle: string; parts: Pick<ContentPart, "key" | "lines">[] }[]> {
