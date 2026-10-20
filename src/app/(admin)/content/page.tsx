@@ -57,11 +57,7 @@ export default function ContentPage() {
     window.setTimeout(() => {
       const stamp = Date.now().toString(36);
       const made: ContentItem[] = brandIds.flatMap((bid) =>
-        Array.from({ length: count }, (_, i) => {
-          const item = makeContent(`cnt_${stamp}${bid}${i}`, bid, concept, mode, chosenChannels, upload);
-          item.channels = item.channels.map((c) => ({ ...c, parts: c.parts.filter((p) => parts.includes(p.key)) }));
-          return item;
-        }),
+        Array.from({ length: count }, (_, i) => makeContent(`cnt_${stamp}${bid}${i}`, bid, concept, mode, chosenChannels, upload, parts)),
       );
       setContents((prev) => [...made, ...prev]);
       setLoading(false);

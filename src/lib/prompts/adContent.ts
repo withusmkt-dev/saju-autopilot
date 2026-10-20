@@ -6,9 +6,9 @@ import type { AdChannel, Brand, GenerateMode, PartKey } from "@/lib/types";
 
 /** 매체별 조각 규격 (글자 수는 매체 제한보다 여유 있게) */
 export const PART_SPEC: Record<PartKey, string> = {
-  "threads.thread": "텍스트 타래 3~5개. 각 400자 이내(스레드 제한 500자). 첫 글 첫 줄이 훅. 각 글 앞에 '1/N' 표기. 마지막 글은 무료 풀이로 자연스럽게 이어 줌",
-  "threads.cardText": "카드 이미지에 올릴 문구 2~4장. 장마다 큰 글씨 20자 이내 한 줄, 필요하면 '|' 뒤에 작은 글씨 한 줄",
-  "threads.cta": "한 줄. {link} 를 반드시 포함",
+  "threads.thread": "텍스트 타래 3~5개. 각 400자 이내(스레드 제한 500자). 첫 글 첫 줄이 훅. 각 글 앞에 '1/N' 표기. 마지막 글은 반드시 홍보 글(아래 '스레드 홍보 글' 규칙)",
+  "threads.cardText": "첫 글에 붙일 카드 이미지 문구 2~4장. 장마다 큰 글씨 20자 이내 한 줄, 필요하면 '|' 뒤에 작은 글씨 한 줄. 카드는 빠질 수도 있으니 카드에만 있는 정보를 두지 않음",
+  "threads.cta": "작성자가 첫 글에 다는 댓글 1~2줄. 브랜드 이름 + '무료' + {link}. 본문 마지막 글 문장을 그대로 반복하지 않음",
   "instagram.cardNews": "카드뉴스 5~7장. '1장: ...' 형식. 1장은 훅(15자 안팎), 가운데는 한 장에 한 가지 내용, 마지막 장은 '프로필 링크에서 무료 풀이'",
   "instagram.reelsScript": "릴스 15~30초. '0–3초: [자막] ... / [말] ...' 형식. 처음 3초 안에 훅",
   "instagram.caption": "피드 캡션 300자 안팎. 마지막 줄에 해시태그 5~8개",
@@ -40,6 +40,8 @@ export interface ContentBrand {
   topic: string; // 이 브랜드의 주제, 예: 연애운
   tone: Brand["tone"];
   productName: string; // 유료 해설서 이름
+  freePoints: string[]; // 무료 풀이에서 알려 주는 것 (랜딩 points)
+  cta: string; // 랜딩 버튼 문구
 }
 
 /* ---------- 1) SNS 콘텐츠 ---------- */
@@ -51,8 +53,16 @@ export function contentSystemPrompt(): string {
 ## 좋은 글
 - 첫 줄에서 '내 얘기 같다'고 느끼게: 구체적인 상황 하나(예: 연락을 먼저 못 하는 사람, 월급날 다음 주가 제일 가난한 사람).
 - 사주는 근거로 짧게, 읽는 사람이 얻는 건 분명하게(알게 되는 것, 해 볼 만한 것 하나).
-- 링크는 마지막에 한 번. 본문에서 '구매'를 조르지 않습니다.
+- 링크는 한 번만. 본문에서 '구매'를 조르지 않습니다.
 - 여러 편을 만들 때는 각도(angle)를 모두 다르게: 공감, 정보, 반전, 체크리스트, 질문형 등.
+
+## 스레드 홍보 글 (타래 마지막 글)
+스레드는 글만 올라갈 수도, 카드 이미지가 붙을 수도, 링크 댓글이 달릴 수도 안 달릴 수도 있습니다. 어떤 조합이든 마지막 글 하나만 읽어도 홍보가 되게 씁니다.
+- 반드시 들어갈 것: ① 브랜드 이름 ② 무료로 무엇을 알 수 있는지 (주어진 '무료 풀이 내용'에서 1~3개, 구체적으로) ③ 하는 법 (생년월일시만 넣으면 / 1분 / 가입 없이 중 하나 이상) ④ 행동 한 줄.
+- 앞 글 이야기에서 넘어오는 한 문장('그래서 내 사주는?' 같은)으로 시작하면 광고 티가 덜 납니다.
+- 링크 위치: threads.cta 조각이 있으면 링크는 댓글에만 두고, 마지막 글에는 '첫 댓글에 링크 있어요'처럼 안내만. threads.cta 가 없으면 마지막 글 끝에 {link}.
+- 홍보 글 모양은 편마다 다르게: 목록형(· 세 줄), 한 문단형, 질문으로 끝나는 형 등.
+- 유료 해설서는 넣더라도 한 줄, '무료 풀이를 보고 더 궁금하면' 정도로만.
 
 ${COMMON_RULES}
 
@@ -71,16 +81,27 @@ export interface ContentInput {
   avoidAngles?: string[]; // 최근에 쓴 각도 (반복 피하기)
 }
 
+/** 이번에 고른 스레드 조각 조합에 맞춘 안내 (글만 / 카드 / 링크 댓글 유무) */
+function threadsCase(parts: PartKey[]): string {
+  if (!parts.includes("threads.thread")) return "";
+  const link = parts.includes("threads.cta") ? "스레드 링크는 댓글(threads.cta)에만 넣고, 마지막 글에는 댓글 안내만 하세요." : "스레드 링크 댓글이 없습니다. 마지막 홍보 글 끝에 {link} 를 넣으세요.";
+  const cards = parts.includes("threads.cardText") ? "" : " 카드 이미지 없이 글만 올라갑니다.";
+  return link + cards;
+}
+
 export function contentUserPrompt(i: ContentInput): string {
   return `브랜드: ${i.brand.name} (myeongwoljae.com/${i.brand.slug})
 브랜드 주제: ${i.brand.topic}
 말투: ${i.brand.tone.instruction}
 강조: ${i.brand.tone.focus}
 유료 해설서: ${i.brand.productName}
+무료 풀이 내용: ${i.brand.freePoints.join(" / ")}
+랜딩 버튼: ${i.brand.cta}
 
 이번 주제: ${i.concept}
 만들 편수: ${i.count}편 (편마다 각도가 달라야 합니다)
 편마다 만들 조각: ${i.parts.join(", ")}
+${threadsCase(i.parts)}
 ${i.mode === "video" ? "영상으로 만듭니다. 대본에 화면 구성·자막·내레이션을 구분해 적어 주세요. 내레이션은 성우가 읽기 편한 짧은 문장으로." : "글과 이미지 카드로만 만듭니다."}
 ${i.avoidAngles?.length ? `최근에 쓴 각도라 피할 것: ${i.avoidAngles.join(" / ")}` : ""}`.trim();
 }

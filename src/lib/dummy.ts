@@ -12,6 +12,7 @@ import type {
   KillRule,
   PixelKey,
   Order,
+  PartKey,
 } from "./types";
 import { footerNoteOf, josa } from "./format";
 
@@ -193,14 +194,35 @@ export function nextDraft(keyword: string, image: AssetImage | null | "none", li
 
 /* ---------- 콘텐츠 ---------- */
 
-export function makeContent(id: string, brandId: string, concept: string, mode: "text" | "video", channels: Channel[], upload: "auto" | "manual" = "auto"): ContentItem {
+/** 스레드 타래 마지막 홍보 글. 링크 댓글이 있으면 안내만, 없으면 글에 링크. 편마다 모양을 바꾼다 (프롬프트 규칙과 같음) */
+function threadsPromo(name: string, focus: string, link: string, hasCta: boolean, v: number): string {
+  const go = hasCta ? "링크는 첫 댓글에 있어요." : `무료로 보기 👉 ${link}`;
+  const n = josa(name, "은", "는");
+  if (v === 0) return `4/4 그래서 내 사주에는 뭐가 있을까요?\n${name}에서 생년월일시만 넣으면 1분 만에 무료로 볼 수 있어요.\n· 타고난 기질\n· 2027년 달마다 흐름\n· ${focus}\n${go}`;
+  if (v === 1) return `4/4 이건 사주마다 달라서 내 경우가 궁금하면 직접 보는 게 제일 빨라요. ${n} 가입 없이 생년월일시만 넣으면 타고난 기질과 2027년 흐름을 무료로 풀어 드려요. ${go}`;
+  return `4/4 나는 모으는 달이 언제일까? ${name} 무료 풀이에서 바로 확인할 수 있어요. 생년월일시만 넣으면 1분이면 끝나요.\n${go}`;
+}
+
+/** pick: 고른 조각만 남긴다 (스레드 링크 위치도 여기에 맞춤) */
+export function makeContent(id: string, brandId: string, concept: string, mode: "text" | "video", channels: Channel[], upload: "auto" | "manual" = "auto", pick?: PartKey[]): ContentItem {
   const brand = BRANDS.find((b) => b.id === brandId) ?? BRANDS[0];
   const link = `myeongwoljae.com/r/${id.slice(-6)}`;
+  const hasCta = !pick || pick.includes("threads.cta");
+  const v = id.charCodeAt(id.length - 1) % 3;
   const parts: Record<Channel, ContentItem["channels"][number]["parts"]> = {
     threads: [
-      { key: "threads.thread", label: "텍스트 타래", lines: [`1/3 ${concept}, 사주에 이미 적혀 있는 사람 특징 🧵`, "2/3 일간이 약한데 재성이 많으면 돈이 들어와도 오래 못 머물러요.", "3/3 그래서 이런 사주는 '모으는 달'을 먼저 알아야 해요."] },
+      {
+        key: "threads.thread",
+        label: "텍스트 타래",
+        lines: [
+          `1/4 ${concept}, 사주에 이미 적혀 있는 사람 특징`,
+          "2/4 일간이 약한데 재성이 많으면 돈이 들어와도 오래 못 머물러요. 들어온 만큼 나갈 일이 같이 생기는 구조라서요.",
+          "3/4 그래서 이런 사주는 많이 버는 것보다 '모으는 달'을 먼저 아는 게 중요해요. 같은 돈이라도 그 달에 묶어 두면 남아요.",
+          threadsPromo(brand.name, brand.tone.focus, link, hasCta, v),
+        ],
+      },
       { key: "threads.cardText", label: "카드뉴스 문구", lines: [`${concept}`, "내 사주에 이게 있다면?"] },
-      { key: "threads.cta", label: "CTA", lines: [`내 사주로 무료 풀이 보기 👉 ${link}`] },
+      { key: "threads.cta", label: "링크 댓글", lines: [`${brand.name} 무료 풀이 👉 ${link}`, "가입 없이 생년월일시만 넣으면 돼요."] },
     ],
     instagram: [
       { key: "instagram.cardNews", label: "카드뉴스 (장별)", lines: [`1장: ${concept}`, "2장: 이런 사주는 올해 이렇게 흘러가요", "3장: 지금 확인해야 할 한 가지", `4장: 무료 풀이는 프로필 링크에서`] },
@@ -225,7 +247,7 @@ export function makeContent(id: string, brandId: string, concept: string, mode: 
     mode,
     upload,
     shortLink: link,
-    channels: channels.map((channel) => ({ channel, parts: parts[channel], status: "ready", postedAt: null })),
+    channels: channels.map((channel) => ({ channel, parts: pick ? parts[channel].filter((p) => pick.includes(p.key)) : parts[channel], status: "ready", postedAt: null })),
     assets: [
       { kind: "txt", label: "대본·문구.txt", url: "#" },
       { kind: "png", label: "카드뉴스·썸네일.png", url: "#" },

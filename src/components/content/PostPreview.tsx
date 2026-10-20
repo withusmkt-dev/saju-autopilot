@@ -118,7 +118,8 @@ function Actions({ items }: { items: string[] }) {
 /* ---------- 스레드 ---------- */
 
 function Threads({ brand, handle, link, thread, cards, cta }: Ctx & { thread: string[]; cards: string[]; cta: string[] }) {
-  const posts = [...thread, ...cta];
+  // 링크 댓글(cta)은 여러 줄이어도 댓글 하나
+  const posts = cta.length ? [...thread, cta.join("\n")] : thread;
   return (
     <Phone>
       <p className="border-b border-black/10 pb-2 text-center text-[13px] font-semibold">스레드</p>
@@ -133,6 +134,7 @@ function Threads({ brand, handle, link, thread, cards, cta }: Ctx & { thread: st
             <div className="min-w-0 flex-1 pb-4">
               <p className="text-[13px]">
                 <b>{handle}</b> <span className="text-[#999]">{i === 0 ? "방금" : `${i}분`}</span>
+                {cta.length > 0 && i === posts.length - 1 && <span className="ml-1.5 rounded bg-black/5 px-1.5 py-0.5 text-[11px] text-[#666]">작성자 댓글 · 링크</span>}
               </p>
               <p className="mt-0.5 text-[14px] leading-snug whitespace-pre-line [word-break:keep-all]">
                 <Rich text={t} link={link} />
