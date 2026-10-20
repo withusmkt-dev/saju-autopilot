@@ -27,7 +27,7 @@ export default function LookupPage() {
   return (
     <section className="px-5 py-10">
       <PTitle eyebrow="결제 내역">결과 다시 보기</PTitle>
-      <p className="mb-5 text-sm text-[var(--sub)]">결제할 때 받은 알림톡의 주문번호와 휴대폰 번호를 넣어 주세요.</p>
+      <p className="mb-5 text-sm text-[var(--sub)]">결제할 때 받은 문자의 주문번호와 휴대폰 번호를 넣어 주세요.</p>
       <form onSubmit={submit} className="space-y-3">
         <input className={field} placeholder="주문번호 (ord_로 시작)" value={orderId} onChange={(e) => setOrderId(e.target.value)} />
         <input className={field} inputMode="numeric" placeholder="휴대폰 번호" value={phone} onChange={(e) => setPhone(e.target.value.replace(/[^\d-]/g, ""))} />
@@ -35,7 +35,7 @@ export default function LookupPage() {
         <PButton type="submit">내 결과 보기</PButton>
       </form>
       {lastOrder && <MockNote>이 브라우저의 최근 주문: {lastOrder.orderId}</MockNote>}
-      <p className="mt-6 text-xs text-[var(--sub)]">알림톡을 못 받으셨다면 고객센터로 문의해 주세요. 결제 정보 확인 후 다시 보내 드려요.</p>
+      <p className="mt-6 text-xs text-[var(--sub)]">문자를 못 받으셨다면 고객센터로 문의해 주세요. 결제 정보 확인 후 다시 보내 드려요.</p>
     </section>
   );
 }

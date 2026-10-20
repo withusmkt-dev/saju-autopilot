@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MockNote, PButton, PCard, PTitle, useAosInit, usePreview } from "@/components/preview/PreviewShell";
-import { confirmPaymentMock, prepareOrderMock, saveOrder, sendResultAlimtalkMock, useIntake } from "@/lib/preview/mock";
+import { confirmPaymentMock, prepareOrderMock, saveOrder, sendSmsMock, useIntake } from "@/lib/preview/mock";
 
 const METHODS = ["신용·체크카드", "토스페이", "카카오페이", "네이버페이", "계좌이체"];
 
@@ -36,7 +36,9 @@ export default function PayPage() {
     */
 
     await confirmPaymentMock(order);
-    await sendResultAlimtalkMock(intake.phone, order.shortLink);
+    // 결제 완료 문자 → (해설서 생성 후) 완료 문자. 목업에서는 바로 둘 다 보낸 걸로 친다
+    await sendSmsMock(intake.phone, "paid", { brand: brand.orderNamePrefix, amount: order.amount });
+    await sendSmsMock(intake.phone, "done", { brand: brand.orderNamePrefix, name: intake.name, link: order.shortLink });
     saveOrder(slug, order);
     router.push(`${base}/result`);
   };
@@ -73,7 +75,7 @@ export default function PayPage() {
       <PButton className="mt-6" disabled={paying} onClick={pay}>
         {paying ? "결제 확인 중…" : `₩${page.product.price.toLocaleString()} 결제하기 (목업)`}
       </PButton>
-      <p className="mt-3 text-center text-xs text-[var(--sub)]">결제 후 해설서 링크를 알림톡으로 보내 드려요.</p>
+      <p className="mt-3 text-center text-xs text-[var(--sub)]">결제 후 해설서 링크를 문자로 보내 드려요.</p>
     </section>
   );
 }

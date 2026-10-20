@@ -101,7 +101,7 @@ function ResendButton({ order }: { order: Order }) {
       size="sm"
       disabled={order.paymentStatus !== "paid"}
       onClick={() => {
-        // TODO(API): POST /api/orders/{id}/resend → 알림톡(알리고) 재발송
+        // TODO(API): POST /api/orders/{id}/resend → 완료 문자(알리고) 재발송
         setOrder(order.id, { delivery: "sent" });
         notify(`${order.name}님께 결과 링크를 다시 보냈어요`);
       }}

@@ -5,6 +5,7 @@ import { MockNote, PCard, PTitle, useAos, useAosInit, usePreview } from "@/compo
 import { ElementBars, MonthFlow, PillarTable } from "@/components/preview/SajuChart";
 import { PAID_CHAPTERS, PAID_SAMPLE } from "@/lib/preview/brandPages";
 import { useIntake, useOrder } from "@/lib/preview/mock";
+import EmailOptIn from "@/components/preview/EmailOptIn";
 
 export default function PaidResultPage() {
   useAosInit();
@@ -21,7 +22,7 @@ export default function PaidResultPage() {
         <div className="bg-emerald-50 px-5 py-3 text-[13px] text-emerald-800">
           결제 완료 · 주문번호 {order.orderId}
           <br />
-          {intake.phone} 으로 해설서 링크를 보냈어요 (목업) · {order.shortLink}
+          {intake.phone} 으로 해설서 링크를 문자로 보냈어요 (목업) · {order.shortLink}
         </div>
       )}
 
@@ -89,7 +90,8 @@ export default function PaidResultPage() {
             링크 복사
           </button>
         </div>
-        {note && <p className="mt-2 text-center text-xs text-[var(--ink)]">{note}</p>}
+        {note && <p className="mt-2 text-center text-[13px] text-[var(--ink)]">{note}</p>}
+        <EmailOptIn label="해설서 이메일로도 받기" />
         <p className="mt-4 text-center text-xs text-[var(--sub)]">이 해설서는 1년 동안 &lsquo;결과 다시 보기&rsquo;에서 다시 열 수 있어요.</p>
       </section>
     </>

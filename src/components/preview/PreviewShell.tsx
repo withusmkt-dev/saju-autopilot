@@ -58,7 +58,7 @@ export default function PreviewShell({ children }: { children: React.ReactNode }
         }
       >
         <div className="sticky top-0 z-50 bg-black/80 px-3 py-1.5 text-center text-[11px] text-white">
-          예시 페이지 ({skin.label} 스킨) · 분석·결제·알림톡은 목업 ·{" "}
+          예시 페이지 ({skin.label} 스킨) · 분석·결제·문자는 목업 ·{" "}
           <button type="button" onClick={() => setNotes((v) => !v)} className="underline">개발 메모 {notes ? "숨기기" : "보기"}</button> ·{" "}
           <Link href="/brands" className="underline">관리자로</Link>
         </div>

@@ -1,6 +1,7 @@
 // 예시 페이지용 목업. 진짜 연결 코드는 src/lib/server/*.ts 에 써 두고 주석 처리해 둠.
 // 백엔드를 붙일 때 이 함수들을 서버 액션 / API 호출로 바꾸면 화면은 그대로 쓴다.
 import { useMemo, useSyncExternalStore } from "react";
+import { SMS_TEMPLATES, type SmsKind } from "@/lib/server/sms";
 
 export interface Intake {
   name: string;
@@ -77,10 +78,16 @@ export async function confirmPaymentMock(order: MockOrder) {
   return { ok: true as const, orderId: order.orderId };
 }
 
-/** 결과 알림톡. 실서비스: src/lib/server/alimtalk.ts (알리고, 가비아 중계) */
-export async function sendResultAlimtalkMock(phone: string, shortLink: string) {
+/** 문자 발송 (결제·완료·문의 답변·환불). 실서비스: src/lib/server/sms.ts sendBrandSms (알리고, 가비아 중계) */
+export async function sendSmsMock(phone: string, kind: SmsKind, vars: { brand: string; name?: string; amount?: number; link?: string }) {
   await wait(400);
-  return { ok: true as const, to: phone, link: shortLink };
+  return { ok: true as const, to: phone, text: SMS_TEMPLATES[kind](vars) };
+}
+
+/** 이메일로도 받기 (원하는 사람만). 실서비스: src/lib/server/email.ts sendReportEmail (Resend) */
+export async function sendEmailMock(email: string) {
+  await wait(500);
+  return { ok: true as const, to: email };
 }
 
 /* ---------- 이 탭에 저장된 값 읽기 (서버 렌더 때는 샘플) ---------- */

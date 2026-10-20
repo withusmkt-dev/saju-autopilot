@@ -294,6 +294,7 @@ export const API_KEYS: ApiKeyStatus[] = [
   { name: "Meta Marketing API", purpose: "광고 캠페인·예산 제어", connected: false, note: "비즈니스 인증 필요" },
   { name: "TikTok API", purpose: "업로드·광고", connected: false, note: "심사 전에는 비공개 업로드만" },
   { name: "YouTube Data API", purpose: "쇼츠 업로드", connected: false, note: "심사 전에는 비공개 업로드만" },
-  { name: "알리고 (알림톡)", purpose: "결과 발송·장애 알림", connected: true, note: "명월재 가비아 중계 재사용" },
+  { name: "알리고 (문자)", purpose: "결제·완료·문의 답변·환불 문자, 장애 알림", connected: false, note: "명월재 가비아 중계 재사용, 회사 대표번호 발신 등록 필요" },
+  { name: "Resend (이메일)", purpose: "이메일로도 받기 (선택)", connected: true, note: "명월재와 같은 계정" },
   { name: "TTS / 영상 렌더링", purpose: "숏폼 영상 생성", connected: false, note: "영상 모드 쓸 때 연결" },
 ];

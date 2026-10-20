@@ -12,7 +12,7 @@ export default function PreviewIndex() {
       <div className="mb-6 flex flex-wrap items-end justify-between gap-2">
         <div>
           <h1 className="text-xl font-bold text-ink">예시 브랜드 페이지</h1>
-          <p className="mt-1 text-sm text-muted">마스터 템플릿 하나에 브랜드 설정값만 바꿔 끼운 결과예요. 분석·결제·알림톡은 목업이에요.</p>
+          <p className="mt-1 text-sm text-muted">마스터 템플릿 하나에 브랜드 설정값만 바꿔 끼운 결과예요. 분석·결제·문자는 목업이에요.</p>
         </div>
         <Link href="/brands" className="text-sm text-muted hover:text-ink">← 관리자</Link>
       </div>

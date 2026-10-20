@@ -6,7 +6,8 @@ import { MockNote, PButton, PCard, PTitle, useAos, useAosInit, usePreview } from
 import { ElementBars, Lock, MonthFlow, PillarTable } from "@/components/preview/SajuChart";
 import { josa } from "@/lib/format";
 import { PAID_CHAPTERS, SAMPLE_SAJU } from "@/lib/preview/brandPages";
-import { sendResultAlimtalkMock, useIntake } from "@/lib/preview/mock";
+import { sendSmsMock, useIntake } from "@/lib/preview/mock";
+import EmailOptIn from "@/components/preview/EmailOptIn";
 
 const hf = { fontFamily: "var(--hf)" };
 
@@ -20,9 +21,9 @@ export default function FreeResultPage() {
   const couple = page.formType === "couple" && intake.partner;
 
   const sendLink = async () => {
-    // 실서비스: sendResultAlimtalk(phone, name, shortLink)  ← src/lib/server/alimtalk.ts
-    const r = await sendResultAlimtalkMock(intake.phone, "myeongwoljae.com/r/free01");
-    setSent(`${r.to} 으로 결과 링크를 보냈어요 (목업)`);
+    // 실서비스: sendBrandSms(phone, "free", ...)  ← src/lib/server/sms.ts
+    const r = await sendSmsMock(intake.phone, "free", { brand: brand.orderNamePrefix, name: intake.name, link: "myeongwoljae.com/r/free01" });
+    setSent(`${r.to} 으로 보냈어요 (목업): ${r.text}`);
   };
 
   return (
@@ -101,7 +102,8 @@ export default function FreeResultPage() {
         <button type="button" onClick={sendLink} className="mt-4 w-full border border-[var(--line)] py-3 text-sm text-[var(--sub)]">
           무료 결과 문자로 받기
         </button>
-        {sent && <p className="mt-2 text-center text-xs text-[var(--ink)]">{sent}</p>}
+        {sent && <p className="mt-2 text-center text-[13px] text-[var(--ink)]">{sent}</p>}
+        <EmailOptIn label="무료 결과 이메일로도 받기" />
       </section>
     </>
   );
