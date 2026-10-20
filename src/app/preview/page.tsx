@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getBrandPage, SHOWCASE } from "@/lib/preview/brandPages";
 import { SKINS } from "@/lib/preview/skins";
+import BrandMark from "@/components/preview/BrandMark";
 
 export const metadata = { title: "예시 브랜드 페이지", robots: { index: false, follow: false } };
 
@@ -21,7 +22,10 @@ export default function PreviewIndex() {
           <li key={brand.slug}>
             <Link href={`/preview/${brand.slug}`} className="block overflow-hidden rounded-xl border border-line bg-white transition hover:-translate-y-0.5 hover:shadow-md">
               <div className="flex h-24 items-end justify-between p-4" style={{ background: brand.theme.primary }}>
-                <span className="text-lg font-bold text-white">{brand.name}</span>
+                <span className="flex items-center gap-2 text-lg font-bold text-white">
+                  <BrandMark slug={brand.slug} accent={brand.theme.accent} className="h-6 w-6" />
+                  {brand.name}
+                </span>
                 <span className="rounded-full px-2 py-0.5 text-xs font-bold" style={{ background: brand.theme.accent, color: brand.theme.primary }}>{page.topic}</span>
               </div>
               <div className="p-4">

@@ -4,6 +4,7 @@
 // 띠 궁합·체크리스트처럼 계산이 가벼운 건 화면에서 바로 하고, 사주 계산이 필요한 건 결과 화면으로 넘긴다.
 import { useState } from "react";
 import { PCard, PTitle, useAos, usePreview } from "./PreviewShell";
+import BrandMark from "./BrandMark";
 
 const hf = { fontFamily: "var(--sf)" };
 const display = { fontFamily: "var(--hf)" }; // 표제용 (큰 숫자·한 줄 문구)
@@ -419,7 +420,9 @@ export function About() {
   return (
     <section className="px-5 py-12">
       <div {...aos()} className="flex items-start gap-4">
-        <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[var(--p)] text-[22px] font-bold text-[var(--a)]" style={hf}>{brand.name[0]}</span>
+        <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[var(--p)] text-white">
+          <BrandMark slug={brand.slug} accent={brand.theme.accent} className="h-8 w-8" />
+        </span>
         <div>
           <p className="text-[20px] font-bold text-[var(--ink)]" style={hf}>{a.title}</p>
           <p className="mt-3 text-[15px] leading-relaxed">{a.body}</p>

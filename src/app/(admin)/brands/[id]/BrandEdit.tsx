@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { use, useState } from "react";
 import { BrandPreview, BrandStatusBadge, Dropzone, PageLink } from "@/components/BrandBits";
 import CopyPackage from "@/components/CopyPackage";
+import BrandMark from "@/components/preview/BrandMark";
 import { AddImagesButton, AssetThumb } from "@/components/AssetPicker";
 import { Badge, Button, Card, Field, PageHead, Segmented, inputCls, textareaCls } from "@/components/ui";
 import { CHANNEL_ICON, CHANNEL_LABEL, FONT_LABEL, PIXELS } from "@/lib/dummy";
@@ -92,7 +93,7 @@ export default function BrandEdit({ params }: { params: Promise<{ id: string }> 
               </div>
               <Field label="로고·파비콘">
                 <div className="flex items-center gap-2">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg text-sm font-bold text-white" style={{ background: form.theme.primary }}>{form.name[0]}</span>
+                  <span className="grid h-10 w-10 place-items-center rounded-lg text-white" style={{ background: form.theme.primary }}><BrandMark slug={form.slug} accent={form.theme.accent} className="h-6 w-6" /></span>
                   <Button size="sm" onClick={() => notify("업로드는 백엔드 연결 후 동작해요")}>업로드</Button>
                   <Button size="sm" onClick={() => notify("AI 로고 생성은 백엔드 연결 후 동작해요")}>AI로 생성</Button>
                 </div>

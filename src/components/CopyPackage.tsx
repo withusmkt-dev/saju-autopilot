@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "./ui";
+import BrandMark from "./preview/BrandMark";
 import { useStore } from "@/lib/store";
 import type { Brand } from "@/lib/types";
 
@@ -33,7 +34,7 @@ export default function CopyPackage({ brand }: { brand: Brand }) {
         </ol>
       </div>
       <div className="flex items-center gap-3">
-        <span className="grid h-16 w-16 place-items-center rounded-full text-2xl font-bold" style={{ background: brand.theme.primary, color: brand.theme.accent }}>{brand.name[0]}</span>
+        <span className="grid h-16 w-16 place-items-center rounded-full text-white" style={{ background: brand.theme.primary }}><BrandMark slug={brand.slug} accent={brand.theme.accent} className="h-9 w-9" /></span>
         <div className="space-y-1">
           <p className="text-sm font-medium">프로필 이미지</p>
           <Button size="sm" onClick={() => notify("이미지 다운로드는 백엔드 연결 후 동작해요")}>profile.png 다운로드</Button>

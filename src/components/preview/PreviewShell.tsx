@@ -9,6 +9,7 @@ import { notFound, useParams } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import { bgImg, getBrandPage, PAGE_BG_VEIL, type BrandPage } from "@/lib/preview/brandPages";
 import { SKINS, type Skin } from "@/lib/preview/skins";
+import BrandMark from "./BrandMark";
 import type { Brand, FontKey } from "@/lib/types";
 
 const HEAD_FONT: Record<FontKey, string> = {
@@ -99,18 +100,20 @@ export default function PreviewShell({ children }: { children: React.ReactNode }
 
 function Header() {
   const { brand, skin, base, page } = usePreview();
+  // 로고 마크: 메인 색 바탕 + 흰 선 + 포인트 색
   const logo = (
-    <span className="grid h-7 w-7 place-items-center rounded-full bg-[var(--a)] text-sm font-bold text-[var(--p)]" style={{ fontFamily: "var(--hf)" }}>
-      {brand.name[0]}
+    <span className="grid h-8 w-8 place-items-center rounded-lg bg-[var(--p)] text-white ring-1 ring-white/25">
+      <BrandMark slug={brand.slug} accent={brand.theme.accent} className="h-[18px] w-[18px]" />
     </span>
   );
   if (skin.header === "center") {
     return (
       <header className="sticky top-[26px] z-40 border-b border-[var(--line)] bg-[var(--pbg)] px-4 pt-3 pb-2 text-center">
-        <Link href={base} className="text-xl font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>
+        <Link href={base} className="inline-flex items-center gap-2 text-xl font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>
+          {logo}
           {brand.name}
         </Link>
-        <div className="mt-1 flex justify-between text-[10px] text-[var(--sub)]">
+        <div className="mt-1 flex justify-between text-[11px] text-[var(--sub)]">
           <span>{page.skin === "daily" ? "2026년 10월 20일 화요일" : page.badge}</span>
           <Link href={`${base}/lookup`}>결과 다시 보기</Link>
         </div>

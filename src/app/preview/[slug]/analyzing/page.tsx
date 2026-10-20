@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { MockNote, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { josa } from "@/lib/format";
 import { bgImg } from "@/lib/preview/brandPages";
+import BrandMark from "@/components/preview/BrandMark";
 import { useIntake } from "@/lib/preview/mock";
 
 const STEPS = ["만세력으로 사주 여덟 글자 세우는 중", "오행과 십성 살피는 중", "올해 흐름 정리하는 중", "풀이 문장 다듬는 중"];
@@ -35,8 +36,8 @@ export default function AnalyzingPage() {
       ) : (
         <div className="relative h-24 w-24">
           <div className="absolute inset-0 animate-spin rounded-full border-4 border-[var(--line)] border-t-[var(--a)]" />
-          <span className="absolute inset-0 grid place-items-center text-2xl font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>
-            {brand.name[0]}
+          <span className="absolute inset-0 grid place-items-center text-[var(--ink)]">
+            <BrandMark slug={brand.slug} accent={brand.theme.accent} className="h-9 w-9" />
           </span>
         </div>
       )}
