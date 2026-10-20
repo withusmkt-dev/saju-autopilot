@@ -26,6 +26,7 @@ const FONT_FAMILY: Record<BrandTheme["font"], string> = {
   maruburi: "'MaruBuri', serif",
   joseon: "'JoseonPalace', serif",
   gmarket: "'GmarketSans', sans-serif",
+  jua: "'Jua', sans-serif",
 };
 
 /** 마스터 템플릿 미리보기 (실제 템플릿은 명월재 저장소 /brand/[slug]) */

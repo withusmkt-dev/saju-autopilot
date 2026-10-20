@@ -35,6 +35,26 @@ export function Divider() {
           </svg>
         </div>
       );
+    case "sticker":
+      return <p className="py-1 text-center text-[15px] tracking-[0.5em] text-[var(--p)] opacity-40" aria-hidden>✦ ☾ ✦</p>;
+    case "royal":
+      return (
+        <div className="flex items-center justify-center gap-3 py-2 text-[var(--a)] opacity-60" aria-hidden>
+          <span className="h-px w-16 bg-current" />
+          <span className="h-2 w-2 rotate-45 border border-current" />
+          <span className="h-px w-16 bg-current" />
+        </div>
+      );
+    case "sky":
+      return (
+        <div className="flex justify-center py-1 text-[var(--p)] opacity-30" aria-hidden>
+          <svg viewBox="0 0 32 16" className="h-4 w-8" fill="currentColor">
+            <path d="M8 15a4 4 0 0 1-.4-8 6 6 0 0 1 11.6-1.4A4.8 4.8 0 0 1 23 15z" />
+          </svg>
+        </div>
+      );
+    case "invite":
+      return <p className="py-1 text-center text-[12px] tracking-[0.6em] text-[var(--a)]" style={{ filter: "brightness(0.85)" }} aria-hidden>— ◇ —</p>;
     default:
       return null;
   }

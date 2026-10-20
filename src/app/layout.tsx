@@ -17,7 +17,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* 예시 브랜드 페이지 제목용 글꼴 (실서비스는 명월재 글꼴 파일 사용) */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap"
         />
       </head>
       <body className="antialiased">{children}</body>

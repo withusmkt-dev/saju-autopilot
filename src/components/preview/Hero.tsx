@@ -233,6 +233,99 @@ export default function Hero({ onStart }: { onStart: () => void }) {
       );
     }
 
+    case "sticker":
+      // 달토끼 그림을 스티커처럼 붙인 구도
+      return (
+        <section className="relative overflow-hidden px-[5.5cqw] pt-7 pb-12 text-center">
+          <Sparkle className="absolute top-10 left-[8%] h-4 w-4" />
+          <Sparkle className="absolute top-[46%] right-[6%] h-3 w-3" />
+          <Sparkle className="absolute bottom-24 left-[5%] h-3.5 w-3.5" />
+          <span className="inline-block -rotate-2 rounded-full border-2 border-[var(--p)] bg-white px-3 py-1 text-[13px] font-bold text-[var(--p)]">{page.badge}</span>
+          {hero && (
+            <div {...aos(0)} className="relative mx-auto mt-5 w-[86%] rotate-[-2deg] rounded-[26px] border-2 border-[var(--p)] bg-white p-2 shadow-[0_6px_0_var(--p)]">
+              <div className="aspect-[1200/857] rounded-[18px]" style={{ background: `${hero} center / cover` }} />
+              <span className="absolute -top-3 -right-3 rotate-12 rounded-full border-2 border-[var(--p)] bg-[var(--a)] px-2.5 py-0.5 text-[14px] text-[var(--p)]" style={hf}>복 +1</span>
+            </div>
+          )}
+          <h1 {...aos(1)} className="mt-8 text-[clamp(30px,9.8cqw,40px)] leading-[1.2] text-[var(--p)]" style={hf}>
+            {lines.map((l) => (
+              <span key={l} className="block">{l}</span>
+            ))}
+          </h1>
+          <p {...aos(2)} className="mx-auto mt-3 max-w-[300px] text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+          <div {...aos(3)} className="mx-auto mt-7 max-w-[280px]">{cta}</div>
+          <p className="mt-4 text-[12px] text-[var(--sub)]">무료 · 1분이면 토끼가 도착해요</p>
+        </section>
+      );
+
+    case "royal":
+      // 궁궐 선화 위쪽을 잘라 쓰고, 글은 그림 아래 빈 남색 위에
+      return (
+        <section className="relative text-center">
+          {hero ? (
+            <div className="h-[clamp(300px,88cqw,380px)]" style={{ background: `linear-gradient(180deg, transparent 60%, var(--pbg)), ${hero} center 18% / cover` }} />
+          ) : (
+            <div className="mx-[7cqw] mt-8 h-40 border border-[var(--a)]/50 outline outline-1 -outline-offset-[8px] outline-[var(--a)]/30" />
+          )}
+          <div className="relative -mt-4 px-[7cqw] pb-14">
+            <p className="text-[13px] tracking-[0.35em] text-[var(--a)]">{page.badge}</p>
+            <div className="my-4 flex items-center justify-center gap-3 text-[var(--a)]" aria-hidden>
+              <span className="h-px w-10 bg-current opacity-50" />
+              <span className="text-[9px]">◆</span>
+              <span className="h-px w-10 bg-current opacity-50" />
+            </div>
+            <h1 {...aos(0)} className="text-[clamp(26px,8.2cqw,34px)] leading-snug text-[#f3e6c8]" style={hf}>
+              {lines.map((l) => (
+                <span key={l} className="block">{l}</span>
+              ))}
+            </h1>
+            <p {...aos(1)} className="mx-auto mt-4 max-w-[300px] text-[15px] leading-loose text-[var(--sub)]">{page.heroDesc}</p>
+            <div {...aos(2)} className="mx-auto mt-8 max-w-[280px]">{cta}</div>
+            <p className="mt-3 text-[12px] text-[var(--sub)]">무료 풀이를 본 뒤 평생 해설서로 이어 볼 수 있어요</p>
+          </div>
+        </section>
+      );
+
+    case "sky":
+      // 위쪽 짙은 하늘에 흰 글씨, 아래 구름은 비워 둔다
+      return (
+        <section
+          className="relative overflow-hidden px-[6.5cqw] pt-14 pb-[clamp(150px,46cqw,200px)] text-white"
+          style={{ background: hero ? `linear-gradient(180deg, rgba(20,70,140,0.25), transparent 45%, transparent 80%, var(--pbg)), ${hero} center 35% / cover` : "linear-gradient(180deg, #6fa4dc, var(--pbg))" }}
+        >
+          <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-[13px] ring-1 ring-white/50 backdrop-blur-sm">{page.badge}</span>
+          <h1 {...aos(0)} className="mt-5 text-[clamp(29px,9.2cqw,38px)] leading-[1.3] [text-shadow:0_2px_14px_rgba(10,40,90,0.35)]" style={hf}>
+            {lines.map((l) => (
+              <span key={l} className="block">{l}</span>
+            ))}
+          </h1>
+          <p {...aos(1)} className="mt-4 max-w-[290px] text-[15px] leading-relaxed text-white/95 [text-shadow:0_1px_8px_rgba(10,40,90,0.35)]">{page.heroDesc}</p>
+          <div {...aos(2)} className="mt-8 max-w-[260px]">{cta}</div>
+        </section>
+      );
+
+    case "invite":
+      // 청첩장 첫 장: 아치 사진, 가운데 정렬
+      return (
+        <section className="px-[7cqw] pt-9 pb-12 text-center">
+          <p className="text-[12px] tracking-[0.4em] text-[var(--sub)]">INVITATION</p>
+          {hero && (
+            <div {...aos(0)} className="mx-auto mt-6 w-[80%] rounded-t-full border border-[var(--a)] p-1.5">
+              <div className="aspect-square rounded-t-full" style={{ background: `${hero} center 30% / cover` }} />
+            </div>
+          )}
+          <p className="mt-7 text-[13px] tracking-[0.1em] text-[var(--p)]">{page.badge}</p>
+          <h1 {...aos(1)} className="mt-2 text-[clamp(25px,7.7cqw,32px)] leading-snug text-[var(--ink)]" style={hf}>
+            {lines.map((l) => (
+              <span key={l} className="block">{l}</span>
+            ))}
+          </h1>
+          <p className="mx-auto my-5 w-fit border-y border-[var(--a)] px-4 py-1.5 text-[13px] tracking-[0.2em] text-[var(--sub)]">2027 · 2028 · 2029</p>
+          <p {...aos(2)} className="mx-auto max-w-[300px] text-[15px] leading-loose text-[var(--sub)]">{page.heroDesc}</p>
+          <div {...aos(3)} className="mx-auto mt-8 max-w-[280px]">{cta}</div>
+        </section>
+      );
+
     default:
       // night: 밤하늘
       return (
@@ -251,6 +344,15 @@ export default function Hero({ onStart }: { onStart: () => void }) {
         </section>
       );
   }
+}
+
+/** 반짝이 (스티커 스킨 장식) */
+function Sparkle({ className }: { className: string }) {
+  return (
+    <svg viewBox="0 0 16 16" className={`${className} text-[var(--a)] drop-shadow-[0_1px_0_var(--p)]`} aria-hidden>
+      <path d="M8 0c.6 4.2 1.8 5.4 6 6-4.2.6-5.4 1.8-6 6-.6-4.2-1.8-5.4-6-6 4.2-.6 5.4-1.8 6-6z" fill="currentColor" transform="translate(0 2)" />
+    </svg>
+  );
 }
 
 /** 중간 사진 띠 (page.images.band) */

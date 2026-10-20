@@ -31,6 +31,7 @@ export const FONT_LABEL: Record<FontKey, string> = {
   maruburi: "마루부리",
   joseon: "조선궁서",
   gmarket: "G마켓 산스",
+  jua: "주아체 (둥근)",
 };
 
 /** 브랜드 페이지에 심을 수 있는 픽셀. 페이지 쪽은 값이 있는 것만 스크립트를 넣는다 */
@@ -88,6 +89,10 @@ const SEEDS: Seed[] = [
   ["b10", "hongyeon", "홍연사주", "live", "#6d1a1a", "#f4a261", "joseon", "연애 특화", 2980, 355, 22, 240000],
   ["b11", "dawn-saju", "새벽사주", "draft", "#1b263b", "#e0e1dd", "pretendard", "힐링", 0, 0, 0, 0],
   ["b12", "myosi", "묘시운", "live", "#2d4a22", "#c5e384", "maruburi", "직설 조언", 1210, 140, 8, 100000],
+  ["b13", "dal-tokki", "달토끼복점", "live", "#2b3a6b", "#ffd27a", "jua", "귀여운 행운", 3120, 520, 33, 140000],
+  ["b14", "gungmyeong", "궁명당", "live", "#0f2340", "#c9a45c", "joseon", "프리미엄 평생", 1630, 170, 18, 160000],
+  ["b15", "gureum", "구름쉼표", "live", "#3a6ea5", "#ffd6a5", "maruburi", "힐링", 2470, 410, 21, 110000],
+  ["b16", "baengnyeon", "백년서약", "draft", "#55654a", "#d9bf94", "joseon", "결혼운", 0, 0, 0, 0],
 ];
 
 const PRICE = 9900;

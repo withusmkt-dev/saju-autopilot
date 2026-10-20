@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { PCard, PTitle, useAos, usePreview } from "./PreviewShell";
 import BrandMark from "./BrandMark";
+import { WeatherIcon } from "./Sections";
 
 const hf = { fontFamily: "var(--sf)" };
 const display = { fontFamily: "var(--hf)" }; // 표제용 (큰 숫자·한 줄 문구)
@@ -34,6 +35,14 @@ export function Feature() {
       return <ZodiacMatch />;
     case "reunionCheck":
       return <ReunionCheck />;
+    case "luckyPouch":
+      return <LuckyPouch />;
+    case "daeunTimeline":
+      return <DaeunTimeline />;
+    case "moodWeather":
+      return <MoodWeather />;
+    case "weddingYear":
+      return <WeddingYear />;
   }
 }
 
@@ -378,6 +387,214 @@ function ReunionCheck() {
   );
 }
 
+/* 행운: 복주머니 하나 고르기 (샘플 값. 실서비스는 모자란 오행에서 고른다) */
+const POUCH = [
+  { fill: "var(--a)", color: "남색", hex: "#2b3a6b", num: "3", dir: "북쪽", item: "작은 열쇠고리", line: "물 기운이 생각을 맑게 해 줘요. 미뤄 둔 결정을 내리기 좋은 날이에요." },
+  { fill: "#cfe6d4", color: "초록", hex: "#3f9b5a", num: "8", dir: "동쪽", item: "작은 화분", line: "나무 기운이 첫발을 밀어 줘요. 새로 시작하는 일에 힘이 붙어요." },
+  { fill: "#f7cfd8", color: "노랑", hex: "#e0a526", num: "5", dir: "가운데", item: "손수건 한 장", line: "흙 기운이 마음을 붙잡아 줘요. 흔들리는 날 곁에 두세요." },
+];
+function LuckyPouch() {
+  const aos = useAos();
+  const [pick, setPick] = useState<number | null>(null);
+  const r = pick === null ? null : POUCH[pick];
+  return (
+    <section className="px-[5.5cqw] py-12 text-center">
+      <div {...aos()}>
+        <PTitle>복주머니 하나만 골라 보세요</PTitle>
+        <p className={sub}>손이 먼저 가는 쪽이 오늘 내 몫이래요.</p>
+      </div>
+      <div className="mt-6 grid grid-cols-3 gap-3">
+        {POUCH.map((p, i) => (
+          <button
+            key={i}
+            type="button"
+            {...aos(i + 1)}
+            onClick={() => setPick(i)}
+            aria-label={`${i + 1}번 복주머니`}
+            className={`transition duration-300 ${pick === null ? "hover:-translate-y-1" : pick === i ? "-translate-y-2 scale-110" : "scale-90 opacity-40"}`}
+          >
+            <svg viewBox="0 0 64 72" className="mx-auto w-[78%]" aria-hidden>
+              <path d="M22 20c-3-7 1-12 5-10l5 4 5-4c4-2 8 3 5 10" fill={p.fill} stroke="var(--p)" strokeWidth="2.5" strokeLinejoin="round" />
+              <path d="M20 22C9 31 6 46 10 56c3 8 11 12 22 12s19-4 22-12c4-10 1-25-10-34z" fill={p.fill} stroke="var(--p)" strokeWidth="2.5" strokeLinejoin="round" />
+              <path d="M19 22h26" stroke="var(--p)" strokeWidth="3.5" strokeLinecap="round" />
+              <text x="32" y="52" textAnchor="middle" fontSize="17" fill="var(--p)" style={serif}>福</text>
+            </svg>
+          </button>
+        ))}
+      </div>
+      {r ? (
+        <div {...aos(0, "zoom-in")} className="mt-6">
+          <PCard className="text-left">
+            <p className="text-[13px] text-[var(--sub)]">오늘 토끼가 골라 온 것</p>
+            <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 text-[15px]">
+              <div className="flex items-center gap-2">
+                <dt className="text-[var(--sub)]">색</dt>
+                <dd className="flex items-center gap-1.5 font-bold">
+                  <span className="h-3.5 w-3.5 rounded-full ring-1 ring-black/10" style={{ background: r.hex }} />
+                  {r.color}
+                </dd>
+              </div>
+              <div className="flex gap-2"><dt className="text-[var(--sub)]">숫자</dt><dd className="font-bold">{r.num}</dd></div>
+              <div className="flex gap-2"><dt className="text-[var(--sub)]">방향</dt><dd className="font-bold">{r.dir}</dd></div>
+              <div className="flex gap-2"><dt className="text-[var(--sub)]">물건</dt><dd className="font-bold">{r.item}</dd></div>
+            </dl>
+            <p className="mt-4 border-t-2 border-dashed border-[var(--p)]/20 pt-3 text-[15px] leading-relaxed">{r.line}</p>
+          </PCard>
+          <button type="button" onClick={() => setPick(null)} className="mt-3 text-[13px] text-[var(--sub)] underline underline-offset-4">다시 고르기</button>
+        </div>
+      ) : (
+        <p className="mt-5 text-[13px] text-[var(--sub)]">진짜 내 행운은 생년월일로 계산해서 아래에서 받아 가세요.</p>
+      )}
+    </section>
+  );
+}
+
+/* 평생: 대운 열 해씩 (샘플. 실서비스는 엔진의 대운 계산 결과) */
+const DAEUN = [
+  { age: 4, gz: "乙酉", ko: "을유", score: 55, text: "규칙과 틀을 몸에 익힌 시기. 엄한 어른이 곁에 있었을 수 있어요." },
+  { age: 14, gz: "甲申", ko: "갑신", score: 47, text: "부딪히며 단단해진 시기. 마음대로 안 되는 일이 많았지만 그만큼 버티는 힘이 생겼어요." },
+  { age: 24, gz: "癸未", ko: "계미", score: 60, text: "길을 찾아 이것저것 해 본 시기. 그때 익힌 것이 지금의 밑천이 돼요." },
+  { age: 34, gz: "壬午", ko: "임오", score: 74, text: "굳어 있던 생각이 풀리고 사람이 들어오는 시기. 먼저 손 내미는 사람을 놓치지 마세요." },
+  { age: 44, gz: "辛巳", ko: "신사", score: 82, text: "쌓아 둔 것을 인정받는 시기. 자리를 맡게 되고 이름이 알려져요." },
+  { age: 54, gz: "庚辰", ko: "경진", score: 70, text: "넓히기보다 지키는 시기. 건강과 집안을 먼저 챙기면 오래 갑니다." },
+  { age: 64, gz: "己卯", ko: "기묘", score: 64, text: "가르치고 물려주는 시기. 아랫사람 복이 따라와요." },
+  { age: 74, gz: "戊寅", ko: "무인", score: 58, text: "느긋하게 거두는 시기. 서두를 일이 없는 편안한 때예요." },
+];
+const NOW_DAEUN = 3;
+function DaeunTimeline() {
+  const aos = useAos();
+  const [sel, setSel] = useState(NOW_DAEUN);
+  const W = 300;
+  const H = 90;
+  const x = (i: number) => 14 + (i / (DAEUN.length - 1)) * (W - 28);
+  const y = (s: number) => H - 10 - ((s - 40) / 50) * (H - 24);
+  const pts = DAEUN.map((d, i) => `${x(i)},${y(d.score)}`).join(" ");
+  const d = DAEUN[sel];
+  return (
+    <section className="px-[6.5cqw] py-12">
+      <div {...aos()} className="text-center">
+        <PTitle>인생을 열 해씩 나누면</PTitle>
+        <p className={sub}>사주에는 열 해마다 바뀌는 큰 계절, 대운이 있어요. 아래는 샘플 사주의 평생 그래프예요.</p>
+      </div>
+      <div {...aos(1)} className="mt-6">
+        <svg viewBox={`0 0 ${W} ${H + 16}`} className="w-full" aria-label="평생 대운 그래프">
+          <polyline points={pts} fill="none" stroke="var(--a)" strokeWidth="1.6" strokeLinejoin="round" opacity="0.9" />
+          {DAEUN.map((dd, i) => (
+            <g key={dd.age} onClick={() => setSel(i)} className="cursor-pointer">
+              <circle cx={x(i)} cy={y(dd.score)} r={i === sel ? 5.5 : 3.2} fill={i === sel ? "var(--a)" : "var(--pbg)"} stroke="var(--a)" strokeWidth="1.4" />
+              <text x={x(i)} y={H + 12} textAnchor="middle" fontSize="9.5" fill="var(--sub)">{dd.age}세</text>
+            </g>
+          ))}
+          <text x={x(NOW_DAEUN)} y={y(DAEUN[NOW_DAEUN].score) - 10} textAnchor="middle" fontSize="9.5" fill="var(--a)">지금</text>
+        </svg>
+      </div>
+      <div className="mt-5 grid grid-cols-4 gap-1.5">
+        {DAEUN.map((dd, i) => (
+          <button
+            key={dd.age}
+            type="button"
+            onClick={() => setSel(i)}
+            className={`border py-2 text-center transition ${i === sel ? "border-[var(--a)] bg-[var(--a)]/15" : "border-[var(--a)]/25"}`}
+          >
+            <span className="block text-[18px] leading-none text-[#f3e6c8]" style={serif}>{dd.gz}</span>
+            <span className="mt-1 block text-[11.5px] text-[var(--sub)]">{dd.age}~{dd.age + 9}세</span>
+          </button>
+        ))}
+      </div>
+      <div className="mt-4 min-h-[96px] border-t border-[var(--a)]/30 pt-4 text-center">
+        <p className="text-[14px] text-[var(--a)]">{d.age}세부터 열 해 · {d.ko} 대운{sel === NOW_DAEUN && " · 지금"}</p>
+        <p className="mt-2 text-[15px] leading-relaxed">{d.text}</p>
+      </div>
+    </section>
+  );
+}
+
+/* 마음: 오늘 마음 날씨 고르기 */
+const MOODS = [
+  { k: "sun", label: "맑음", msg: "기분 좋은 날엔 그 기운을 아끼지 말고 나눠 주세요. 금 기운의 당신은 칭찬 한마디가 오래 남는 사람이에요.", rest: "고마운 사람에게 짧게 연락하기" },
+  { k: "cloud", label: "흐림", msg: "이유 없이 무거운 날이 있어요. 지금 지나는 계절이 늦가을이라 그래요. 당신 탓이 아니에요.", rest: "할 일 목록에서 하나만 지우기" },
+  { k: "rain", label: "비", msg: "울고 싶은 날은 울어도 돼요. 물은 쇠를 씻어서 다시 빛나게 해요.", rest: "따뜻한 물로 오래 씻기" },
+  { k: "wind", label: "바람", msg: "마음이 이리저리 흔들릴 땐 큰 결정은 내일로 미뤄요. 흔들리는 건 약해서가 아니라 섬세해서예요.", rest: "십오 분만 걷기" },
+  { k: "fog", label: "안개", msg: "앞이 안 보이는 것 같아도 길은 그대로 있어요. 이번 달 하순이면 조금씩 걷혀요.", rest: "내일 할 일 하나만 정해 두고 자기" },
+] as const;
+function MoodWeather() {
+  const aos = useAos();
+  const [m, setM] = useState<number | null>(null);
+  const r = m === null ? null : MOODS[m];
+  return (
+    <section className="px-[5.5cqw] py-12">
+      <div {...aos()} className="text-center">
+        <PTitle>지금 마음 날씨는 어때요?</PTitle>
+        <p className={sub}>고르면 사주에 맞춰 한마디 건네 드려요.</p>
+      </div>
+      <div className="mt-6 grid grid-cols-5 gap-1.5">
+        {MOODS.map((mo, i) => (
+          <button
+            key={mo.k}
+            type="button"
+            {...aos(i + 1)}
+            onClick={() => setM(i)}
+            className={`rounded-2xl py-3 transition ${m === i ? "bg-[var(--p)] text-white shadow-md" : "bg-white/70 text-[var(--p)] ring-1 ring-white"}`}
+          >
+            <WeatherIcon kind={mo.k} className="mx-auto h-7 w-7" />
+            <span className="mt-1 block text-[13px]">{mo.label}</span>
+          </button>
+        ))}
+      </div>
+      {r && (
+        <div key={r.k} {...aos(0)} className="mt-5">
+          <PCard className="text-center">
+            <p className="text-[16px] leading-loose text-[var(--ink)]" style={hf}>{r.msg}</p>
+            <p className="mt-4 inline-block rounded-full bg-[var(--a)]/50 px-3 py-1 text-[13px]">오늘의 쉼표 · {r.rest}</p>
+          </PCard>
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* 결혼: 해마다 결혼하기 좋은 정도와 달 (샘플) */
+const WED = [
+  { y: 2027, score: 68, months: [9, 10], note: "준비를 시작하기 좋은 해예요. 상견례나 집 알아보기에 무난해요." },
+  { y: 2028, score: 88, months: [4, 5, 10], note: "두 사람의 대운이 함께 순해지는 해예요. 결혼하기 가장 좋아요." },
+  { y: 2029, score: 74, months: [3, 11], note: "무난하지만 한 사람의 일이 바빠져요. 날은 일찍 잡아 두세요." },
+];
+function WeddingYear() {
+  const aos = useAos();
+  const [sel, setSel] = useState(1);
+  const w = WED[sel];
+  return (
+    <section className="px-[6.5cqw] py-12 text-center">
+      <div {...aos()}>
+        <p className="text-[12px] tracking-[0.4em] text-[var(--sub)]">SAVE THE DATE</p>
+        <div className="mt-2">
+          <PTitle>결혼하기 좋은 해, 미리 짚어 봐요</PTitle>
+        </div>
+      </div>
+      <div {...aos(1)} className="grid grid-cols-3 border-y border-[var(--a)]">
+        {WED.map((wy, i) => (
+          <button key={wy.y} type="button" onClick={() => setSel(i)} className={`py-3 transition ${i ? "border-l border-[var(--a)]/60" : ""} ${i === sel ? "bg-[var(--p)] text-[#fbf8f1]" : "text-[var(--ink)]"}`}>
+            <span className="block text-[20px]" style={serif}>{wy.y}</span>
+            <span className={`text-[12px] ${i === sel ? "opacity-85" : "text-[var(--sub)]"}`}>{wy.score}점</span>
+          </button>
+        ))}
+      </div>
+      <div className="mt-6 grid grid-cols-6 gap-y-3 text-[14px]">
+        {Array.from({ length: 12 }, (_, i) => i + 1).map((mo) => {
+          const good = w.months.includes(mo);
+          return (
+            <span key={mo} className={`mx-auto grid h-10 w-10 place-items-center rounded-full ${good ? "bg-[var(--p)] text-[#fbf8f1]" : "text-[var(--sub)]"}`} style={good ? serif : undefined}>
+              {mo}월
+            </span>
+          );
+        })}
+      </div>
+      <p className="mt-5 text-[15px] leading-relaxed">{w.note}</p>
+      <p className="mt-2 text-[12px] text-[var(--sub)]">샘플 커플 기준이에요. 두 사람 생일을 넣으면 실제 날짜로 바뀌어요.</p>
+    </section>
+  );
+}
+
 /* ---------- 브랜드 이야기 ---------- */
 
 export function About() {
@@ -403,7 +620,17 @@ export function About() {
       </section>
     );
   }
-  if (page.skin === "hanji" || page.skin === "letter") {
+  if (page.skin === "royal") {
+    return (
+      <section className="px-[7cqw] py-14 text-center">
+        <div {...aos()} className="mx-auto grid h-14 w-14 place-items-center border border-[var(--a)] text-[24px] text-[var(--a)] outline outline-1 outline-offset-[3px] outline-[var(--a)]/40" style={serif}>宮</div>
+        <p {...aos(1)} className="mt-6 text-[clamp(20px,6.2cqw,25px)] text-[#f3e6c8]" style={hf}>{a.title}</p>
+        <p {...aos(2)} className="mx-auto mt-4 max-w-[320px] text-[15px] leading-loose text-[var(--sub)]">{a.body}</p>
+        <p className="mt-6 text-[13px] tracking-[0.2em] text-[var(--a)]">{a.sign}</p>
+      </section>
+    );
+  }
+  if (page.skin === "hanji" || page.skin === "letter" || page.skin === "invite") {
     return (
       <section className="px-[5.5cqw] py-12">
         <div {...aos()}>

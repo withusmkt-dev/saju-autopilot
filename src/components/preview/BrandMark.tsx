@@ -72,6 +72,38 @@ export default function BrandMark({ slug, accent, className = "h-5 w-5" }: Props
           <path d="M3 18c3-1 4.5-3 5-6s2.5-5.5 5-5 2.6 3.6.2 5.2-5.7.6-5-1.8 4.2-3.4 6.8-1.6S19 15 21 14" stroke={accent} strokeWidth="2" />
         </svg>
       );
+    case "dal-tokki": // 보름달 앞 토끼 귀
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="14.5" r="6.5" fill={accent} stroke="none" />
+          <path d="M9.6 9.2C8.4 6.4 8.3 3.6 9.4 3.1s2.6 2.6 2.4 5.4M14.4 9.2c1.2-2.8 1.3-5.6.2-6.1s-2.6 2.6-2.4 5.4" />
+          <path d="M10.3 14.6h.01M13.7 14.6h.01" strokeWidth="2.2" />
+        </svg>
+      );
+    case "gungmyeong": // 궁궐 지붕
+      return (
+        <svg {...common}>
+          <path d="M2.5 10.5c3.2 0 5.5-2.2 6.5-4.5h6c1 2.3 3.3 4.5 6.5 4.5" />
+          <path d="M5.5 10.5v9h13v-9M10 19.5v-5h4v5M3 19.5h18" />
+          <circle cx="12" cy="3.6" r="1.3" fill={accent} stroke="none" />
+        </svg>
+      );
+    case "gureum": // 구름 사이 쉼표
+      return (
+        <svg {...common}>
+          <path d="M7 18.5a4 4 0 0 1-.4-8 5.5 5.5 0 0 1 10.6-1.2A4.6 4.6 0 0 1 17.5 18.5z" />
+          <circle cx="12" cy="13.2" r="1.5" fill={accent} stroke="none" />
+          <path d="M13.4 13.4c0 1.6-.8 2.7-2 3.3" stroke={accent} strokeWidth="1.6" />
+        </svg>
+      );
+    case "baengnyeon": // 겹친 반지
+      return (
+        <svg {...common}>
+          <circle cx="9" cy="14" r="5.5" />
+          <circle cx="15" cy="14" r="5.5" />
+          <path d="m15 4.2 1.6 2.3-1.6 1.9-1.6-1.9z" fill={accent} stroke={accent} strokeWidth="1" />
+        </svg>
+      );
     default: // 달빛운세: 초승달과 별
       return (
         <svg {...common}>

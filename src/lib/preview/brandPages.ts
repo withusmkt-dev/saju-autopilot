@@ -4,7 +4,7 @@ import { BRANDS } from "@/lib/dummy";
 import type { Brand } from "@/lib/types";
 import type { SkinKey } from "./skins";
 
-export type FeatureKey = "pillars" | "factShuffle" | "loveTypes" | "wealthBowls" | "glossary" | "zodiac2027" | "jobMatch" | "weekIljin" | "zodiacMatch" | "reunionCheck";
+export type FeatureKey = "pillars" | "factShuffle" | "loveTypes" | "wealthBowls" | "glossary" | "zodiac2027" | "jobMatch" | "weekIljin" | "zodiacMatch" | "reunionCheck" | "luckyPouch" | "daeunTimeline" | "moodWeather" | "weddingYear";
 
 export type Motif = "moon" | "none" | "flower" | "coin" | "cloud";
 
@@ -41,8 +41,8 @@ export interface BrandPage {
   paidIntro: string;
 }
 
-/** 예시 브랜드 10개 (주제별 하나씩) */
-export const SHOWCASE = ["dalbit", "destiny-call", "love-lab", "geumbit", "cheongwol", "saju-secret", "fact-saju", "today-myeongri", "soul-saju", "hongyeon"] as const;
+/** 예시 브랜드 (주제별 하나씩). 뒤의 넷은 이미지에서 출발한 컨셉 */
+export const SHOWCASE = ["dalbit", "destiny-call", "love-lab", "geumbit", "cheongwol", "saju-secret", "fact-saju", "today-myeongri", "soul-saju", "hongyeon", "dal-tokki", "gungmyeong", "gureum", "baengnyeon"] as const;
 
 const PAGES: Record<string, BrandPage> = {
   dalbit: {
@@ -343,6 +343,129 @@ const PAGES: Record<string, BrandPage> = {
       { title: "내가 할 일", text: "지금은 나를 단단히 하는 시기예요. 다시 만나든 아니든, 그 시간이 당신을 지켜 줘요." },
     ],
     paidIntro: "조심스럽게, 그러나 솔직하게. 당신과 그 사람의 인연을 열 장에 걸쳐 살펴봤어요.",
+  },
+
+  /* ---------- 이미지에서 출발한 새 컨셉 4종 ---------- */
+
+  "dal-tokki": {
+    skin: "sticker",
+    topic: "행운·부적",
+    formType: "single",
+    motif: "moon",
+    badge: "이번 달 행운 배달",
+    heroTitle: "달토끼가 빚어 온\n내 몫의 복",
+    heroDesc: "타고난 오행에 모자란 기운을 찾아서, 이번 달 나한테 맞는 행운 색·숫자·물건을 골라 드려요.",
+    cta: "내 행운 무료로 받기",
+    titles: { points: "복주머니에 든 것", reviews: "복 받아 간 사람들", form: "어디로 배달할까요?" },
+    feature: "luckyPouch",
+    about: { title: "달토끼복점 이야기", body: "보름달 아래에서 떡 대신 복을 빚는 토끼가 있다는 얘기에서 시작했어요. 무서운 말은 빼고, 오늘 하루 기분 좋게 챙길 수 있는 작은 행운만 골라 드려요. 부적도 결국 마음을 다잡는 물건이니까요.", sign: "달토끼복점 점장 토끼" },
+    images: { hero: "moon-rabbit", loading: "moon-rabbit" },
+    points: [
+      { title: "모자란 기운", desc: "내 오행에서 비어 있는 한 칸" },
+      { title: "이번 달 행운템", desc: "색·숫자·방향·물건 하나씩" },
+      { title: "복 들어오는 날", desc: "이번 달 기분 좋은 날 세 번" },
+    ],
+    reviews: [
+      { name: "20대 · 윤*아", text: "행운 색이 남색이라길래 남색 키링 샀어요. 귀여워서 그냥 기분 좋음." },
+      { name: "30대 · 임*솔", text: "매달 초에 하나씩 받아 보는 재미가 있어요. 토끼가 다 했어요." },
+    ],
+    product: { name: "올해 행운 부적 해설서", price: 9900, listPrice: 19800, desc: "10장 · 모자란 오행 채우기, 달마다 행운템과 좋은 날" },
+    free: [
+      { title: "모자란 기운", text: "여덟 글자 중에 나무(목)가 한 칸뿐이에요. 시작하는 힘이 살짝 부족해서, 마음먹고도 첫발이 늦어지는 때가 있어요." },
+      { title: "이번 달 행운템", text: "초록색 작은 물건 하나를 가방에 넣어 다니세요. 숫자는 3과 8, 방향은 동쪽이 좋아요." },
+      { title: "복 들어오는 날", text: "이번 달은 셋째 주 수요일 전후가 가장 가벼워요. 미뤄 둔 연락은 그날 해 보세요." },
+    ],
+    paidIntro: "토끼가 한 해 치 복을 열두 달로 나눠 담았어요. 하나씩 꺼내 쓰세요.",
+  },
+  gungmyeong: {
+    skin: "royal",
+    topic: "평생 사주",
+    formType: "single",
+    motif: "none",
+    badge: "평생 한 번 보는 사주",
+    heroTitle: "한 사람의 일생을\n궁의 법도로 읽다",
+    heroDesc: "타고난 그릇부터 열 해마다 바뀌는 대운까지, 평생의 흐름을 한 권으로 정리해 드려요.",
+    cta: "평생 사주 무료로 열기",
+    titles: { points: "한 권에 담는 세 가지", reviews: "먼저 받아 본 분들", form: "태어난 때를 적어 주세요" },
+    feature: "daeunTimeline",
+    about: { title: "궁명당(宮明堂)", body: "옛 궁에서는 왕실의 사주를 여러 사람이 나누어 보고 한 권으로 엮었다고 해요. 궁명당은 그 방식을 따라, 한 해 운세가 아니라 평생의 큰 줄기를 먼저 세우고 그 위에 해마다의 흐름을 얹어요.", sign: "궁명당 서고에서" },
+    images: { hero: "palace-gold-line", product: "navy-moon-tassel" },
+    points: [
+      { title: "타고난 그릇", desc: "일간과 격국으로 보는 평생의 바탕" },
+      { title: "열 해의 대운", desc: "인생을 열 해씩 나눈 큰 계절" },
+      { title: "지금 서 있는 곳", desc: "지금 대운에서 할 일과 쉴 일" },
+    ],
+    reviews: [
+      { name: "50대 · 최*수", text: "지난 대운 설명이 제 삶이랑 너무 맞아서 앞으로 부분을 더 믿게 됐습니다." },
+      { name: "40대 · 문*희", text: "부모님 선물로 같이 봤어요. 책처럼 정리돼 있어서 어르신들이 좋아하세요." },
+    ],
+    product: { name: "평생사주 대운 해설서", price: 29000, listPrice: 59000, desc: "10장 · 타고난 그릇, 대운 여덟 마디, 나이대별 조언" },
+    free: [
+      { title: "타고난 그릇", text: "경금(庚金) 일간이 술월에 나서 바탕이 단단해요. 쉽게 휘지 않는 대신, 스스로 다듬을 때를 기다리는 그릇이에요." },
+      { title: "열 해의 대운", text: "서른넷부터 시작된 지금의 대운은 물의 기운이 들어오는 때예요. 굳어 있던 생각이 풀리고, 사람을 통해 길이 열려요." },
+      { title: "지금 서 있는 곳", text: "지금은 넓히기보다 깊게 파는 시기예요. 마흔 즈음 다음 대운이 오기 전까지 한 가지를 확실히 내 것으로 만들어 두세요." },
+    ],
+    paidIntro: "평생의 흐름을 열 장으로 엮었습니다. 지난 대운부터 천천히 넘겨 보세요.",
+  },
+  gureum: {
+    skin: "sky",
+    topic: "마음 운세",
+    formType: "single",
+    motif: "cloud",
+    badge: "오늘 하루 잠깐 쉬어 가요",
+    heroTitle: "괜찮아,\n흐린 날도 지나가요",
+    heroDesc: "지금 내 사주의 날씨를 읽고, 오늘 나한테 필요한 말 한마디를 건네 드려요.",
+    cta: "내 마음 날씨 보기",
+    titles: { points: "구름쉼표에서 읽어 드리는 것", reviews: "쉬어 간 사람들", form: "당신을 조금만 알려 주세요" },
+    feature: "moodWeather",
+    about: { title: "구름쉼표를 만든 이유", body: "운세를 보러 오는 날은 대개 마음이 복잡한 날이더라고요. 그래서 여기서는 좋다 나쁘다를 가르기보다, 지금 지나는 계절이 어떤지 알려 드리고 쉬어 가도 된다고 말해 드려요.", sign: "구름쉼표 드림" },
+    images: { hero: "sky-blue-clouds", band: "sky-dawn-pastel", bandCaption: "해는 늘 같은 자리에서 다시 떠요" },
+    points: [
+      { title: "지금 마음의 계절", desc: "사주로 보는 요즘 내 기운" },
+      { title: "나를 지치게 하는 것", desc: "오행으로 보는 마음의 버릇" },
+      { title: "오늘의 쉼표", desc: "오늘 해 볼 작은 한 가지" },
+    ],
+    reviews: [
+      { name: "20대 · 서*린", text: "운세 보러 왔다가 위로받고 갔어요. 캡처해서 배경화면 했어요." },
+      { name: "30대 · 황*준", text: "겁주는 말이 하나도 없어서 좋았어요. 자기 전에 읽기 좋아요." },
+    ],
+    product: { name: "마음 처방 해설서", price: 9900, listPrice: 19800, desc: "10장 · 마음의 계절, 지치는 패턴, 달마다 쉼표" },
+    free: [
+      { title: "지금 마음의 계절", text: "요즘의 당신은 늦가을에 서 있어요. 거둬들일 건 많은데 몸이 먼저 지치는 때라, 조금 느려져도 괜찮아요." },
+      { title: "나를 지치게 하는 것", text: "금의 기운이 강한 사람은 스스로에게 기준이 높아요. 다 잘하려는 마음이 가장 큰 짐일 수 있어요." },
+      { title: "오늘의 쉼표", text: "오늘은 휴대폰을 내려놓고 십 분만 하늘을 보세요. 물의 기운이 마음을 식혀 줘요." },
+    ],
+    paidIntro: "서두르지 않아도 돼요. 한 장씩, 읽고 싶은 만큼만 읽어 주세요.",
+  },
+  baengnyeon: {
+    skin: "invite",
+    topic: "결혼운",
+    formType: "couple",
+    motif: "flower",
+    badge: "두 사람의 결혼운",
+    heroTitle: "우리, 언제\n결혼하면 좋을까요",
+    heroDesc: "두 사람의 사주로 결혼하기 좋은 해와 달, 함께 살며 맞춰 갈 점을 미리 짚어 드려요.",
+    cta: "결혼운 무료로 보기",
+    titles: { points: "청첩장보다 먼저 볼 것", reviews: "먼저 날 잡은 커플들", form: "두 사람의 정보를 적어 주세요" },
+    feature: "weddingYear",
+    about: { title: "백년서약은요", body: "결혼은 날짜 하나보다 두 사람이 오래 같은 쪽을 보는 일이라고 생각해요. 그래서 좋은 날만 골라 드리지 않고, 둘이 함께 살며 부딪힐 만한 곳과 서로 채워 줄 곳까지 같이 적어 드려요.", sign: "백년서약 드림" },
+    images: { hero: "couple-bouquet", band: "hands-sea", bandCaption: "같은 쪽을 오래 보는 사이" },
+    points: [
+      { title: "결혼하기 좋은 해", desc: "두 사람 대운이 함께 열리는 때" },
+      { title: "날 잡기 좋은 달", desc: "그해 가장 순한 달 세 개" },
+      { title: "함께 살며 맞출 것", desc: "돈·집안일·말투에서 다른 점" },
+    ],
+    reviews: [
+      { name: "30대 · 김*현 ♥ 이*정", text: "양가 어른들한테 보여 드렸더니 날 잡는 얘기가 훨씬 수월해졌어요." },
+      { name: "30대 · 박*우 ♥ 최*아", text: "돈 쓰는 방식이 다르다는 얘기가 진짜 맞아서 둘이 한참 웃었어요." },
+    ],
+    product: { name: "결혼운 궁합 해설서", price: 19800, listPrice: 39600, desc: "10장 · 결혼 적기, 날 잡기 좋은 달, 함께 살며 맞출 것" },
+    free: [
+      { title: "결혼하기 좋은 해", text: "두 사람의 대운이 함께 순해지는 해는 2028년이에요. 2027년 가을부터 준비를 시작하면 흐름을 타기 좋아요." },
+      { title: "날 잡기 좋은 달", text: "2028년에는 4월, 5월, 10월이 두 사람 모두에게 무난해요. 그중 5월은 집안 어른들의 기운도 함께 좋아요." },
+      { title: "함께 살며 맞출 것", text: "한 사람은 모아야 마음이 놓이고, 한 사람은 써야 기운이 도는 사주예요. 생활비 통장을 일찍 나눠 두면 다툴 일이 줄어요." },
+    ],
+    paidIntro: "두 사람이 함께 쓸 백 년을 열 장에 나눠 적었어요.",
   },
 };
 

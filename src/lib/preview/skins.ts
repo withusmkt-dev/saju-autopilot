@@ -2,7 +2,7 @@
 // 브랜드 자동 생성 때 Claude 가 컨셉에 맞는 스킨을 하나 고르게 한다 (site_config.skin).
 import type { BrandTheme } from "@/lib/types";
 
-export type SkinKey = "night" | "poster" | "soft" | "finance" | "hanji" | "calendar" | "office" | "daily" | "duo" | "letter";
+export type SkinKey = "night" | "poster" | "soft" | "finance" | "hanji" | "calendar" | "office" | "daily" | "duo" | "letter" | "sticker" | "royal" | "sky" | "invite";
 export type Section = "points" | "form" | "reviews" | "product" | "feature" | "about";
 
 export type PillarStyle = "pastel" | "ink" | "dark" | "grid";
@@ -144,5 +144,49 @@ export const SKINS: Record<SkinKey, Skin> = {
     result: { pillar: "ink", reading: "letter", align: "center" },
     bodyFont: "'Gowun Batang', serif",
     vars: (t) => light("#f7ece6", "#3b1f1f", "#6b4d47", t),
+  },
+  sticker: {
+    motion: { type: "zoom-in", duration: 600, easing: "ease-out-back", stagger: 110 },
+    label: "스티커",
+    header: "plain",
+    card: "rounded-[22px] border-2 border-[var(--p)] bg-white shadow-[0_4px_0_var(--p)]",
+    input: "rounded-2xl border-2 border-[var(--p)]/70 bg-white",
+    btn: "rounded-full border-2 border-[var(--p)] bg-[var(--a)] text-[var(--p)] shadow-[0_4px_0_var(--p)]",
+    order: ["feature", "points", "form", "reviews", "product", "about"],
+    result: { pillar: "pastel", reading: "cards", align: "center" },
+    vars: (t) => light("#f6f2e9", "#24304f", "#55607a", t),
+  },
+  royal: {
+    motion: { type: "fade", duration: 1200, easing: "ease-in-out-sine", stagger: 200 },
+    label: "궁",
+    header: "center",
+    card: "border border-[var(--a)]/50 bg-white/[0.03] outline outline-1 -outline-offset-[6px] outline-[var(--a)]/25",
+    input: "rounded-none border border-[var(--a)]/40 bg-white/[0.06] text-[#efe6d2] placeholder:text-[#efe6d2]/40 [color-scheme:dark]",
+    btn: "rounded-none bg-[var(--a)] text-[var(--p)] tracking-[0.1em]",
+    order: ["about", "feature", "points", "form", "product", "reviews"],
+    result: { pillar: "dark", reading: "numbered", align: "center" },
+    vars: (t) => ({ "--pbg": t.primary, "--text": "#efe6d2", "--sub": "rgba(239,230,210,0.78)", "--ink": t.accent, "--line": "rgba(201,164,92,0.25)" }),
+  },
+  sky: {
+    motion: { type: "fade-up", duration: 1200, easing: "ease-out-sine", stagger: 180 },
+    label: "하늘",
+    header: "plain",
+    card: "rounded-3xl bg-white/75 ring-1 ring-white shadow-[0_8px_24px_rgba(58,110,165,0.10)] backdrop-blur",
+    input: "rounded-2xl border border-[var(--p)]/25 bg-white/80",
+    btn: "rounded-full bg-[var(--p)] text-white shadow-[0_6px_16px_rgba(58,110,165,0.3)]",
+    order: ["feature", "points", "form", "about", "reviews", "product"],
+    result: { pillar: "pastel", reading: "letter", align: "center" },
+    vars: (t) => light("#eef5fc", "#23344a", "#536479", t),
+  },
+  invite: {
+    motion: { type: "fade", duration: 1000, easing: "ease-out-sine", stagger: 160 },
+    label: "청첩장",
+    header: "center",
+    card: "border border-[var(--a)] bg-white outline outline-1 -outline-offset-[5px] outline-[var(--a)]/60",
+    input: "rounded-none border-0 border-b border-[var(--p)]/35 bg-transparent !px-1",
+    btn: "rounded-full bg-[var(--p)] text-[#fbf8f1] tracking-[0.06em]",
+    order: ["points", "feature", "form", "reviews", "about", "product"],
+    result: { pillar: "ink", reading: "letter", align: "center" },
+    vars: (t) => light("#faf7f0", "#2f3329", "#5e6455", t),
   },
 };

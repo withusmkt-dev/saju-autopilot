@@ -7,7 +7,80 @@ import { bgImg } from "@/lib/preview/brandPages";
 const hf = { fontFamily: "var(--sf)" };
 const display = { fontFamily: "var(--hf)" }; // 표제용 (큰 숫자·한 줄 문구)
 const HANJA = ["一", "二", "三"];
+const serif = { fontFamily: "'Nanum Myeongjo', serif" };
 const desc = "text-[14px] leading-relaxed text-[var(--sub)]";
+
+/** 스티커 스킨 아이콘: 비어 있는 한 칸 / 네잎클로버 / 별 달린 달력 */
+function StickerIcon({ i }: { i: number }) {
+  const c = { viewBox: "0 0 32 32", className: "h-[46%] w-[46%] text-[var(--p)]", fill: "none", stroke: "currentColor", strokeWidth: 2.2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
+  if (i === 0)
+    return (
+      <svg {...c}>
+        <circle cx="16" cy="16" r="11" />
+        <path d="M16 5a11 11 0 0 1 0 22z" fill="currentColor" />
+      </svg>
+    );
+  if (i === 1)
+    return (
+      <svg {...c}>
+        <path d="M18 18c2 3 4 6 8 9" />
+        <g fill="currentColor" stroke="none">
+          <circle cx="12" cy="11" r="4.6" />
+          <circle cx="20" cy="11" r="4.6" />
+          <circle cx="12" cy="19" r="4.6" />
+          <circle cx="20" cy="19" r="4.6" />
+        </g>
+      </svg>
+    );
+  return (
+    <svg {...c}>
+      <rect x="5" y="7" width="22" height="20" rx="3" />
+      <path d="M5 13h22M11 4v5M21 4v5" />
+      <path d="m16 16 1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.8 2.6-.4z" fill="currentColor" strokeWidth="1" />
+    </svg>
+  );
+}
+
+/** 하늘 스킨 날씨 아이콘 (Features 에서도 씀) */
+export function WeatherIcon({ kind, className }: { kind: "sun" | "cloud" | "rain" | "wind" | "fog"; className: string }) {
+  const c = { viewBox: "0 0 32 32", className, fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
+  const cloud = "M10 23a5 5 0 0 1-.6-10 7 7 0 0 1 13.5-1.4A5.6 5.6 0 0 1 22.5 23z";
+  switch (kind) {
+    case "sun":
+      return (
+        <svg {...c}>
+          <circle cx="16" cy="16" r="5.5" fill="#ffd6a5" />
+          <path d="M16 3.5v3M16 25.5v3M3.5 16h3M25.5 16h3M7.2 7.2l2.1 2.1M22.7 22.7l2.1 2.1M7.2 24.8l2.1-2.1M22.7 9.3l2.1-2.1" />
+        </svg>
+      );
+    case "rain":
+      return (
+        <svg {...c}>
+          <path d="M10 19a5 5 0 0 1-.6-10 7 7 0 0 1 13.5-1.4A5.6 5.6 0 0 1 22.5 19z" />
+          <path d="M11 23l-1 3M16 23l-1 3M21 23l-1 3" />
+        </svg>
+      );
+    case "wind":
+      return (
+        <svg {...c}>
+          <path d="M4 12h15a3.5 3.5 0 1 0-3.5-3.5M4 17h20a3.5 3.5 0 1 1-3.5 3.5M4 22h9" />
+        </svg>
+      );
+    case "fog":
+      return (
+        <svg {...c}>
+          <path d="M5 11h22M8 16h18M5 21h16M10 26h12" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...c}>
+          <circle cx="21" cy="10" r="4" fill="#ffd6a5" stroke="none" />
+          <path d={cloud} fill="white" />
+        </svg>
+      );
+  }
+}
 
 export function Points() {
   const { page } = usePreview();
@@ -181,6 +254,76 @@ export function Points() {
           </div>
         </section>
       );
+    case "sticker":
+      // 동그란 스티커 세 장
+      return (
+        <section className="px-[5.5cqw] py-12 text-center">
+          {head}
+          <ul className="grid grid-cols-3 gap-3">
+            {pts.map((p, i) => (
+              <li key={p.title} {...aos(i + 1)}>
+                <div className={`mx-auto grid aspect-square w-full max-w-[104px] place-items-center rounded-full border-2 border-[var(--p)] shadow-[0_4px_0_var(--p)] ${["-rotate-6 bg-[var(--a)]", "rotate-3 bg-[#cfe6d4]", "-rotate-2 bg-[#f7cfd8]"][i]}`}>
+                  <StickerIcon i={i} />
+                </div>
+                <p className="mt-3 text-[16px] text-[var(--p)]" style={hf}>{p.title}</p>
+                <p className="mt-1 text-[12.5px] leading-snug text-[var(--sub)]">{p.desc}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    case "royal":
+      return (
+        <section className="px-[7cqw] py-12">
+          <div className="text-center">{head}</div>
+          <ul className="border-t border-[var(--a)]/35">
+            {pts.map((p, i) => (
+              <li key={p.title} {...aos(i + 1)} className="flex items-center gap-4 border-b border-[var(--a)]/35 py-5">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-[var(--a)]/70 text-[20px] text-[var(--a)]" style={serif}>{["器", "運", "時"][i]}</span>
+                <div>
+                  <p className="text-[17px] text-[#f3e6c8]" style={hf}>{p.title}</p>
+                  <p className={`mt-1 ${desc}`}>{p.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    case "sky":
+      // 날씨 앱처럼 세 칸
+      return (
+        <section className="px-[5.5cqw] py-10">
+          {head}
+          <div {...aos(1)}>
+            <PCard className="grid grid-cols-3 divide-x divide-[var(--p)]/15 !px-1 text-center">
+              {pts.map((p, i) => (
+                <div key={p.title} className="px-2 py-1">
+                  <WeatherIcon kind={(["cloud", "rain", "sun"] as const)[i]} className="mx-auto h-9 w-9 text-[var(--p)]" />
+                  <p className="mt-2 text-[15px] font-bold text-[var(--ink)]" style={hf}>{p.title}</p>
+                  <p className="mt-1 text-[12.5px] leading-snug text-[var(--sub)]">{p.desc}</p>
+                </div>
+              ))}
+            </PCard>
+          </div>
+        </section>
+      );
+    case "invite":
+      // 예식 순서처럼
+      return (
+        <section className="px-[7cqw] py-12 text-center">
+          <p className="text-[12px] tracking-[0.4em] text-[var(--sub)]">PROGRAM</p>
+          <div className="mt-2">{head}</div>
+          <ol className="space-y-6">
+            {pts.map((p, i) => (
+              <li key={p.title} {...aos(i + 1)}>
+                <p className="text-[15px] text-[var(--a)]" style={{ ...serif, filter: "brightness(0.8)" }}>{["Ⅰ", "Ⅱ", "Ⅲ"][i]}</p>
+                <p className="mt-1 text-[18px] text-[var(--ink)]" style={hf}>{p.title}</p>
+                <p className={`mt-1 ${desc}`}>{p.desc}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      );
     default:
       // night: 별자리처럼 이어지는 타임라인
       return (
@@ -206,9 +349,10 @@ export function Reviews() {
   const rv = page.reviews;
   const head = <div {...aos()}><PTitle>{page.titles.reviews}</PTitle></div>;
 
-  if (page.skin === "poster" || page.skin === "office" || page.skin === "duo") {
-    const me = page.skin === "poster" ? "bg-black text-white rounded-none" : page.skin === "duo" ? "bg-[var(--p)] text-white rounded-2xl rounded-br-sm" : "bg-[#1f1f1f] text-white rounded-lg";
-    const you = page.skin === "poster" ? "border-2 border-black bg-white rounded-none" : "bg-white rounded-2xl rounded-bl-sm shadow-sm";
+  if (page.skin === "poster" || page.skin === "office" || page.skin === "duo" || page.skin === "sticker") {
+    const me = page.skin === "poster" ? "bg-black text-white rounded-none" : page.skin === "duo" || page.skin === "sticker" ? "bg-[var(--p)] text-white rounded-2xl rounded-br-sm" : "bg-[#1f1f1f] text-white rounded-lg";
+    const you =
+      page.skin === "poster" ? "border-2 border-black bg-white rounded-none" : page.skin === "sticker" ? "border-2 border-[var(--p)] bg-white rounded-2xl rounded-bl-sm" : "bg-white rounded-2xl rounded-bl-sm shadow-sm";
     return (
       <section className="px-[5.5cqw] py-10">
         {head}

@@ -17,6 +17,7 @@ const HEAD_FONT: Record<FontKey, string> = {
   maruburi: "'Gowun Batang', serif",
   joseon: "'Nanum Myeongjo', serif",
   gmarket: "'Black Han Sans', sans-serif",
+  jua: "'Jua', sans-serif",
 };
 
 interface Ctx {
@@ -69,6 +70,8 @@ export default function PreviewShell({ children }: { children: React.ReactNode }
           className="pv mx-auto min-h-screen max-w-[430px] bg-[var(--pbg)] text-[var(--text)] shadow-xl"
           style={{
             fontFamily: skin.bodyFont,
+            // 주아체는 굵기가 하나뿐이라 가짜 굵게를 막는다 (뭉개짐 방지)
+            ...(t.font === "jua" && { fontSynthesis: "none" }),
             // 바탕 질감 이미지: 바탕색을 덮어 글씨가 잘 읽히게
             ...(page.images?.pageBg && {
               background: `linear-gradient(color-mix(in srgb, var(--pbg) ${PAGE_BG_VEIL[page.images.pageBg] ?? 60}%, transparent), color-mix(in srgb, var(--pbg) ${PAGE_BG_VEIL[page.images.pageBg] ?? 60}%, transparent)), ${bgImg(page.images.pageBg)} top / 100% auto repeat-y`,

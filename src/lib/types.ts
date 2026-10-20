@@ -1,7 +1,7 @@
 // 관리자 화면이 쓰는 데이터 모양. 백엔드(API·Supabase)를 붙일 때 이 타입에 맞춰 응답을 돌려준다.
 
 export type BrandStatus = "live" | "paused" | "draft";
-export type FontKey = "pretendard" | "maruburi" | "joseon" | "gmarket";
+export type FontKey = "pretendard" | "maruburi" | "joseon" | "gmarket" | "jua";
 export type Channel = "threads" | "instagram" | "tiktok" | "youtube";
 export type AdChannel = "meta" | "tiktok" | "youtube";
 export type PixelKey = "meta" | "ga4" | "googleAds" | "tiktok" | "kakao" | "naver" | "daangn" | "x";

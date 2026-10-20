@@ -19,6 +19,7 @@ function useNum() {
   return function renderNum(i: number) {
     switch (page.skin) {
       case "hanji":
+      case "royal":
         return <span className="text-[clamp(19px,5.6cqw,23px)] text-[var(--ink)]" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{HANJA[i]}</span>;
       case "poster":
         return <span className="text-[clamp(27px,8.7cqw,36px)] leading-none whitespace-nowrap text-[var(--a)]" style={display}>{String(i + 1).padStart(2, "0")}</span>;
