@@ -4,6 +4,8 @@ import { BRANDS } from "@/lib/dummy";
 import type { Brand } from "@/lib/types";
 import type { SkinKey } from "./skins";
 
+export type FeatureKey = "pillars" | "factShuffle" | "loveTypes" | "wealthBowls" | "glossary" | "zodiac2027" | "jobMatch" | "weekIljin" | "zodiacMatch" | "reunionCheck";
+
 export type Motif = "moon" | "none" | "flower" | "coin" | "cloud";
 
 export interface PageProduct {
@@ -24,6 +26,10 @@ export interface BrandPage {
   cta: string;
   /** 이미지 (public/assets/bg). hero=첫 화면, pageBg=바탕 질감, band=중간 사진 띠, card=카드 종이 */
   images?: { hero?: string; pageBg?: string; band?: string; bandCaption?: string; card?: string; product?: string; loading?: string };
+  /** 주제 맞춤 섹션 (Features.tsx) */
+  feature: FeatureKey;
+  /** 브랜드 이야기 */
+  about: { title: string; body: string; sign: string };
   /** 섹션 제목 (브랜드 말투) */
   titles: { points: string; reviews: string; form: string };
   points: { title: string; desc: string }[];
@@ -49,6 +55,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "생년월일시만 넣으면 타고난 기질과 올해의 흐름을 차분히 읽어 드려요.",
     cta: "무료로 내 사주 보기",
     titles: { points: "오늘 밤 펼쳐 볼 세 가지", reviews: "다녀간 분들이 남긴 말", form: "생년월일시를 알려 주세요" },
+    feature: "pillars",
+    about: { title: "달빛운세는요", body: "밤에 혼자 생각이 많아질 때 찾는 곳이었으면 해서 만들었어요. 사주를 겁주는 말로 쓰지 않고, 지금 내가 어떤 계절을 지나고 있는지 차분히 알려 드리는 게 목표예요.", sign: "달빛운세 드림" },
     images: { hero: "navy-moon-tassel", loading: "moon-rabbit" },
     points: [
       { title: "타고난 기질", desc: "일간과 오행으로 보는 나의 바탕" },
@@ -77,6 +85,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "듣기 좋은 말은 빼고, 지금 알아야 할 것만 짧고 세게 알려 드려요.",
     cta: "각오하고 무료로 보기",
     titles: { points: "각오할 것 세 개", reviews: "맞아서 화난 사람들", form: "정보 입력. 빨리." },
+    feature: "factShuffle",
+    about: { title: "운명소환소가 뭐냐면", body: "좋은 말만 해 주는 사주는 이미 많아서요. 여기는 듣기 싫어도 알아야 하는 얘기를 먼저 합니다. 대신 해결책 없이 겁만 주는 말은 안 써요. 그건 팩폭이 아니라 그냥 막말이니까.", sign: "운명소환소" },
     points: [
       { title: "내 성격 팩폭", desc: "남들이 말 못 한 내 진짜 모습" },
       { title: "반복되는 실수", desc: "연애·돈에서 매번 걸리는 패턴" },
@@ -104,6 +114,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "연애 흐름과 인연이 들어오는 시기를 달마다 짚어 드려요.",
     cta: "내 연애운 무료로 보기",
     titles: { points: "연구소에서 보는 것", reviews: "먼저 본 언니들 후기", form: "내 정보만 있으면 돼요" },
+    feature: "loveTypes",
+    about: { title: "연구소 소개", body: "연애 고민은 결국 언제, 그리고 어떤 사람으로 모이더라고요. 그래서 연애사주연구소는 사주에서 그 두 가지만 깊게 봐요. 다른 건 과감하게 뺐어요.", sign: "연애사주연구소 연구원 일동" },
     images: { hero: "pink-silk", band: "couple-bouquet", bandCaption: "좋은 인연은 타이밍이에요" },
     points: [
       { title: "연애 스타일", desc: "나는 어떤 사랑을 하는 사람일까" },
@@ -132,6 +144,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "재물운의 흐름과 모으기 좋은 시기, 조심할 시기를 알려 드려요.",
     cta: "내 재물운 무료로 보기",
     titles: { points: "재물 리포트 구성", reviews: "이용자 후기", form: "기본 정보 입력" },
+    feature: "wealthBowls",
+    about: { title: "금빛운세의 원칙", body: "투자 종목이나 숫자를 찍어 드리지 않아요. 대신 내 돈이 들어오고 나가는 결을 사주로 읽어 드려요. 언제 모으고 언제 지킬지, 그 타이밍만큼은 분명하게 말씀드릴게요.", sign: "금빛운세" },
     images: { pageBg: "paper-kraft" },
     points: [
       { title: "타고난 재물 그릇", desc: "돈을 버는 방식과 쓰는 습관" },
@@ -160,6 +174,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "명리학 전통 해석으로 격국과 용신, 대운의 흐름을 정중하게 풀어 드립니다.",
     cta: "무료 풀이 받아 보기",
     titles: { points: "해석의 차례", reviews: "독자 소감", form: "명조를 세울 정보" },
+    feature: "glossary",
+    about: { title: "청월당에 대하여", body: "청월당은 명리학의 오래된 해석 방식을 지금의 말로 옮기는 곳입니다. 격국과 용신을 기준으로 삼되, 어려운 용어는 풀어서 설명드립니다. 서두르지 않고 한 사람의 명조를 끝까지 살핍니다.", sign: "청월당 삼가 올림" },
     images: { hero: "ink-mountains-sun", pageBg: "paper-hanji", product: "palace-gold-line" },
     points: [
       { title: "원국과 격국", desc: "타고난 사주의 짜임" },
@@ -188,6 +204,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "새해 총운부터 달마다 오는 기운, 삼재와 귀인까지 한 번에 정리해 드려요.",
     cta: "2027 운세 무료로 보기",
     titles: { points: "2027 운세에 담긴 것", reviews: "작년에 본 분들", form: "새해 운세 받을 정보" },
+    feature: "zodiac2027",
+    about: { title: "왜 신년운세만 하냐면요", body: "한 해를 시작할 때 딱 한 번 꺼내 보는 지도가 있으면 좋겠다고 생각했어요. 사주시크릿은 매년 그 지도 하나를 정성껏 만들어요. 열두 달을 한 장에 펼쳐 두고, 달이 바뀔 때마다 다시 열어 보세요.", sign: "사주시크릿 2027 에디션" },
     images: { hero: "sky-dawn-pastel" },
     points: [
       { title: "2027 총운", desc: "한 해를 관통하는 키워드" },
@@ -216,6 +234,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "사주로 보는 내 일 체질, 움직일 타이밍, 지금 회사에 남을지 말지.",
     cta: "내 이직운 무료로 보기",
     titles: { points: "진단 항목", reviews: "먼저 진단받은 사람들", form: "지원서 작성" },
+    feature: "jobMatch",
+    about: { title: "팩폭사주 입사 안내", body: "이직이냐 존버냐, 이 질문 하나만 진지하게 봐요. 사주로 일 체질과 움직일 타이밍을 보고, 지금 회사에서 막히는 이유까지 짚어 드려요. 퇴사를 부추기지도, 무조건 버티라고 하지도 않습니다.", sign: "인사팀 아님 주의" },
     images: { hero: "clipboard", pageBg: "paper-grid", band: "desk-night", bandCaption: "오늘도 퇴근 못 한 당신에게" },
     points: [
       { title: "일 체질", desc: "조직형인지 독립형인지" },
@@ -244,6 +264,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "내 사주와 오늘의 일진을 맞춰 보고, 오늘 챙길 것 하나를 알려 드려요.",
     cta: "오늘의 운세 무료로 보기",
     titles: { points: "오늘의 지면", reviews: "독자 엽서", form: "오늘 운세 받을 정보" },
+    feature: "weekIljin",
+    about: { title: "오늘의명리를 만드는 사람들", body: "매일 아침 한 장짜리 신문처럼 읽히는 운세를 만들고 싶었어요. 길게 읽을 시간 없는 날에도 출근길 1분이면 충분하게요. 오늘의 일진과 내 사주가 어떻게 만나는지만 담백하게 적어요.", sign: "오늘의명리 편집부" },
     images: { hero: "window-summer" },
     points: [
       { title: "오늘의 일진", desc: "오늘 날의 간지와 기운" },
@@ -272,6 +294,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "두 사람의 생년월일시로 서로 채워 주는 기운과 부딪히는 지점을 알려 드려요.",
     cta: "우리 궁합 무료로 보기",
     titles: { points: "궁합에서 보는 것", reviews: "같이 본 커플들", form: "두 사람 정보" },
+    feature: "zodiacMatch",
+    about: { title: "소울사주는", body: "두 사람을 같이 보는 곳이에요. 누가 더 맞추고 누가 더 참는지보다, 둘이 어디서 편하고 어디서 부딪히는지를 알려 드려요. 싸운 날 같이 열어 보면 좋아요.", sign: "소울사주" },
     images: { hero: "beach-couple-heart", band: "hands-sea", bandCaption: "둘이라서 더 잘 보이는 것들" },
     points: [
       { title: "궁합 점수", desc: "오행으로 보는 두 사람의 균형" },
@@ -300,6 +324,8 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "헤어진 인연이 다시 이어질 흐름이 있는지, 언제쯤인지 조심스럽게 짚어 드려요.",
     cta: "재회운 무료로 보기",
     titles: { points: "이 편지에 담길 이야기", reviews: "같은 마음이었던 분들", form: "당신의 정보를 적어 주세요" },
+    feature: "reunionCheck",
+    about: { title: "홍연사주의 약속", body: "다시 만날 수 있다는 말을 쉽게 하지 않아요. 사주에 보이는 흐름만 조심스럽게 전해 드리고, 기다릴지 정리할지는 당신이 정할 수 있게 돕는 게 저희 일이에요.", sign: "붉은 실을 잇는 곳, 홍연" },
     images: { hero: "couple-sunset", card: "paper-lined" },
     points: [
       { title: "인연의 끈", desc: "아직 이어져 있는 기운" },
