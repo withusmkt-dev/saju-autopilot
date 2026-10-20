@@ -3,6 +3,7 @@
 // 스킨별 소개·후기·상품 섹션
 import { PCard, PTitle, useAos, usePreview } from "./PreviewShell";
 import { bgImg } from "@/lib/preview/brandPages";
+import { DEEP_LIST_PRICE, DEEP_PRICE, won } from "@/lib/pricing";
 
 const hf = { fontFamily: "var(--sf)" };
 const display = { fontFamily: "var(--hf)" }; // 표제용 (큰 숫자·한 줄 문구)
@@ -438,8 +439,8 @@ export function Product() {
             <p className="mt-3 text-[clamp(19px,5.6cqw,23px)] font-bold" style={hf}>{brand.orderNamePrefix} {pr.name}</p>
             <p className="mt-2 text-[14px] leading-relaxed opacity-85">{pr.desc}</p>
             <p className="mt-5">
-              <span className="mr-2 text-[14px] line-through opacity-60">₩{pr.listPrice.toLocaleString()}</span>
-              <span className="text-[clamp(21px,6.7cqw,27px)] font-bold text-[#e9c77b]">₩{pr.price.toLocaleString()}</span>
+              {DEEP_LIST_PRICE && <span className="mr-2 text-[14px] line-through opacity-60">{won(DEEP_LIST_PRICE)}</span>}
+              <span className="text-[clamp(21px,6.7cqw,27px)] font-bold text-[#e9c77b]">{won(DEEP_PRICE)}</span>
             </p>
             <p className="mt-3 text-[13px] opacity-75">무료 풀이를 본 뒤 결과 화면에서 바로 이어 볼 수 있어요.</p>
           </div>
@@ -455,8 +456,8 @@ export function Product() {
           <p className="mt-1 text-[19px] font-bold text-[var(--ink)]" style={hf}>{brand.orderNamePrefix} {pr.name}</p>
           <p className={`mt-1 ${desc}`}>{pr.desc}</p>
           <p className="mt-3">
-            <span className="mr-2 text-[14px] text-[var(--sub)] line-through">₩{pr.listPrice.toLocaleString()}</span>
-            <span className="text-2xl font-bold text-[var(--ink)]">₩{pr.price.toLocaleString()}</span>
+            {DEEP_LIST_PRICE && <span className="mr-2 text-[14px] text-[var(--sub)] line-through">{won(DEEP_LIST_PRICE)}</span>}
+            <span className="text-2xl font-bold text-[var(--ink)]">{won(DEEP_PRICE)}</span>
           </p>
           <p className="mt-2 text-[13px] text-[var(--sub)]">무료 풀이를 본 뒤 결과 화면에서 바로 이어 볼 수 있어요.</p>
         </PCard>

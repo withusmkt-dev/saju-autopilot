@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MockNote, PButton, PCard, PTitle, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { confirmPaymentMock, prepareOrderMock, saveOrder, sendSmsMock, useIntake } from "@/lib/preview/mock";
+import { DEEP_LIST_PRICE, DEEP_PRICE, won } from "@/lib/pricing";
 
 const METHODS = ["신용·체크카드", "토스페이", "카카오페이", "네이버페이", "계좌이체"];
 
@@ -18,7 +19,7 @@ export default function PayPage() {
 
   const pay = async () => {
     setPaying(true);
-    const order = prepareOrderMock(brand.orderNamePrefix, page.product.name, page.product.price);
+    const order = prepareOrderMock(brand.orderNamePrefix, page.product.name, DEEP_PRICE);
 
     /* 실서비스 (토스 결제위젯): 키 연결 후 주석 해제
     const widgets = (await loadTossPayments(process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!)).widgets({ customerKey: ANONYMOUS });
@@ -52,9 +53,13 @@ export default function PayPage() {
         <p className="mt-1 text-sm text-[var(--sub)]">{page.product.desc}</p>
         <dl className="mt-4 space-y-1.5 text-sm">
           <div className="flex justify-between"><dt className="text-[var(--sub)]">받는 분</dt><dd>{intake.name} · {intake.phone}</dd></div>
-          <div className="flex justify-between"><dt className="text-[var(--sub)]">정가</dt><dd className="line-through text-[var(--sub)]">₩{page.product.listPrice.toLocaleString()}</dd></div>
-          <div className="flex justify-between"><dt className="text-[var(--sub)]">할인</dt><dd className="text-red-500">−₩{(page.product.listPrice - page.product.price).toLocaleString()}</dd></div>
-          <div className="flex justify-between border-t border-[var(--line)] pt-2 text-base font-bold"><dt>결제 금액</dt><dd className="text-[var(--ink)]">₩{page.product.price.toLocaleString()}</dd></div>
+          {DEEP_LIST_PRICE && (
+            <>
+              <div className="flex justify-between"><dt className="text-[var(--sub)]">정가</dt><dd className="line-through text-[var(--sub)]">{won(DEEP_LIST_PRICE)}</dd></div>
+              <div className="flex justify-between"><dt className="text-[var(--sub)]">할인</dt><dd className="text-red-500">−{won(DEEP_LIST_PRICE - DEEP_PRICE)}</dd></div>
+            </>
+          )}
+          <div className="flex justify-between border-t border-[var(--line)] pt-2 text-base font-bold"><dt>결제 금액</dt><dd className="text-[var(--ink)]">{won(DEEP_PRICE)}</dd></div>
         </dl>
       </PCard>
 
@@ -73,7 +78,7 @@ export default function PayPage() {
       </div>
 
       <PButton className="mt-6" disabled={paying} onClick={pay}>
-        {paying ? "결제 확인 중…" : `₩${page.product.price.toLocaleString()} 결제하기 (목업)`}
+        {paying ? "결제 확인 중…" : `${won(DEEP_PRICE)} 결제하기 (목업)`}
       </PButton>
       <p className="mt-3 text-center text-xs text-[var(--sub)]">결제 후 해설서 링크를 문자로 보내 드려요.</p>
     </section>

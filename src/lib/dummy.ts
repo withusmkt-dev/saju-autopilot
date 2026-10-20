@@ -15,6 +15,7 @@ import type {
   PartKey,
 } from "./types";
 import { footerNoteOf, josa } from "./format";
+import { DEEP_PRICE } from "./pricing";
 
 /** 명월재에 이미 있는 주소. 브랜드 slug 로 쓰면 안 된다 (middleware rewrite 충돌) */
 export const RESERVED_SLUGS = [
@@ -96,7 +97,6 @@ const SEEDS: Seed[] = [
   ["b16", "baengnyeon", "백년서약", "draft", "#55654a", "#d9bf94", "joseon", "결혼운", 0, 0, 0, 0],
 ];
 
-const PRICE = 9900;
 
 export const BRANDS: Brand[] = SEEDS.map(
   ([id, slug, name, status, primary, accent, font, concept, visitors, free, buyers, adSpend], i) => ({
@@ -127,7 +127,7 @@ export const BRANDS: Brand[] = SEEDS.map(
       { channel: "tiktok", handle: null, connected: false, tokenExpiresAt: null },
       { channel: "youtube", handle: null, connected: false, tokenExpiresAt: null },
     ],
-    stats: { visitors, freeUsers: free, buyers, revenue: buyers * PRICE + Math.round(free * 0.3) * 990, adSpend },
+    stats: { visitors, freeUsers: free, buyers, revenue: buyers * DEEP_PRICE + Math.round(free * 0.3) * 990, adSpend },
   }),
 );
 
@@ -320,7 +320,7 @@ export const KILL_RULE: KillRule = {
 /* ---------- 주문 ---------- */
 
 const NAMES = ["김하늘", "이서연", "박지후", "최민준", "정유나", "강도윤", "조수아", "윤지호", "장예린", "임시우", "한소율", "오태윤", "서하린", "신지안", "권도현", "황채원", "안준서", "송다인", "류건우", "전나연", "홍서준", "고은채", "문하준"];
-const PRODUCTS: [string, number][] = [["심층사주 해설서", 9900], ["연애운", 990], ["재물운", 990], ["신년운세", 2900]];
+const PRODUCTS: [string, number][] = [["심층사주 해설서", DEEP_PRICE], ["연애운", 990], ["재물운", 990], ["신년운세", 2900]];
 
 export const ORDERS: Order[] = NAMES.map((name, i) => {
   const brand = BRANDS[i % 10];

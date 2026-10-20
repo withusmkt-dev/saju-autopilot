@@ -2,6 +2,7 @@
 //  1) SNS 콘텐츠 (콘텐츠 팩토리): POST /api/content/generate (GenerateRequest) → ContentItem 의 parts
 //  2) 유료 광고 소재 (Meta·TikTok·YouTube): 광고 관리 화면에서 새 소재 만들 때
 // 브랜드 말투(tone.instruction)를 그대로 끼워 넣어 브랜드마다 다른 글이 나오게 한다. 호출부는 src/lib/server/generate.ts
+import { DEEP_LIST_PRICE, DEEP_PRICE, won } from "@/lib/pricing";
 import type { AdChannel, Brand, GenerateMode, PartKey } from "@/lib/types";
 
 /** 매체별 조각 규격 (글자 수는 매체 제한보다 여유 있게) */
@@ -32,7 +33,8 @@ const COMMON_RULES = `## 문체
 - 지어내기: 후기, 이용자 수, 적중률, 전문가 경력, '제가 봐 드린 손님' 같은 실화 위장. 주어진 숫자만 씁니다.
 - 실존 인물(연예인·정치인 등)의 이름이나 사주.
 - 보는 사람의 처지를 단정하기: '빚 있는 당신', '우울한 당신', '이혼한 분' 처럼 개인 사정·건강·재정 상태를 안다는 듯이 부르는 말 (Meta·TikTok 광고 정책 위반).
-- 할인·무료 과장: 무료인 것은 '무료 풀이'뿐입니다. 유료 해설서는 무료 풀이를 본 뒤 고를 수 있다고만 말합니다. 정가·할인율을 지어내지 않습니다.`;
+- 할인·무료 과장: 무료인 것은 '무료 풀이'뿐입니다. 유료 해설서는 무료 풀이를 본 뒤 고를 수 있다고만 말합니다.
+- 가격: 유료 해설서는 모든 브랜드 ${won(DEEP_PRICE)}. ${DEEP_LIST_PRICE ? `할인을 말할 때는 '정가 ${won(DEEP_LIST_PRICE)} → ${won(DEEP_PRICE)}' 그대로만 쓰고,` : "정가·할인 표현은 쓰지 않고,"} 다른 할인율이나 '오늘만', '마감 임박' 같은 기한 한정은 지어내지 않습니다.`;
 
 export interface ContentBrand {
   name: string;

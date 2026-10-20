@@ -9,6 +9,7 @@ import { PAID_CHAPTERS, SAMPLE_SAJU } from "@/lib/preview/brandPages";
 import { sendSmsMock, useIntake } from "@/lib/preview/mock";
 import EmailOptIn from "@/components/preview/EmailOptIn";
 import { FreeReadings } from "@/components/preview/ResultParts";
+import { DEEP_LIST_PRICE, DEEP_PRICE, won } from "@/lib/pricing";
 
 const hf = { fontFamily: "var(--hf)" };
 const sf = { fontFamily: "var(--sf)" };
@@ -96,8 +97,8 @@ export default function FreeResultPage() {
           </ol>
           <div className="p-4">
             <p className="text-center text-sm">
-              <span className="mr-2 text-[var(--sub)] line-through">₩{page.product.listPrice.toLocaleString()}</span>
-              <b className="text-xl text-[var(--ink)]">₩{page.product.price.toLocaleString()}</b>
+              {DEEP_LIST_PRICE && <span className="mr-2 text-[var(--sub)] line-through">{won(DEEP_LIST_PRICE)}</span>}
+              <b className="text-xl text-[var(--ink)]">{won(DEEP_PRICE)}</b>
             </p>
             <PButton className="mt-3" onClick={() => router.push(`${base}/pay`)}>{page.product.name} 열어 보기</PButton>
           </div>
