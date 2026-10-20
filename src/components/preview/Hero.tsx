@@ -1,9 +1,10 @@
 "use client";
 
 // 스킨별 첫 화면. 같은 문구(heroTitle·heroDesc·badge·cta)를 스킨마다 다른 구도로 보여 준다.
+// 브랜드에 이미지(page.images.hero)가 있으면 그 이미지를 쓰고, 없으면 SVG 그림이나 색으로만 그린다.
 import Motif from "./Motif";
 import { PButton, useAos, usePreview } from "./PreviewShell";
-import { SAMPLE_SAJU } from "@/lib/preview/brandPages";
+import { bgImg, SAMPLE_SAJU } from "@/lib/preview/brandPages";
 
 const hf = { fontFamily: "var(--hf)" };
 
@@ -14,6 +15,7 @@ export default function Hero({ onStart }: { onStart: () => void }) {
   const lines = title.split("\n");
   const cta = <PButton onClick={onStart}>{page.cta}</PButton>;
   const t = brand.theme;
+  const hero = page.images?.hero ? bgImg(page.images.hero) : null;
 
   switch (page.skin) {
     case "poster":
@@ -25,7 +27,7 @@ export default function Hero({ onStart }: { onStart: () => void }) {
               <span key={l} className="block">{l}</span>
             ))}
           </h1>
-          <p {...aos(1)} className="mt-5 max-w-[300px] text-[15px] leading-relaxed text-white/70">{page.heroDesc}</p>
+          <p {...aos(1)} className="mt-5 max-w-[300px] text-[15px] leading-relaxed text-white/75">{page.heroDesc}</p>
           <div {...aos(2)} className="mt-7 pb-9">{cta}</div>
           <div className="-mx-5 overflow-hidden bg-[var(--a)] py-2 text-sm font-black whitespace-nowrap text-black">
             <div className="marquee inline-block">{"팩폭 주의 ✕ 돌려 말 안 함 ✕ ".repeat(8)}</div>
@@ -35,12 +37,12 @@ export default function Hero({ onStart }: { onStart: () => void }) {
 
     case "soft":
       return (
-        <section className="relative overflow-hidden px-6 pt-12 pb-12">
-          <Motif kind="flower" accent={t.accent} bg="#fff0f4" />
+        <section className="relative overflow-hidden px-6 pt-14 pb-14" style={hero ? { background: `${hero} center / cover` } : undefined}>
+          {!hero && <Motif kind="flower" accent={t.accent} bg="#fff0f4" />}
           <div className="relative">
-            <span className="inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[var(--p)] shadow-sm">{page.badge}</span>
-            <h1 {...aos(0)} className="mt-5 text-[34px] leading-tight whitespace-pre-line text-[var(--p)]" style={hf}>{title}</h1>
-            <p {...aos(1)} className="mt-3 max-w-[290px] text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+            <span className="inline-block rounded-full bg-white/90 px-3 py-1 text-[13px] font-bold text-[var(--p)] shadow-sm">{page.badge}</span>
+            <h1 {...aos(0)} className="mt-5 text-[36px] leading-tight whitespace-pre-line text-[var(--p)]" style={hf}>{title}</h1>
+            <p {...aos(1)} className="mt-3 max-w-[290px] text-[15px] leading-relaxed text-[#5b3f4c]">{page.heroDesc}</p>
             <div {...aos(2)} className="mt-8 max-w-[260px]">{cta}</div>
           </div>
         </section>
@@ -51,8 +53,8 @@ export default function Hero({ onStart }: { onStart: () => void }) {
       const pts = m.map((v, i) => `${(i / (m.length - 1)) * 300},${90 - ((v - 40) / 45) * 80}`).join(" ");
       return (
         <section className="px-5 pt-6 pb-10">
-          <div className="rounded-2xl bg-[var(--p)] p-5 text-white">
-            <div className="flex items-center justify-between text-xs opacity-70">
+          <div {...aos(0, "fade-up")} className="rounded-2xl bg-[var(--p)] p-5 text-white shadow-lg">
+            <div className="flex items-center justify-between text-[13px] opacity-75">
               <span>{brand.name} 재물 지수</span>
               <span>2027 · 샘플</span>
             </div>
@@ -61,30 +63,32 @@ export default function Hero({ onStart }: { onStart: () => void }) {
               <polygon points={`0,95 ${pts} 300,95`} fill={t.accent} opacity="0.18" />
               <polyline points={pts} fill="none" stroke={t.accent} strokeWidth="2.5" strokeLinejoin="round" />
             </svg>
-            <div className="mt-1 flex justify-between text-[10px] opacity-50">
+            <div className="mt-1 flex justify-between text-[12px] opacity-60">
               <span>1월</span>
               <span>6월</span>
               <span>12월</span>
             </div>
           </div>
-          <p className="mt-7 text-xs font-bold tracking-wider text-[var(--sub)]">{page.badge}</p>
-          <h1 {...aos(0)} className="mt-2 text-[30px] leading-tight whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
-          <p {...aos(1)} className="mt-3 text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
-          <div {...aos(2)} className="mt-6">{cta}</div>
+          <p className="mt-7 text-[13px] font-bold tracking-wider text-[var(--sub)]">{page.badge}</p>
+          <h1 {...aos(1)} className="mt-2 text-[30px] leading-tight whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+          <p {...aos(2)} className="mt-3 text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+          <div {...aos(3)} className="mt-6">{cta}</div>
         </section>
       );
     }
 
     case "hanji":
       return (
-        <section className="relative overflow-hidden px-6 pt-8 pb-24">
-          <svg viewBox="0 0 400 300" className="pointer-events-none absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMax slice" aria-hidden>
-            <circle cx="90" cy="70" r="34" fill="none" stroke={t.primary} strokeOpacity="0.25" strokeWidth="1.5" />
-            <path d="M0 300 L60 230 L110 265 L180 190 L250 255 L320 205 L400 260 L400 300Z" fill={t.primary} opacity="0.07" />
-          </svg>
+        <section className="relative overflow-hidden px-6 pt-8 pb-24" style={hero ? { background: `linear-gradient(180deg, rgba(243,236,220,0.15), rgba(243,236,220,0.55)), ${hero} center 30% / cover` } : undefined}>
+          {!hero && (
+            <svg viewBox="0 0 400 300" className="pointer-events-none absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMax slice" aria-hidden>
+              <circle cx="90" cy="70" r="34" fill="none" stroke={t.primary} strokeOpacity="0.25" strokeWidth="1.5" />
+              <path d="M0 300 L60 230 L110 265 L180 190 L250 255 L320 205 L400 260 L400 300Z" fill={t.primary} opacity="0.07" />
+            </svg>
+          )}
           <div className="relative flex gap-4">
             <div className="flex-1 pt-14">
-              <p className="text-xs tracking-[0.3em] text-[var(--sub)]">{page.badge}</p>
+              <p className="text-[13px] tracking-[0.2em] text-[var(--sub)]">{page.badge}</p>
               <p {...aos(1)} className="mt-6 text-[15px] leading-loose">{page.heroDesc}</p>
               <div {...aos(2)} className="mt-8">{cta}</div>
             </div>
@@ -94,7 +98,7 @@ export default function Hero({ onStart }: { onStart: () => void }) {
               ))}
             </h1>
           </div>
-          <div className="absolute right-6 bottom-5 grid h-14 w-14 rotate-6 place-items-center border-2 border-[#b3261e] text-center text-sm leading-tight font-bold text-[#b3261e]" style={hf}>
+          <div className="absolute right-6 bottom-5 grid h-14 w-14 rotate-6 place-items-center border-2 border-[#b3261e] bg-[#f3ecdc]/70 text-center text-sm leading-tight font-bold text-[#b3261e]" style={hf}>
             {brand.name}
           </div>
         </section>
@@ -103,48 +107,56 @@ export default function Hero({ onStart }: { onStart: () => void }) {
     case "calendar": {
       const m = SAMPLE_SAJU.months;
       return (
-        <section className="px-5 pt-8 pb-10">
-          <p className="text-xs font-bold tracking-widest text-[var(--sub)]">{page.badge}</p>
-          <p className="mt-1 text-[96px] leading-none font-black text-[var(--p)]" style={hf}>2027</p>
-          <h1 {...aos(0)} className="mt-3 text-2xl leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
-          <p {...aos(1)} className="mt-3 text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
-          <div className="mt-5 grid grid-cols-6 gap-1.5">
-            {m.map((v, i) => (
-              <div key={i} className="flex h-14 flex-col justify-between rounded-md bg-white p-1.5 shadow-sm">
-                <span className="text-[10px] font-bold text-[var(--p)]">{i + 1}월</span>
-                <span className="h-1.5 rounded-full bg-[var(--a)]" style={{ width: `${v}%`, opacity: 0.4 + (v - 40) / 80 }} />
-              </div>
-            ))}
+        <section className="relative px-5 pt-8 pb-10">
+          {hero && <div className="absolute inset-x-0 top-0 h-72" style={{ background: `linear-gradient(180deg, transparent 55%, var(--pbg)), ${hero} center / cover` }} />}
+          <div className="relative">
+            <p className="text-[13px] font-bold tracking-widest text-[var(--p)]">{page.badge}</p>
+            <p {...aos(0, "zoom-in")} className="mt-1 text-[96px] leading-none font-black text-[var(--p)]" style={hf}>2027</p>
+            <h1 {...aos(1)} className="mt-6 text-2xl leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+            <p {...aos(2)} className="mt-3 text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+            <div className="mt-5 grid grid-cols-6 gap-1.5">
+              {m.map((v, i) => (
+                <div key={i} {...aos(i + 2)} className="flex h-14 flex-col justify-between rounded-md bg-white p-1.5 shadow-sm">
+                  <span className="text-[12px] font-bold text-[var(--p)]">{i + 1}월</span>
+                  <span className="h-1.5 rounded-full bg-[var(--a)]" style={{ width: `${v}%`, opacity: 0.4 + (v - 40) / 80 }} />
+                </div>
+              ))}
+            </div>
+            <div {...aos(3)} className="mt-6">{cta}</div>
           </div>
-          <div {...aos(2)} className="mt-6">{cta}</div>
         </section>
       );
     }
 
     case "office":
+      // 클립보드 사진 위에 진단서를 끼워 둔 구도
       return (
-        <section className="px-5 pt-8 pb-10">
-          <div className="relative rounded-md border border-black/15 bg-white p-5 font-mono text-[11px] text-[#777] shadow-sm">
+        <section className="px-4 pt-6 pb-10">
+          <div
+            {...aos(0, "fade-up")}
+            className="relative px-[15%] pt-[22%] pb-[12%] font-mono text-[12px] text-[#666]"
+            style={hero ? { background: `${hero} center / 100% 100% no-repeat` } : { background: "#fff" }}
+          >
             <div className="flex justify-between">
               <span>career_check.pdf</span>
               <span>p.1 / 10</span>
             </div>
-            <span className="absolute top-12 right-4 rotate-[-8deg] border-2 border-red-500 px-2 py-0.5 font-sans text-xs font-black text-red-500">{page.badge}</span>
-            <h1 {...aos(0)} className="mt-6 font-sans text-[34px] leading-tight text-[#1f1f1f]" style={hf}>
+            <span className="absolute top-[28%] right-[13%] rotate-[-8deg] border-2 border-red-500 bg-white/60 px-2 py-0.5 font-sans text-[13px] font-black text-red-500">{page.badge}</span>
+            <h1 {...aos(1)} className="mt-6 font-sans text-[30px] leading-tight text-[#1f1f1f]" style={hf}>
               {lines.map((l) => (
                 <span key={l} className="block">
                   <span className="bg-[var(--a)] px-1">{l}</span>
                 </span>
               ))}
             </h1>
-            <ul className="mt-5 space-y-1.5 text-[13px] text-[#333]">
-              {["월요일 아침이 유난히 무겁다", "연봉보다 상사가 더 문제다", "이력서만 세 번 고쳐 놓았다"].map((c) => (
-                <li key={c}>☐ {c}</li>
+            <ul className="mt-5 space-y-2 text-[14px] text-[#333]">
+              {["월요일 아침이 유난히 무겁다", "연봉보다 상사가 더 문제다", "이력서만 세 번 고쳐 놓았다"].map((c, i) => (
+                <li key={c} {...aos(i + 2, "fade-right")}>☐ {c}</li>
               ))}
             </ul>
-            <p className="mt-4 font-sans text-[15px] leading-relaxed text-[#444]">{page.heroDesc}</p>
+            <p className="mt-4 font-sans text-[14px] leading-relaxed text-[#444]">{page.heroDesc}</p>
           </div>
-          <div {...aos(2)} className="mt-5">{cta}</div>
+          <div {...aos(3)} className="mt-5">{cta}</div>
         </section>
       );
 
@@ -152,11 +164,17 @@ export default function Hero({ onStart }: { onStart: () => void }) {
       return (
         <section className="px-5 pt-5 pb-10">
           <div className="border-y-4 border-double border-[var(--p)] py-4 text-center">
-            <p className="text-[11px] tracking-[0.4em] text-[var(--sub)]">오늘의 일진</p>
-            <p className="mt-1 text-[60px] leading-none text-[var(--p)]" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>甲辰日</p>
-            <p className="mt-2 text-xs text-[var(--sub)]">갑진일 · 나무와 흙의 날 · 샘플</p>
+            <p className="text-[12px] tracking-[0.3em] text-[var(--sub)]">오늘의 일진</p>
+            <p {...aos(0)} className="mt-1 text-[60px] leading-none text-[var(--p)]" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>甲辰日</p>
+            <p className="mt-2 text-[13px] text-[var(--sub)]">갑진일 · 나무와 흙의 날 · 샘플</p>
           </div>
-          <h1 {...aos(0)} className="mt-6 text-[28px] leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+          {hero && (
+            <figure {...aos(1)} className="mt-5">
+              <div className="aspect-[16/10] w-full" style={{ background: `${hero} center 35% / cover` }} />
+              <figcaption className="mt-1.5 text-[12px] text-[var(--sub)]">창가에 바람이 드는 날. 오늘은 미뤄 둔 일을 하나 정리하기 좋아요.</figcaption>
+            </figure>
+          )}
+          <h1 {...aos(1)} className="mt-6 text-[28px] leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
           <div className="mt-4 grid grid-cols-[1fr_auto_1fr] gap-3 text-[14px] leading-relaxed">
             <p>{page.heroDesc}</p>
             <span className="w-px bg-[var(--p)]/30" />
@@ -172,52 +190,81 @@ export default function Hero({ onStart }: { onStart: () => void }) {
 
     case "duo":
       return (
-        <section className="px-6 pt-10 pb-10 text-center">
-          <div className="relative mx-auto h-36 w-60">
-            <div className="absolute top-0 left-0 grid h-36 w-36 place-items-center rounded-full bg-[var(--p)] text-lg font-bold text-white">
-              <span className="-ml-10">나</span>
+        <section className="pb-10 text-center">
+          {hero ? (
+            <div className="relative h-[340px]" style={{ background: `linear-gradient(180deg, transparent 60%, var(--pbg)), ${hero} center 70% / cover` }}>
+              <span className="absolute top-5 left-1/2 -translate-x-1/2 rounded-full bg-white/90 px-3 py-1 text-[13px] font-bold text-[var(--p)] shadow-sm">{page.badge}</span>
             </div>
-            <div className="absolute top-0 right-0 grid h-36 w-36 place-items-center rounded-full bg-[var(--a)]/90 text-lg font-bold text-[var(--p)] mix-blend-multiply">
-              <span className="ml-10">너</span>
+          ) : (
+            <div className="relative mx-auto mt-10 h-36 w-60">
+              <div className="absolute top-0 left-0 h-36 w-36 rounded-full bg-[var(--p)]" />
+              <div className="absolute top-0 right-0 h-36 w-36 rounded-full bg-[var(--a)]/90 mix-blend-multiply" />
             </div>
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl text-white">♥</span>
+          )}
+          <div className="px-6">
+            <h1 {...aos(0)} className="mt-2 text-[32px] leading-tight whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+            <p {...aos(1)} className="mx-auto mt-3 max-w-[300px] text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+            <div {...aos(2)} className="mx-auto mt-7 max-w-[280px]">{cta}</div>
           </div>
-          <span className="mt-6 inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[var(--p)] shadow-sm">{page.badge}</span>
-          <h1 {...aos(0)} className="mt-4 text-[32px] leading-tight whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
-          <p {...aos(1)} className="mx-auto mt-3 max-w-[300px] text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
-          <div {...aos(2)} className="mx-auto mt-7 max-w-[280px]">{cta}</div>
         </section>
       );
 
-    case "letter":
+    case "letter": {
+      const card = page.images?.card ? bgImg(page.images.card) : null;
       return (
-        <section className="relative overflow-hidden px-5 pt-8 pb-10">
-          <svg viewBox="0 0 400 120" className="pointer-events-none absolute top-2 left-0 h-28 w-full" aria-hidden>
-            <path d="M-10 70 C 60 10, 120 120, 200 60 S 330 20, 410 80" fill="none" stroke={t.primary} strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-          </svg>
-          <div className="relative mt-10 rotate-[-1.5deg] rounded-sm border border-[#e3cfc0] bg-[#fffaf5] px-6 py-8 shadow-[0_8px_20px_rgba(109,26,26,0.12)]">
-            <p className="text-xs text-[var(--sub)]">To. 아직 마음이 남은 당신에게</p>
-            <h1 {...aos(0)} className="mt-4 text-[28px] leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
-            <p className="mt-4 text-[15px] leading-loose">{page.heroDesc}</p>
-            <p className="mt-6 text-right text-xs text-[var(--sub)]">From. {brand.name}</p>
+        <section className="relative pb-10">
+          {hero && <div className="h-[300px]" style={{ background: `linear-gradient(180deg, transparent 50%, var(--pbg)), ${hero} center / cover` }} />}
+          <div className="px-5">
+            <div
+              {...aos(0)}
+              className={`relative rotate-[-1.5deg] rounded-sm border border-[#e3cfc0] px-6 py-8 shadow-[0_8px_20px_rgba(109,26,26,0.15)] ${hero ? "-mt-24" : "mt-10"}`}
+              style={{ background: card ? `${card} left top / 100% auto, #fffaf5` : "#fffaf5" }}
+            >
+              <p className="text-[13px] text-[var(--sub)]">To. 아직 마음이 남은 당신에게</p>
+              <h1 className="mt-4 text-[28px] leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+              <p className="mt-4 text-[15px] leading-loose">{page.heroDesc}</p>
+              <p className="mt-6 text-right text-[13px] text-[var(--sub)]">From. {brand.name}</p>
+            </div>
+            <div {...aos(2)} className="mt-8">{cta}</div>
           </div>
-          <div {...aos(2)} className="mt-8">{cta}</div>
         </section>
       );
+    }
 
     default:
       // night: 밤하늘
       return (
-        <section className="relative overflow-hidden px-6 pt-16 pb-14 text-center">
-          <Motif kind={page.motif} accent={t.accent} bg={t.primary} />
-          <div className="relative">
-            <span className="inline-block rounded-full border border-[var(--a)]/60 px-3 py-1 text-xs text-[var(--a)]">{page.badge}</span>
-            <h1 {...aos(0)} className="mt-5 text-[34px] leading-tight whitespace-pre-line text-white" style={hf}>{title}</h1>
+        <section
+          className="relative overflow-hidden px-6 pt-20 pb-14 text-center"
+          style={hero ? { background: `linear-gradient(180deg, rgba(0,0,0,0) 40%, ${t.primary} 100%), ${hero} center top / cover` } : undefined}
+        >
+          {!hero && <Motif kind={page.motif} accent={t.accent} bg={t.primary} />}
+          <div className={`relative ${hero ? "pt-28" : ""}`}>
+            <span className="inline-block rounded-full border border-[var(--a)]/70 bg-black/20 px-3 py-1 text-[13px] text-[var(--a)]">{page.badge}</span>
+            <h1 {...aos(0)} className="mt-5 text-[34px] leading-tight whitespace-pre-line text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.35)]" style={hf}>{title}</h1>
             <p {...aos(1)} className="mx-auto mt-4 max-w-[290px] text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
             <div {...aos(2)} className="mx-auto mt-8 max-w-[260px]">{cta}</div>
-            <p className="mt-3 text-[11px] text-[var(--sub)]">무료 풀이 · 1분이면 끝나요</p>
+            <p className="mt-3 text-[12px] text-[var(--sub)]">무료 풀이 · 1분이면 끝나요</p>
           </div>
         </section>
       );
   }
+}
+
+/** 중간 사진 띠 (page.images.band) */
+export function PhotoBand() {
+  const { page } = usePreview();
+  const aos = useAos();
+  const band = page.images?.band;
+  if (!band) return null;
+  return (
+    <figure {...aos(0, "fade")} className="relative my-2">
+      <div className="h-[220px] w-full" style={{ background: `${bgImg(band)} center / cover` }} />
+      {page.images?.bandCaption && (
+        <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-5 pt-10 pb-4 text-[15px] font-medium text-white" style={hf}>
+          {page.images.bandCaption}
+        </figcaption>
+      )}
+    </figure>
+  );
 }

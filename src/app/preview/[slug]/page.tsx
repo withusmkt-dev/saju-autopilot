@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Hero from "@/components/preview/Hero";
+import Hero, { PhotoBand } from "@/components/preview/Hero";
 import { MockNote, PButton, PCard, PTitle, useAos, useField, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { Points, Product, Reviews } from "@/components/preview/Sections";
 import { requestFreeReadingMock, type Intake } from "@/lib/preview/mock";
@@ -21,7 +21,12 @@ export default function BrandMainPage() {
   const { skin } = usePreview();
   const scrollToForm = () => document.getElementById("form")?.scrollIntoView({ behavior: "smooth" });
   const SECTION: Record<Section, React.ReactNode> = {
-    points: <Points key="points" />,
+    points: (
+      <div key="points">
+        <Points />
+        <PhotoBand />
+      </div>
+    ),
     form: <IntakeForm key="form" />,
     reviews: <Reviews key="reviews" />,
     product: <Product key="product" />,

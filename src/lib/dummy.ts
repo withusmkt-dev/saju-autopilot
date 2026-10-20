@@ -101,7 +101,7 @@ export const BRANDS: Brand[] = SEEDS.map(
     createdAt: `2026-10-${String(1 + i).padStart(2, "0")}`,
     heroTitle: `${josa(name, "이", "가")} 읽어 주는 내 사주`,
     heroDesc: "생년월일시만 넣으면 1분 만에 무료 풀이를 보여 드려요.",
-    theme: { primary, accent, background: "#fcfbf9", font, bgAsset: i % 3 === 0 ? "/assets/bg/oriental_0" + ((i % 4) + 1) + ".webp" : null },
+    theme: { primary, accent, background: "#fcfbf9", font, bgAsset: i % 3 === 0 ? ["/assets/bg/navy-moon-tassel.webp", "/assets/bg/pink-silk.webp", "/assets/bg/ink-mountains-sun.webp", "/assets/bg/window-summer.webp"][i % 4] : null },
     tone: {
       concept,
       instruction:
@@ -132,7 +132,7 @@ export const PREV_PERIOD_REVENUE = 1_980_000;
 const DRAFT_POOL: Omit<BrandDraft, "profileImageUrl">[] = [
   {
     name: "별빛사주", slug: "byeolbit",
-    theme: { primary: "#1e1b4b", accent: "#fbbf24", background: "#faf8f3", font: "maruburi", bgAsset: "/assets/bg/night_02.webp" },
+    theme: { primary: "#1e1b4b", accent: "#fbbf24", background: "#faf8f3", font: "maruburi", bgAsset: "/assets/bg/navy-moon-tassel.webp" },
     tone: { concept: "몽환 힐링", instruction: "잔잔하고 위로하는 말투. 단정 대신 가능성으로 말한다.", focus: "올해 흐름·마음 정리" },
     heroTitle: "밤하늘처럼 내 사주를 펼쳐 볼까요", heroDesc: "생년월일시만 넣으면 무료 풀이를 바로 보여 드려요.",
     bio: "🌙 별빛사주 | 밤마다 읽는 내 사주 이야기\n무료 사주 풀이 👇", adCopies: ["요즘 마음이 복잡하다면, 사주부터 펼쳐 보세요", "올해 남은 석 달, 내 운은 어디쯤일까?"],
@@ -146,7 +146,7 @@ const DRAFT_POOL: Omit<BrandDraft, "profileImageUrl">[] = [
   },
   {
     name: "도화서재", slug: "dohwa",
-    theme: { primary: "#831843", accent: "#fda4af", background: "#fff7f8", font: "pretendard", bgAsset: "/assets/bg/flower_01.webp" },
+    theme: { primary: "#831843", accent: "#fda4af", background: "#fff7f8", font: "pretendard", bgAsset: "/assets/bg/pink-silk.webp" },
     tone: { concept: "연애 특화", instruction: "다정한 언니 말투. 관계의 타이밍을 구체적인 달로 짚는다.", focus: "연애운·도화살" },
     heroTitle: "내 사주에 도화가 피는 달", heroDesc: "연애 흐름을 달마다 짚어 드려요. 무료 풀이부터.",
     bio: "🌸 도화서재 | 연애운만 파는 사주 서재\n무료 연애 풀이 👇", adCopies: ["올해 연애운 터지는 달, 사주에 이미 적혀 있어요", "도화살 있는 사람 특징 3가지"],
@@ -156,8 +156,11 @@ const DRAFT_POOL: Omit<BrandDraft, "profileImageUrl">[] = [
 let draftCursor = 0;
 /** 미리 넣어 둔 이미지 (실제 파일은 Supabase Storage 에 올라갈 예정) */
 export const ASSET_IMAGES: AssetImage[] = [
-  ["oriental_01", ["동양풍"]], ["oriental_02", ["동양풍"]], ["oriental_03", ["동양풍", "고급"]], ["oriental_04", ["동양풍"]],
-  ["night_02", ["밤하늘", "몽환"]], ["flower_01", ["꽃", "연애"]], ["modern_01", ["모던"]],
+  ["navy-moon-tassel", ["밤하늘", "동양풍"]], ["moon-rabbit", ["밤하늘", "귀여움"]], ["palace-gold-line", ["동양풍", "고급"]], ["ink-mountains-sun", ["동양풍", "수묵"]],
+  ["paper-hanji", ["질감", "동양풍"]], ["paper-kraft", ["질감"]], ["paper-grid", ["질감", "모던"]], ["paper-lined", ["질감", "편지"]],
+  ["pink-silk", ["연애", "파스텔"]], ["couple-bouquet", ["연애", "사진"]], ["couple-sunset", ["연애", "사진"]], ["hands-sea", ["연애", "사진"]],
+  ["beach-couple-heart", ["연애", "일러스트"]], ["window-summer", ["일상", "일러스트"]], ["desk-night", ["일상", "일러스트"]],
+  ["clipboard", ["서류", "모던"]], ["sky-dawn-pastel", ["하늘", "파스텔"]], ["sky-blue-clouds", ["하늘"]],
 ].map(([name, tags], i) => ({ id: `img_${name}`, name: `${name}.webp`, src: `/assets/bg/${name}.webp`, tags: tags as string[], addedAt: `2026-10-${String(1 + i).padStart(2, "0")}` }));
 
 /**

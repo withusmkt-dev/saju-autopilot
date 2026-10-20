@@ -5,8 +5,8 @@ import { inputBase } from "./ui";
 import { useStore } from "@/lib/store";
 import type { AssetImage } from "@/lib/types";
 
-/** 실제로 띄울 수 있는 이미지 주소인지 (더미 경로는 파일이 없어서 색 박스로 대신 그림) */
-export const isViewable = (src: string | null | undefined): boolean => !!src && /^(blob:|data:|https?:)/.test(src);
+/** 실제로 띄울 수 있는 이미지 주소인지 (public/assets 와 업로드 URL) */
+export const isViewable = (src: string | null | undefined): boolean => !!src && /^(blob:|data:|https?:|\/assets\/)/.test(src);
 
 const TAG_BG: Record<string, string> = {
   동양풍: "linear-gradient(135deg,#3d2c1e,#c0944d)",

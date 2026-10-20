@@ -7,7 +7,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { notFound, useParams } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
-import { getBrandPage, type BrandPage } from "@/lib/preview/brandPages";
+import { bgImg, getBrandPage, PAGE_BG_VEIL, type BrandPage } from "@/lib/preview/brandPages";
 import { SKINS, type Skin } from "@/lib/preview/skins";
 import type { Brand, FontKey } from "@/lib/types";
 
@@ -62,7 +62,16 @@ export default function PreviewShell({ children }: { children: React.ReactNode }
           <button type="button" onClick={() => setNotes((v) => !v)} className="underline">개발 메모 {notes ? "숨기기" : "보기"}</button> ·{" "}
           <Link href="/brands" className="underline">관리자로</Link>
         </div>
-        <div className="mx-auto min-h-screen max-w-[430px] bg-[var(--pbg)] text-[var(--text)] shadow-xl" style={{ fontFamily: skin.bodyFont }}>
+        <div
+          className="mx-auto min-h-screen max-w-[430px] bg-[var(--pbg)] text-[var(--text)] shadow-xl"
+          style={{
+            fontFamily: skin.bodyFont,
+            // 바탕 질감 이미지: 바탕색을 덮어 글씨가 잘 읽히게
+            ...(page.images?.pageBg && {
+              background: `linear-gradient(color-mix(in srgb, var(--pbg) ${PAGE_BG_VEIL[page.images.pageBg] ?? 60}%, transparent), color-mix(in srgb, var(--pbg) ${PAGE_BG_VEIL[page.images.pageBg] ?? 60}%, transparent)), ${bgImg(page.images.pageBg)} top / 100% auto repeat-y`,
+            }),
+          }}
+        >
           <Header />
           <main>{children}</main>
           <footer className="border-t border-[var(--line)] px-5 py-6 text-[11px] leading-relaxed text-[var(--sub)]" style={{ fontFamily: "'Pretendard Variable', sans-serif" }}>

@@ -22,6 +22,8 @@ export interface BrandPage {
   heroTitle: string; // 줄바꿈은 \n
   heroDesc: string;
   cta: string;
+  /** 이미지 (public/assets/bg). hero=첫 화면, pageBg=바탕 질감, band=중간 사진 띠, card=카드 종이 */
+  images?: { hero?: string; pageBg?: string; band?: string; bandCaption?: string; card?: string };
   /** 섹션 제목 (브랜드 말투) */
   titles: { points: string; reviews: string; form: string };
   points: { title: string; desc: string }[];
@@ -47,6 +49,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "생년월일시만 넣으면 타고난 기질과 올해의 흐름을 차분히 읽어 드려요.",
     cta: "무료로 내 사주 보기",
     titles: { points: "오늘 밤 펼쳐 볼 세 가지", reviews: "다녀간 분들이 남긴 말", form: "생년월일시를 알려 주세요" },
+    images: { hero: "navy-moon-tassel", band: "moon-rabbit", bandCaption: "달토끼가 오늘 밤 당신의 사주를 들고 왔어요" },
     points: [
       { title: "타고난 기질", desc: "일간과 오행으로 보는 나의 바탕" },
       { title: "올해의 흐름", desc: "2027년 달마다 오는 기운" },
@@ -101,6 +104,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "연애 흐름과 인연이 들어오는 시기를 달마다 짚어 드려요.",
     cta: "내 연애운 무료로 보기",
     titles: { points: "연구소에서 보는 것", reviews: "먼저 본 언니들 후기", form: "내 정보만 있으면 돼요" },
+    images: { hero: "pink-silk", band: "couple-bouquet", bandCaption: "좋은 인연은 타이밍이에요" },
     points: [
       { title: "연애 스타일", desc: "나는 어떤 사랑을 하는 사람일까" },
       { title: "인연의 시기", desc: "인연이 들어오는 달" },
@@ -128,6 +132,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "재물운의 흐름과 모으기 좋은 시기, 조심할 시기를 알려 드려요.",
     cta: "내 재물운 무료로 보기",
     titles: { points: "재물 리포트 구성", reviews: "이용자 후기", form: "기본 정보 입력" },
+    images: { pageBg: "paper-kraft" },
     points: [
       { title: "타고난 재물 그릇", desc: "돈을 버는 방식과 쓰는 습관" },
       { title: "들어오는 달", desc: "2027년 재물 흐름 그래프" },
@@ -155,6 +160,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "명리학 전통 해석으로 격국과 용신, 대운의 흐름을 정중하게 풀어 드립니다.",
     cta: "무료 풀이 받아 보기",
     titles: { points: "해석의 차례", reviews: "독자 소감", form: "명조를 세울 정보" },
+    images: { hero: "ink-mountains-sun", pageBg: "paper-hanji", band: "palace-gold-line", bandCaption: "명리의 오랜 법도로 살핍니다" },
     points: [
       { title: "원국과 격국", desc: "타고난 사주의 짜임" },
       { title: "용신과 기신", desc: "나를 돕는 기운, 막는 기운" },
@@ -182,6 +188,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "새해 총운부터 달마다 오는 기운, 삼재와 귀인까지 한 번에 정리해 드려요.",
     cta: "2027 운세 무료로 보기",
     titles: { points: "2027 운세에 담긴 것", reviews: "작년에 본 분들", form: "새해 운세 받을 정보" },
+    images: { hero: "sky-dawn-pastel" },
     points: [
       { title: "2027 총운", desc: "한 해를 관통하는 키워드" },
       { title: "월별 흐름", desc: "1월부터 12월까지 기운의 높낮이" },
@@ -209,6 +216,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "사주로 보는 내 일 체질, 움직일 타이밍, 지금 회사에 남을지 말지.",
     cta: "내 이직운 무료로 보기",
     titles: { points: "진단 항목", reviews: "먼저 진단받은 사람들", form: "지원서 작성" },
+    images: { hero: "clipboard", pageBg: "paper-grid", band: "desk-night", bandCaption: "오늘도 퇴근 못 한 당신에게" },
     points: [
       { title: "일 체질", desc: "조직형인지 독립형인지" },
       { title: "움직일 타이밍", desc: "이직·취업이 잘 풀리는 달" },
@@ -236,6 +244,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "내 사주와 오늘의 일진을 맞춰 보고, 오늘 챙길 것 하나를 알려 드려요.",
     cta: "오늘의 운세 무료로 보기",
     titles: { points: "오늘의 지면", reviews: "독자 엽서", form: "오늘 운세 받을 정보" },
+    images: { hero: "window-summer", band: "sky-blue-clouds", bandCaption: "오늘의 하늘, 맑음" },
     points: [
       { title: "오늘의 일진", desc: "오늘 날의 간지와 기운" },
       { title: "나와의 궁합", desc: "오늘이 나에게 맞는 날일까" },
@@ -263,6 +272,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "두 사람의 생년월일시로 서로 채워 주는 기운과 부딪히는 지점을 알려 드려요.",
     cta: "우리 궁합 무료로 보기",
     titles: { points: "궁합에서 보는 것", reviews: "같이 본 커플들", form: "두 사람 정보" },
+    images: { hero: "beach-couple-heart", band: "hands-sea", bandCaption: "둘이라서 더 잘 보이는 것들" },
     points: [
       { title: "궁합 점수", desc: "오행으로 보는 두 사람의 균형" },
       { title: "잘 맞는 점", desc: "서로를 채워 주는 기운" },
@@ -290,6 +300,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "헤어진 인연이 다시 이어질 흐름이 있는지, 언제쯤인지 조심스럽게 짚어 드려요.",
     cta: "재회운 무료로 보기",
     titles: { points: "이 편지에 담길 이야기", reviews: "같은 마음이었던 분들", form: "당신의 정보를 적어 주세요" },
+    images: { hero: "couple-sunset", card: "paper-lined" },
     points: [
       { title: "인연의 끈", desc: "아직 이어져 있는 기운" },
       { title: "다시 만날 시기", desc: "연락이 닿기 쉬운 달" },
@@ -367,3 +378,9 @@ export const PAID_SAMPLE: Record<number, string> = {
   1: "기준이 분명한 만큼 스스로에게도 엄격해요. 남에게는 너그럽지만 자신에게는 쉽게 만족하지 못해 지치는 때가 있어요. 잘한 일을 스스로 인정해 주는 연습이 필요해요.",
   2: "가까운 사람에게 마음을 열기까지 시간이 걸리지만, 한번 믿은 사람은 오래 곁에 둬요. 일지 오화가 관계에 따뜻함을 더해 주어, 표현만 조금 늘리면 관계가 훨씬 편해져요.",
 };
+
+/** 이미지 이름 → CSS url() (public/assets/bg/{name}.webp) */
+export const bgImg = (name: string) => `url("/assets/bg/${name}.webp")`;
+
+/** 바탕 질감 위에 덮는 바탕색 비율 (질감이 글씨를 방해하지 않게) */
+export const PAGE_BG_VEIL: Record<string, number> = { "paper-kraft": 80, "paper-hanji": 55, "paper-grid": 20 };
