@@ -31,3 +31,16 @@ body {
 .marquee {
   animation: marquee 18s linear infinite;
 }
+
+/* 예시 브랜드 페이지: 한글은 단어 단위로 줄바꿈, 제목은 줄 길이를 고르게 */
+.pv {
+  container-type: inline-size;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+.pv :is(h1, h2, h3) {
+  text-wrap: balance;
+}
+.pv p {
+  text-wrap: pretty;
+}

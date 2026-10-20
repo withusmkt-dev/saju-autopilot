@@ -66,7 +66,7 @@ export default function PreviewShell({ children }: { children: React.ReactNode }
           <Link href="/brands" className="underline">관리자로</Link>
         </div>
         <div
-          className="mx-auto min-h-screen max-w-[430px] bg-[var(--pbg)] text-[var(--text)] shadow-xl"
+          className="pv mx-auto min-h-screen max-w-[430px] bg-[var(--pbg)] text-[var(--text)] shadow-xl"
           style={{
             fontFamily: skin.bodyFont,
             // 바탕 질감 이미지: 바탕색을 덮어 글씨가 잘 읽히게
@@ -189,7 +189,7 @@ export function PTitle({ eyebrow, children }: { eyebrow?: string; children: Reac
   return (
     <div className="mb-4">
       {eyebrow && <p className="text-xs font-semibold tracking-wider text-[var(--sub)]">{eyebrow}</p>}
-      <h2 className="mt-1 text-[21px] font-bold text-[var(--ink)]" style={{ fontFamily: "var(--sf)" }}>{children}</h2>
+      <h2 className="mt-1 text-[clamp(19px,5.6cqw,23px)] font-bold text-[var(--ink)]" style={{ fontFamily: "var(--sf)" }}>{children}</h2>
     </div>
   );
 }

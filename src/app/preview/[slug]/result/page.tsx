@@ -18,14 +18,14 @@ export default function PaidResultPage() {
   return (
     <>
       {order && (
-        <div className="bg-emerald-50 px-5 py-3 text-[13px] text-emerald-800">
+        <div className="bg-emerald-50 px-[5.5cqw] py-3 text-[13px] text-emerald-800">
           결제 완료 · 주문번호 {order.orderId}
           <br />
           {intake.phone} 으로 해설서 링크를 문자로 보냈어요 (목업) · {order.shortLink}
         </div>
       )}
 
-      <section className="relative overflow-hidden bg-[var(--p)] px-6 py-12 text-center text-white">
+      <section className="relative overflow-hidden bg-[var(--p)] px-[6.5cqw] py-12 text-center text-white">
         <p className="text-[13px] tracking-widest text-[var(--a)]">{brand.orderNamePrefix} {page.product.name}</p>
         <h1 className="mt-3 text-3xl leading-snug" style={{ fontFamily: "var(--hf)" }}>
           {intake.name}님의
@@ -35,7 +35,7 @@ export default function PaidResultPage() {
         <p className="mx-auto mt-4 max-w-[300px] text-[15px] leading-relaxed opacity-85">{page.paidIntro}</p>
       </section>
 
-      <section className="px-5 py-6" {...aos()}>
+      <section className="px-[5.5cqw] py-6" {...aos()}>
         {skin.result.pillar === "ink" || skin.result.pillar === "grid" ? (
           <>
             <PillarTable />
@@ -53,7 +53,7 @@ export default function PaidResultPage() {
         )}
       </section>
 
-      <section className="px-5 pb-8">
+      <section className="px-[5.5cqw] pb-8">
         <div className={skin.result.align === "center" ? "text-center" : ""}>
           <PTitle eyebrow="목차">열 장의 이야기</PTitle>
         </div>
@@ -61,7 +61,7 @@ export default function PaidResultPage() {
         <MockNote>본문은 앞 3장만 샘플이에요. 실서비스: 앵커 1회 + 섹션 10회 생성 (src/lib/server/reading.ts)</MockNote>
       </section>
 
-      <section className="px-5 pb-10">
+      <section className="px-[5.5cqw] pb-10">
         <div className="grid grid-cols-2 gap-2">
           <button type="button" onClick={() => setNote("PDF 저장은 실서비스에서 /api/pdf 로 만들어요 (목업)")} className="border border-[var(--line)] py-3 text-[15px]">
             PDF로 저장

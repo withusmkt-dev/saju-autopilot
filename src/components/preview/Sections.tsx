@@ -18,7 +18,7 @@ export function Points() {
   switch (page.skin) {
     case "poster":
       return (
-        <section className="px-5 py-12">
+        <section className="px-[5.5cqw] py-12">
           {head}
           <ul className="border-t-2 border-black">
             {pts.map((p, i) => (
@@ -36,8 +36,8 @@ export function Points() {
     case "soft":
       return (
         <section className="py-12">
-          <div className="px-5">{head}</div>
-          <ul className="no-scrollbar flex snap-x gap-3 overflow-x-auto px-5 pb-3">
+          <div className="px-[5.5cqw]">{head}</div>
+          <ul className="no-scrollbar flex snap-x gap-3 overflow-x-auto px-[5.5cqw] pb-3">
             {pts.map((p, i) => (
               <li key={p.title} {...aos(i + 1)} className="w-48 shrink-0 snap-start">
                 <PCard className="h-full">
@@ -48,18 +48,18 @@ export function Points() {
               </li>
             ))}
           </ul>
-          <p className="mt-1 px-5 text-[12px] text-[var(--sub)]">옆으로 넘겨 보세요 →</p>
+          <p className="mt-1 px-[5.5cqw] text-[12px] text-[var(--sub)]">옆으로 넘겨 보세요 →</p>
         </section>
       );
     case "finance":
       return (
-        <section className="px-5 py-10">
+        <section className="px-[5.5cqw] py-10">
           {head}
           <ul className="grid grid-cols-3 gap-2">
             {pts.map((p, i) => (
               <li key={p.title} {...aos(i + 1)}>
                 <PCard className="h-full !px-3">
-                  <p className="text-[22px] font-bold text-[var(--ink)]" style={hf}>{["₩", "↗", "◎"][i]}</p>
+                  <p className="text-[clamp(19px,5.6cqw,23px)] font-bold text-[var(--ink)]" style={hf}>{["₩", "↗", "◎"][i]}</p>
                   <p className="mt-2 text-[15px] font-bold text-[var(--ink)]">{p.title}</p>
                   <p className="mt-1 text-[12.5px] leading-snug text-[var(--sub)]">{p.desc}</p>
                 </PCard>
@@ -70,7 +70,7 @@ export function Points() {
       );
     case "hanji":
       return (
-        <section className="px-5 py-12">
+        <section className="px-[5.5cqw] py-12">
           {head}
           <table {...aos(1)} className="w-full border-collapse border border-[var(--p)]/50 text-[15px]">
             <tbody>
@@ -89,7 +89,7 @@ export function Points() {
       );
     case "calendar":
       return (
-        <section className="px-5 py-10">
+        <section className="px-[5.5cqw] py-10">
           {head}
           <div className="space-y-3">
             {pts.map((p, i) => (
@@ -108,7 +108,7 @@ export function Points() {
       );
     case "office":
       return (
-        <section className="px-5 py-10">
+        <section className="px-[5.5cqw] py-10">
           {head}
           <div {...aos(1)}>
             <PCard>
@@ -131,12 +131,12 @@ export function Points() {
       );
     case "daily":
       return (
-        <section className="px-5 py-10">
+        <section className="px-[5.5cqw] py-10">
           {head}
           <ul className="grid grid-cols-3 divide-x divide-[var(--p)]/25 border-y border-[var(--p)]/40 py-5 text-center">
             {pts.map((p, i) => (
               <li key={p.title} {...aos(i + 1)} className="px-2">
-                <p className="text-[28px] text-[var(--ink)]" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{["日", "合", "色"][i]}</p>
+                <p className="text-[clamp(23px,7.2cqw,30px)] text-[var(--ink)]" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{["日", "合", "色"][i]}</p>
                 <p className="mt-1 text-[15px] font-bold text-[var(--ink)]">{p.title}</p>
                 <p className="mt-1 text-[12.5px] leading-snug text-[var(--sub)]">{p.desc}</p>
               </li>
@@ -146,7 +146,7 @@ export function Points() {
       );
     case "duo":
       return (
-        <section className="px-5 py-10">
+        <section className="px-[5.5cqw] py-10">
           {head}
           <div className="space-y-3">
             {pts.map((p, i) => (
@@ -167,9 +167,9 @@ export function Points() {
       );
     case "letter":
       return (
-        <section className="px-5 py-10">
+        <section className="px-[5.5cqw] py-10">
           <div {...aos()}>
-            <PCard className="px-6 py-7">
+            <PCard className="px-[6.5cqw] py-7">
               <p className="text-[14px] text-[var(--sub)]">{page.titles.points}</p>
               {pts.map((p, i) => (
                 <p key={p.title} className="mt-4 text-[16px] leading-loose">
@@ -184,7 +184,7 @@ export function Points() {
     default:
       // night: 별자리처럼 이어지는 타임라인
       return (
-        <section className="px-6 py-12">
+        <section className="px-[6.5cqw] py-12">
           {head}
           <ol className="relative ml-2 border-l border-[var(--a)]/40">
             {pts.map((p, i) => (
@@ -210,7 +210,7 @@ export function Reviews() {
     const me = page.skin === "poster" ? "bg-black text-white rounded-none" : page.skin === "duo" ? "bg-[var(--p)] text-white rounded-2xl rounded-br-sm" : "bg-[#1f1f1f] text-white rounded-lg";
     const you = page.skin === "poster" ? "border-2 border-black bg-white rounded-none" : "bg-white rounded-2xl rounded-bl-sm shadow-sm";
     return (
-      <section className="px-5 py-10">
+      <section className="px-[5.5cqw] py-10">
         {head}
         <div className="space-y-4">
           {rv.map((r, i) => (
@@ -225,7 +225,7 @@ export function Reviews() {
   }
   if (page.skin === "soft") {
     return (
-      <section className="px-5 py-10">
+      <section className="px-[5.5cqw] py-10">
         {head}
         <div className="grid grid-cols-2 gap-3">
           {rv.map((r, i) => (
@@ -243,7 +243,7 @@ export function Reviews() {
   }
   if (page.skin === "finance") {
     return (
-      <section className="px-5 py-10">
+      <section className="px-[5.5cqw] py-10">
         {head}
         <div {...aos(1)} className="border border-dashed border-black/30 bg-white px-4 py-3">
           <p className="text-center font-mono text-[12px] text-[var(--sub)]">REVIEW RECEIPT</p>
@@ -262,7 +262,7 @@ export function Reviews() {
   }
   // 따옴표 카드 (밤하늘·한지·달력·신문·편지)
   return (
-    <section className="px-5 py-10">
+    <section className="px-[5.5cqw] py-10">
       {head}
       <div className="space-y-3">
         {rv.map((r, i) => (
@@ -287,15 +287,15 @@ export function Product() {
   if (img) {
     // 어두운 그림 위: 가운데를 더 어둡게 덮고 밝은 글씨
     return (
-      <section className="px-5 pb-14">
+      <section className="px-[5.5cqw] pb-14">
         <div {...aos()} className="overflow-hidden text-center text-[#f3e6c8]" style={{ background: `linear-gradient(rgba(14,28,52,0.55), rgba(14,28,52,0.82)), ${bgImg(img)} center 45% / cover` }}>
-          <div className="px-6 py-12">
+          <div className="px-[6.5cqw] py-12">
             <p className="text-[13px] tracking-[0.2em] opacity-80">더 깊이 보고 싶다면</p>
-            <p className="mt-3 text-[22px] font-bold" style={hf}>{brand.orderNamePrefix} {pr.name}</p>
+            <p className="mt-3 text-[clamp(19px,5.6cqw,23px)] font-bold" style={hf}>{brand.orderNamePrefix} {pr.name}</p>
             <p className="mt-2 text-[14px] leading-relaxed opacity-85">{pr.desc}</p>
             <p className="mt-5">
               <span className="mr-2 text-[14px] line-through opacity-60">₩{pr.listPrice.toLocaleString()}</span>
-              <span className="text-[26px] font-bold text-[#e9c77b]">₩{pr.price.toLocaleString()}</span>
+              <span className="text-[clamp(21px,6.7cqw,27px)] font-bold text-[#e9c77b]">₩{pr.price.toLocaleString()}</span>
             </p>
             <p className="mt-3 text-[13px] opacity-75">무료 풀이를 본 뒤 결과 화면에서 바로 이어 볼 수 있어요.</p>
           </div>
@@ -304,7 +304,7 @@ export function Product() {
     );
   }
   return (
-    <section className="px-5 pb-14">
+    <section className="px-[5.5cqw] pb-14">
       <div {...aos()}>
         <PCard className={page.skin === "poster" ? "!bg-[var(--a)]" : ""}>
           <p className="text-[13px] text-[var(--sub)]">더 깊이 보고 싶다면</p>

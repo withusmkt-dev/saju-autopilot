@@ -32,7 +32,7 @@ export function PillarTable() {
                 const el = row === "stem" ? p.stemEl : p.branchEl;
                 return (
                   <td key={p.label} className={`py-3 ${i === DAY ? "bg-[var(--ink)]/[0.06]" : ""}`}>
-                    <p className="text-[30px] leading-none text-[var(--ink)]" style={serif}>{ch}</p>
+                    <p className="text-[clamp(24px,7.7cqw,32px)] leading-none text-[var(--ink)]" style={serif}>{ch}</p>
                     <p className="mt-1.5 text-[12px] text-[var(--sub)]">
                       <span className="mr-1 inline-block h-1.5 w-1.5 rounded-full align-middle" style={{ background: ELEMENT[el].color }} />
                       {ko} · {el}
@@ -65,7 +65,7 @@ export function PillarTable() {
               const el = row === "stem" ? p.stemEl : p.branchEl;
               return (
                 <div key={p.label} className={`border-l border-[var(--ink)]/15 py-2.5 ${i === DAY ? "bg-[var(--a)]/25" : "bg-white"}`}>
-                  <p className="text-[24px] leading-none" style={{ ...serif, color: ELEMENT[el].color }}>{ch}</p>
+                  <p className="text-[clamp(20px,6.2cqw,25px)] leading-none" style={{ ...serif, color: ELEMENT[el].color }}>{ch}</p>
                   <p className="mt-1 font-mono text-[11.5px] text-[#555]">{ko}/{el}</p>
                 </div>
               );
@@ -93,7 +93,7 @@ export function PillarTable() {
                 className={`mb-1.5 py-2.5 ${dark ? "rounded-lg bg-white/[0.06] ring-1 ring-white/10" : "rounded-2xl"} ${i === DAY && dark ? "ring-[var(--a)]/60" : ""}`}
                 style={dark ? { color: ELEMENT[el].bg } : { background: ELEMENT[el].bg, color: ELEMENT[el].color }}
               >
-                <p className="text-[26px] leading-none" style={serif}>{ch}</p>
+                <p className="text-[clamp(21px,6.7cqw,27px)] leading-none" style={serif}>{ch}</p>
                 <p className="mt-1.5 text-[12px] opacity-90">{ko} · {el}</p>
               </div>
             );
@@ -117,7 +117,7 @@ export function ElementBars() {
         {els.map((el, i) => (
           <div key={el} className={`py-2.5 ${i ? "border-l border-[var(--ink)]/15" : ""}`}>
             <p className="text-[13px]" style={{ color: ELEMENT[el].color }}>{el}</p>
-            <p className="mt-0.5 font-mono text-[22px] leading-none">{n[el]}</p>
+            <p className="mt-0.5 font-mono text-[clamp(19px,5.6cqw,23px)] leading-none">{n[el]}</p>
           </div>
         ))}
       </div>

@@ -44,7 +44,7 @@ export default function PayPage() {
   };
 
   return (
-    <section className="px-5 py-8">
+    <section className="px-[5.5cqw] py-8">
       <PTitle eyebrow="결제">주문 내용을 확인해 주세요</PTitle>
 
       <PCard>

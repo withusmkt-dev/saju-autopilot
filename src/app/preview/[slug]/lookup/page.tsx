@@ -25,7 +25,7 @@ export default function LookupPage() {
   };
 
   return (
-    <section className="px-5 py-10">
+    <section className="px-[5.5cqw] py-10">
       <PTitle eyebrow="결제 내역">결과 다시 보기</PTitle>
       <p className="mb-5 text-sm text-[var(--sub)]">결제할 때 받은 문자의 주문번호와 휴대폰 번호를 넣어 주세요.</p>
       <form onSubmit={submit} className="space-y-3">

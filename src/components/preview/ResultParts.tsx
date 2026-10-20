@@ -19,9 +19,9 @@ function useNum() {
   return function renderNum(i: number) {
     switch (page.skin) {
       case "hanji":
-        return <span className="text-[22px] text-[var(--ink)]" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{HANJA[i]}</span>;
+        return <span className="text-[clamp(19px,5.6cqw,23px)] text-[var(--ink)]" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{HANJA[i]}</span>;
       case "poster":
-        return <span className="text-[34px] leading-none text-[var(--a)]" style={display}>{String(i + 1).padStart(2, "0")}</span>;
+        return <span className="text-[clamp(27px,8.7cqw,36px)] leading-none text-[var(--a)]" style={display}>{String(i + 1).padStart(2, "0")}</span>;
       case "finance":
         return <span className="text-[20px] text-[var(--ink)]">{CIRCLED[i]}</span>;
       case "office":
@@ -42,7 +42,7 @@ export function FreeReadings({ items, name, brand }: { items: { title: string; t
     case "letter":
       return (
         <div {...aos()}>
-          <PCard className="px-6 py-8">
+          <PCard className="px-[6.5cqw] py-8">
             <p className="text-[15px] text-[var(--sub)]">{name}님께,</p>
             {items.map((s) => (
               <p key={s.title} className="mt-5 text-[16px] leading-loose">
@@ -59,7 +59,7 @@ export function FreeReadings({ items, name, brand }: { items: { title: string; t
           {items.map((s, i) => (
             <article key={s.title} {...aos(i)} className="border-b border-[var(--p)]/25 py-5">
               <p className="text-[12px] tracking-[0.2em] text-[var(--sub)]">{i === 0 ? "오늘의 머리기사" : `${i + 1}면`}</p>
-              <h3 className={`mt-1 text-[var(--ink)] ${i === 0 ? "text-[22px]" : "text-[18px]"} font-bold`} style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{s.title}</h3>
+              <h3 className={`mt-1 text-[var(--ink)] ${i === 0 ? "text-[clamp(19px,5.6cqw,23px)]" : "text-[18px]"} font-bold`} style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{s.title}</h3>
               <p className={`mt-2 leading-relaxed ${i === 0 ? "text-[16px] first-letter:float-left first-letter:mr-1.5 first-letter:text-[40px] first-letter:leading-[0.9] first-letter:text-[var(--p)]" : "text-[15px]"}`}>{s.text}</p>
             </article>
           ))}
@@ -109,7 +109,7 @@ export function PaidChapters() {
   if (v === "letter") {
     return (
       <div {...aos()}>
-        <PCard className="px-6 py-6">
+        <PCard className="px-[6.5cqw] py-6">
           {PAID_CHAPTERS.map((c, i) => (
             <div key={c} className="border-b border-dashed border-[var(--line)] last:border-0">
               <button type="button" onClick={() => toggle(i)} className="flex w-full items-baseline justify-between py-4 text-left">

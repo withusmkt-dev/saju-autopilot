@@ -28,7 +28,7 @@ export default function AnalyzingPage() {
   }, [base, router]);
 
   return (
-    <section className="flex min-h-[70vh] flex-col items-center justify-center px-6 py-16 text-center">
+    <section className="flex min-h-[70vh] flex-col items-center justify-center px-[6.5cqw] py-16 text-center">
       {page.images?.loading ? (
         <div className="w-full max-w-[320px] overflow-hidden rounded-2xl">
           <div className="aspect-[1200/857] w-full animate-pulse" style={{ background: `${bgImg(page.images.loading)} center / cover`, animationDuration: "2.4s" }} />

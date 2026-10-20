@@ -47,7 +47,7 @@ function Pillars() {
     ["時", "시주", "열매", "앞으로의 일과 말년"],
   ];
   return (
-    <section className="px-6 py-12">
+    <section className="px-[6.5cqw] py-12">
       <div {...aos()}>
         <PTitle>사주 여덟 글자, 이렇게 읽어요</PTitle>
         <p className={sub}>태어난 해·달·날·시를 네 기둥으로 세우고, 기둥마다 위아래 두 글자씩 여덟 글자가 돼요.</p>
@@ -55,7 +55,7 @@ function Pillars() {
       <div className="mt-6 grid grid-cols-4 gap-2 text-center">
         {P.map(([h, k, m, d], i) => (
           <div key={k} {...aos(i + 1)} className="rounded-xl bg-white/[0.06] px-1 py-4 ring-1 ring-white/10">
-            <p className="text-[30px] leading-none text-[var(--a)]" style={serif}>{h}</p>
+            <p className="text-[clamp(24px,7.7cqw,32px)] leading-none text-[var(--a)]" style={serif}>{h}</p>
             <p className="mt-2 text-[13px] font-bold text-white">{k}</p>
             <p className="text-[12px] text-[var(--a)]">{m}</p>
             <p className="mt-2 text-[11.5px] leading-snug text-[var(--sub)]">{d}</p>
@@ -81,10 +81,10 @@ function FactShuffle() {
   const aos = useAos();
   const [i, setI] = useState(0);
   return (
-    <section className="bg-[var(--a)] px-5 py-12">
+    <section className="bg-[var(--a)] px-[5.5cqw] py-12">
       <p className="text-[13px] font-black tracking-wider">오늘의 팩폭 한 줄 #{String(i + 1).padStart(2, "0")}</p>
-      <p {...aos()} key={i} className="mt-4 min-h-[120px] text-[30px] leading-[1.25] text-black" style={display}>{FACTS[i]}</p>
-      <button type="button" onClick={() => setI((v) => (v + 1) % FACTS.length)} className="mt-4 border-2 border-black bg-white px-5 py-2.5 text-[15px] font-black shadow-[4px_4px_0_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none">
+      <p {...aos()} key={i} className="mt-4 min-h-[120px] text-[clamp(24px,7.7cqw,32px)] leading-[1.25] text-black" style={display}>{FACTS[i]}</p>
+      <button type="button" onClick={() => setI((v) => (v + 1) % FACTS.length)} className="mt-4 border-2 border-black bg-white px-[5.5cqw] py-2.5 text-[15px] font-black shadow-[4px_4px_0_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none">
         한 대 더 맞기 →
       </button>
       <p className="mt-4 text-[13px] text-black/70">진짜 팩폭은 내 사주로. 무료 풀이에서 이어집니다.</p>
@@ -105,7 +105,7 @@ function LoveTypes() {
   const [sel, setSel] = useState(3);
   const [el, name, desc] = LOVE[sel];
   return (
-    <section className="px-5 py-12">
+    <section className="px-[5.5cqw] py-12">
       <div {...aos()}>
         <PTitle>내 일간으로 보는 연애 유형</PTitle>
         <p className={sub}>사주의 주인공 글자(일간)가 어느 오행인지에 따라 연애하는 모습이 달라요. 하나씩 눌러 보세요.</p>
@@ -138,7 +138,7 @@ function WealthBowls() {
     ["늦게 차는 그릇", "늦복형", "젊을 땐 빠듯해도 중년 이후 재물운이 커지는 흐름이에요."],
   ];
   return (
-    <section className="px-5 py-10">
+    <section className="px-[5.5cqw] py-10">
       <div {...aos()}>
         <PTitle>당신의 재물 그릇은 어떤 모양일까요</PTitle>
         <p className={sub}>사주 속 재성(돈의 기운)이 놓인 자리로 크게 네 가지로 나눠 봐요. 내 유형은 무료 풀이에서 알려 드려요.</p>
@@ -169,7 +169,7 @@ function Glossary() {
     ["세운", "歲運", "해마다 들어오는 기운입니다. 대운이 계절이라면 세운은 그해의 날씨에 가깝습니다."],
   ];
   return (
-    <section className="px-5 py-12">
+    <section className="px-[5.5cqw] py-12">
       <div {...aos()}>
         <PTitle>해설서에 나오는 말들</PTitle>
       </div>
@@ -205,22 +205,22 @@ function Zodiac2027() {
   const aos = useAos();
   return (
     <section className="py-10">
-      <div {...aos()} className="px-5">
+      <div {...aos()} className="px-[5.5cqw]">
         <PTitle>띠별로 미리 보는 2027</PTitle>
         <p className={sub}>띠는 사주의 한 글자일 뿐이라 참고만 해 주세요. 진짜 내 운세는 여덟 글자로 봐요.</p>
       </div>
-      <div className="no-scrollbar mt-5 flex snap-x gap-2 overflow-x-auto px-5 pb-2">
+      <div className="no-scrollbar mt-5 flex snap-x gap-2 overflow-x-auto px-[5.5cqw] pb-2">
         {ZODIAC.map(([h, n], i) => (
           <div key={n} {...aos(Math.min(i, 5))} className="w-36 shrink-0 snap-start">
             <PCard className="h-full">
-              <p className="text-[26px] leading-none text-[var(--p)]" style={serif}>{h}</p>
+              <p className="text-[clamp(21px,6.7cqw,27px)] leading-none text-[var(--p)]" style={serif}>{h}</p>
               <p className="mt-2 text-[15px] font-bold text-[var(--ink)]">{n}</p>
               <p className="mt-1 text-[13px] leading-snug text-[var(--sub)]">{Z2027[i]}</p>
             </PCard>
           </div>
         ))}
       </div>
-      <p className="mt-1 px-5 text-[12px] text-[var(--sub)]">옆으로 넘겨 보세요 →</p>
+      <p className="mt-1 px-[5.5cqw] text-[12px] text-[var(--sub)]">옆으로 넘겨 보세요 →</p>
     </section>
   );
 }
@@ -236,7 +236,7 @@ function JobMatch() {
     ["수", "연구·IT·상담", "윽박지르는 조직"],
   ];
   return (
-    <section className="px-5 py-10">
+    <section className="px-[5.5cqw] py-10">
       <div {...aos()}>
         <PTitle>일간별 직무 궁합표</PTitle>
       </div>
@@ -275,7 +275,7 @@ function WeekIljin() {
     ["24", "토", "戊申", "이동"], ["25", "일", "己酉", "정돈"], ["26", "월", "庚戌", "결단"],
   ];
   return (
-    <section className="px-5 py-10">
+    <section className="px-[5.5cqw] py-10">
       <div {...aos()}>
         <PTitle>이번 주 일진</PTitle>
         <p className={sub}>날마다 바뀌는 간지와 그날의 한 단어. 내 사주와 맞는 날은 무료 풀이에서 표시해 드려요.</p>
@@ -311,7 +311,7 @@ function ZodiacMatch() {
   const [kind, text] = zodiacResult(a, b);
   const sel = "h-11 w-full rounded-2xl border border-[var(--a)]/70 bg-white px-3 text-[15px]";
   return (
-    <section className="px-5 py-10">
+    <section className="px-[5.5cqw] py-10">
       <div {...aos()}>
         <PTitle>띠로 먼저 맛보는 궁합</PTitle>
       </div>
@@ -327,7 +327,7 @@ function ZodiacMatch() {
             </select>
           </div>
           <p className="mt-5 text-center text-[13px] text-[var(--sub)]">{ZODIAC[a][1]} × {ZODIAC[b][1]}</p>
-          <p className="mt-1 text-center text-[24px] font-bold text-[var(--ink)]" style={hf}>{kind}</p>
+          <p className="mt-1 text-center text-[clamp(20px,6.2cqw,25px)] font-bold text-[var(--ink)]" style={hf}>{kind}</p>
           <p className="mt-2 text-center text-[15px] leading-relaxed">{text}</p>
         </PCard>
       </div>
@@ -351,12 +351,12 @@ function ReunionCheck() {
   const n = on.length;
   const msg = n <= 1 ? "아직은 마음을 추스르는 시간이 먼저예요." : n <= 3 ? "끈이 완전히 끊어지진 않았어요. 서두르지 않는 게 중요해요." : "다시 이어질 여지가 보여요. 언제 다가가면 좋을지 사주로 확인해 보세요.";
   return (
-    <section className="px-5 py-10">
+    <section className="px-[5.5cqw] py-10">
       <div {...aos()}>
         <PTitle>혹시, 이런 신호가 있었나요</PTitle>
       </div>
       <div {...aos(1)}>
-        <PCard className="px-5">
+        <PCard className="px-[5.5cqw]">
           <ul className="space-y-1">
             {C.map((c, i) => {
               const checked = on.includes(i);
@@ -386,8 +386,8 @@ export function About() {
   const a = page.about;
   if (page.skin === "poster") {
     return (
-      <section className="bg-black px-5 py-12 text-white">
-        <p {...aos()} className="text-[28px] leading-tight" style={display}>{a.title}</p>
+      <section className="bg-black px-[5.5cqw] py-12 text-white">
+        <p {...aos()} className="text-[clamp(23px,7.2cqw,30px)] leading-tight" style={display}>{a.title}</p>
         <p {...aos(1)} className="mt-4 text-[16px] leading-relaxed text-white/85">{a.body}</p>
         <p className="mt-6 text-right text-[14px] text-[var(--a)]">— {a.sign}</p>
       </section>
@@ -395,9 +395,9 @@ export function About() {
   }
   if (page.skin === "night") {
     return (
-      <section className="px-6 py-14 text-center">
+      <section className="px-[6.5cqw] py-14 text-center">
         <p {...aos()} className="text-[13px] tracking-[0.2em] text-[var(--a)]">ABOUT</p>
-        <p {...aos(1)} className="mt-3 text-[24px] text-white" style={hf}>{a.title}</p>
+        <p {...aos(1)} className="mt-3 text-[clamp(20px,6.2cqw,25px)] text-white" style={hf}>{a.title}</p>
         <p {...aos(2)} className="mx-auto mt-4 max-w-[320px] text-[15px] leading-loose text-[var(--sub)]">{a.body}</p>
         <p className="mt-6 text-[14px] text-[var(--a)]">{a.sign}</p>
       </section>
@@ -405,9 +405,9 @@ export function About() {
   }
   if (page.skin === "hanji" || page.skin === "letter") {
     return (
-      <section className="px-5 py-12">
+      <section className="px-[5.5cqw] py-12">
         <div {...aos()}>
-          <PCard className="px-6 py-8">
+          <PCard className="px-[6.5cqw] py-8">
             <p className="text-[20px] font-bold text-[var(--ink)]" style={hf}>{a.title}</p>
             <p className="mt-4 text-[16px] leading-loose">{a.body}</p>
             <p className="mt-6 text-right text-[14px] text-[var(--sub)]">{a.sign}</p>
@@ -418,7 +418,7 @@ export function About() {
   }
   // 그 밖: 브랜드 첫 글자를 크게 둔 소개
   return (
-    <section className="px-5 py-12">
+    <section className="px-[5.5cqw] py-12">
       <div {...aos()} className="flex items-start gap-4">
         <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[var(--p)] text-white">
           <BrandMark slug={brand.slug} accent={brand.theme.accent} className="h-8 w-8" />

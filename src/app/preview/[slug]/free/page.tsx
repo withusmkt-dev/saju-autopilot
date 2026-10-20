@@ -32,9 +32,9 @@ export default function FreeResultPage() {
 
   return (
     <>
-      <section className={`px-5 pt-9 pb-3 ${center ? "text-center" : ""}`}>
+      <section className={`px-[5.5cqw] pt-9 pb-3 ${center ? "text-center" : ""}`}>
         <p className="text-[13px] tracking-wider text-[var(--sub)]">무료 풀이 · {page.topic}</p>
-        <h1 className="mt-2 text-[28px] leading-snug text-[var(--ink)]" style={hf}>
+        <h1 className="mt-2 text-[clamp(23px,7.2cqw,30px)] leading-snug text-[var(--ink)]" style={hf}>
           {couple ? `${intake.name} ♥ ${intake.partner!.name}` : `${intake.name}님의 사주`}
         </h1>
         <p className="mt-1 text-[13px] text-[var(--sub)]">
@@ -43,7 +43,7 @@ export default function FreeResultPage() {
       </section>
 
       {couple && (
-        <section className="px-5 pt-5" {...aos()}>
+        <section className="px-[5.5cqw] pt-5" {...aos()}>
           <PCard className="text-center">
             <p className="text-xs text-[var(--sub)]">두 사람의 궁합 점수</p>
             <p className="mt-1 text-5xl text-[var(--ink)]" style={hf}>78<span className="text-xl">점</span></p>
@@ -52,7 +52,7 @@ export default function FreeResultPage() {
         </section>
       )}
 
-      <section className="px-5 py-5" {...aos()}>
+      <section className="px-[5.5cqw] py-5" {...aos()}>
         {(() => {
           const chart = (
             <>
@@ -67,14 +67,14 @@ export default function FreeResultPage() {
         })()}
       </section>
 
-      <section className="px-5 pb-5">
+      <section className="px-[5.5cqw] pb-5">
         <div className={center ? "text-center" : ""}>
           <PTitle eyebrow="무료 풀이">{josa(brand.name, "이", "가")} 읽은 이야기</PTitle>
         </div>
         <FreeReadings items={page.free} name={intake.name} brand={brand.name} />
       </section>
 
-      <section className="px-5 pb-5" {...aos()}>
+      <section className="px-[5.5cqw] pb-5" {...aos()}>
         <PCard>
           <p className="mb-3 text-[16px] font-bold text-[var(--ink)]" style={sf}>2027년 월별 흐름</p>
           <MonthFlow locked />
@@ -83,7 +83,7 @@ export default function FreeResultPage() {
       </section>
 
       {/* 잠긴 목차 → 결제로 */}
-      <section className="px-5 pb-10">
+      <section className="px-[5.5cqw] pb-10">
         <PCard className="!p-0 overflow-hidden">
           <div className="bg-[var(--a)] px-4 py-2.5 text-[15px] font-bold text-[var(--p)]">해설서에서 이어지는 이야기</div>
           <ol className="divide-y divide-[var(--line)] px-4">
