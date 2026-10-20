@@ -79,14 +79,8 @@ export default function Hero({ onStart }: { onStart: () => void }) {
 
     case "hanji":
       return (
-        <section className="relative overflow-hidden px-6 pt-8 pb-24" style={hero ? { background: `linear-gradient(180deg, rgba(243,236,220,0.15), rgba(243,236,220,0.55)), ${hero} center 30% / cover` } : undefined}>
-          {!hero && (
-            <svg viewBox="0 0 400 300" className="pointer-events-none absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMax slice" aria-hidden>
-              <circle cx="90" cy="70" r="34" fill="none" stroke={t.primary} strokeOpacity="0.25" strokeWidth="1.5" />
-              <path d="M0 300 L60 230 L110 265 L180 190 L250 255 L320 205 L400 260 L400 300Z" fill={t.primary} opacity="0.07" />
-            </svg>
-          )}
-          <div className="relative flex gap-4">
+        <section className="relative">
+          <div className="relative flex gap-4 px-6 pt-8 pb-6">
             <div className="flex-1 pt-14">
               <p className="text-[13px] tracking-[0.2em] text-[var(--sub)]">{page.badge}</p>
               <p {...aos(1)} className="mt-6 text-[15px] leading-loose">{page.heroDesc}</p>
@@ -98,9 +92,17 @@ export default function Hero({ onStart }: { onStart: () => void }) {
               ))}
             </h1>
           </div>
-          <div className="absolute right-6 bottom-5 grid h-14 w-14 rotate-6 place-items-center border-2 border-[#b3261e] bg-[#f3ecdc]/70 text-center text-sm leading-tight font-bold text-[#b3261e]" style={hf}>
-            {brand.name}
-          </div>
+          {hero ? (
+            <div {...aos(3, "fade")} className="relative h-[220px]" style={{ background: `linear-gradient(180deg, var(--pbg) 0%, transparent 35%), ${hero} center 72% / cover` }}>
+              <div className="absolute right-6 bottom-5 grid h-14 w-14 rotate-6 place-items-center border-2 border-[#b3261e] bg-[#f3ecdc]/80 text-center text-sm leading-tight font-bold text-[#b3261e]" style={hf}>
+                {brand.name}
+              </div>
+            </div>
+          ) : (
+            <div className="mx-6 mb-6 grid h-14 w-14 rotate-6 place-items-center border-2 border-[#b3261e] text-center text-sm leading-tight font-bold text-[#b3261e]" style={hf}>
+              {brand.name}
+            </div>
+          )}
         </section>
       );
 
@@ -108,7 +110,7 @@ export default function Hero({ onStart }: { onStart: () => void }) {
       const m = SAMPLE_SAJU.months;
       return (
         <section className="relative px-5 pt-8 pb-10">
-          {hero && <div className="absolute inset-x-0 top-0 h-72" style={{ background: `linear-gradient(180deg, transparent 55%, var(--pbg)), ${hero} center / cover` }} />}
+          {hero && <div className="absolute inset-x-0 top-0 h-72" style={{ background: `linear-gradient(180deg, rgba(238,245,244,0.35) 0%, rgba(238,245,244,0.15) 40%, var(--pbg) 100%), ${hero} center / cover` }} />}
           <div className="relative">
             <p className="text-[13px] font-bold tracking-widest text-[var(--p)]">{page.badge}</p>
             <p {...aos(0, "zoom-in")} className="mt-1 text-[96px] leading-none font-black text-[var(--p)]" style={hf}>2027</p>
@@ -258,10 +260,10 @@ export function PhotoBand() {
   const band = page.images?.band;
   if (!band) return null;
   return (
-    <figure {...aos(0, "fade")} className="relative my-2">
+    <figure {...aos(0, "fade")} className="my-2">
       <div className="h-[220px] w-full" style={{ background: `${bgImg(band)} center / cover` }} />
       {page.images?.bandCaption && (
-        <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-5 pt-10 pb-4 text-[15px] font-medium text-white" style={hf}>
+        <figcaption className="px-5 pt-3 text-[15px] text-[var(--ink)]" style={hf}>
           {page.images.bandCaption}
         </figcaption>
       )}

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MockNote, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { josa } from "@/lib/format";
+import { bgImg } from "@/lib/preview/brandPages";
 import { useIntake } from "@/lib/preview/mock";
 
 const STEPS = ["만세력으로 사주 여덟 글자 세우는 중", "오행과 십성 살피는 중", "올해 흐름 정리하는 중", "풀이 문장 다듬는 중"];
@@ -27,12 +28,18 @@ export default function AnalyzingPage() {
 
   return (
     <section className="flex min-h-[70vh] flex-col items-center justify-center px-6 py-16 text-center">
-      <div className="relative h-24 w-24">
-        <div className="absolute inset-0 animate-spin rounded-full border-4 border-[var(--line)] border-t-[var(--a)]" />
-        <span className="absolute inset-0 grid place-items-center text-2xl font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>
-          {brand.name[0]}
-        </span>
-      </div>
+      {page.images?.loading ? (
+        <div className="w-full max-w-[320px] overflow-hidden rounded-2xl">
+          <div className="aspect-[1200/857] w-full animate-pulse" style={{ background: `${bgImg(page.images.loading)} center / cover`, animationDuration: "2.4s" }} />
+        </div>
+      ) : (
+        <div className="relative h-24 w-24">
+          <div className="absolute inset-0 animate-spin rounded-full border-4 border-[var(--line)] border-t-[var(--a)]" />
+          <span className="absolute inset-0 grid place-items-center text-2xl font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>
+            {brand.name[0]}
+          </span>
+        </div>
+      )}
       <p className="mt-8 text-lg font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>
         {intake.name}님의 {josa(page.topic, "을", "를")} 읽고 있어요
       </p>

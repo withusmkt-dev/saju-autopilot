@@ -23,7 +23,7 @@ export interface BrandPage {
   heroDesc: string;
   cta: string;
   /** 이미지 (public/assets/bg). hero=첫 화면, pageBg=바탕 질감, band=중간 사진 띠, card=카드 종이 */
-  images?: { hero?: string; pageBg?: string; band?: string; bandCaption?: string; card?: string };
+  images?: { hero?: string; pageBg?: string; band?: string; bandCaption?: string; card?: string; product?: string; loading?: string };
   /** 섹션 제목 (브랜드 말투) */
   titles: { points: string; reviews: string; form: string };
   points: { title: string; desc: string }[];
@@ -49,7 +49,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "생년월일시만 넣으면 타고난 기질과 올해의 흐름을 차분히 읽어 드려요.",
     cta: "무료로 내 사주 보기",
     titles: { points: "오늘 밤 펼쳐 볼 세 가지", reviews: "다녀간 분들이 남긴 말", form: "생년월일시를 알려 주세요" },
-    images: { hero: "navy-moon-tassel", band: "moon-rabbit", bandCaption: "달토끼가 오늘 밤 당신의 사주를 들고 왔어요" },
+    images: { hero: "navy-moon-tassel", loading: "moon-rabbit" },
     points: [
       { title: "타고난 기질", desc: "일간과 오행으로 보는 나의 바탕" },
       { title: "올해의 흐름", desc: "2027년 달마다 오는 기운" },
@@ -160,7 +160,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "명리학 전통 해석으로 격국과 용신, 대운의 흐름을 정중하게 풀어 드립니다.",
     cta: "무료 풀이 받아 보기",
     titles: { points: "해석의 차례", reviews: "독자 소감", form: "명조를 세울 정보" },
-    images: { hero: "ink-mountains-sun", pageBg: "paper-hanji", band: "palace-gold-line", bandCaption: "명리의 오랜 법도로 살핍니다" },
+    images: { hero: "ink-mountains-sun", pageBg: "paper-hanji", product: "palace-gold-line" },
     points: [
       { title: "원국과 격국", desc: "타고난 사주의 짜임" },
       { title: "용신과 기신", desc: "나를 돕는 기운, 막는 기운" },
@@ -244,7 +244,7 @@ const PAGES: Record<string, BrandPage> = {
     heroDesc: "내 사주와 오늘의 일진을 맞춰 보고, 오늘 챙길 것 하나를 알려 드려요.",
     cta: "오늘의 운세 무료로 보기",
     titles: { points: "오늘의 지면", reviews: "독자 엽서", form: "오늘 운세 받을 정보" },
-    images: { hero: "window-summer", band: "sky-blue-clouds", bandCaption: "오늘의 하늘, 맑음" },
+    images: { hero: "window-summer" },
     points: [
       { title: "오늘의 일진", desc: "오늘 날의 간지와 기운" },
       { title: "나와의 궁합", desc: "오늘이 나에게 맞는 날일까" },

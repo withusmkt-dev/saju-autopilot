@@ -2,6 +2,7 @@
 
 // 스킨별 소개·후기·상품 섹션
 import { PCard, PTitle, useAos, usePreview } from "./PreviewShell";
+import { bgImg } from "@/lib/preview/brandPages";
 
 const hf = { fontFamily: "var(--hf)" };
 const HANJA = ["一", "二", "三"];
@@ -281,6 +282,26 @@ export function Product() {
   const { brand, page } = usePreview();
   const aos = useAos();
   const pr = page.product;
+  const img = page.images?.product;
+  if (img) {
+    // 어두운 그림 위: 가운데를 더 어둡게 덮고 밝은 글씨
+    return (
+      <section className="px-5 pb-14">
+        <div {...aos()} className="overflow-hidden text-center text-[#f3e6c8]" style={{ background: `linear-gradient(rgba(14,28,52,0.55), rgba(14,28,52,0.82)), ${bgImg(img)} center 45% / cover` }}>
+          <div className="px-6 py-12">
+            <p className="text-[13px] tracking-[0.2em] opacity-80">더 깊이 보고 싶다면</p>
+            <p className="mt-3 text-[22px] font-bold" style={hf}>{brand.orderNamePrefix} {pr.name}</p>
+            <p className="mt-2 text-[14px] leading-relaxed opacity-85">{pr.desc}</p>
+            <p className="mt-5">
+              <span className="mr-2 text-[14px] line-through opacity-60">₩{pr.listPrice.toLocaleString()}</span>
+              <span className="text-[26px] font-bold text-[#e9c77b]">₩{pr.price.toLocaleString()}</span>
+            </p>
+            <p className="mt-3 text-[13px] opacity-75">무료 풀이를 본 뒤 결과 화면에서 바로 이어 볼 수 있어요.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section className="px-5 pb-14">
       <div {...aos()}>
