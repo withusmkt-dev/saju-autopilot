@@ -23,7 +23,7 @@ export function Points() {
           <ul className="border-t-2 border-black">
             {pts.map((p, i) => (
               <li key={p.title} {...aos(i + 1)} className="flex items-center gap-4 border-b-2 border-black py-5">
-                <span className="w-14 shrink-0 text-5xl leading-none text-[var(--a)]" style={display}>{String(i + 1).padStart(2, "0")}</span>
+                <span className="w-16 shrink-0 text-5xl leading-none whitespace-nowrap text-[var(--a)]" style={display}>{String(i + 1).padStart(2, "0")}</span>
                 <div>
                   <p className="text-[19px] font-black">{p.title}</p>
                   <p className={desc}>{p.desc}</p>

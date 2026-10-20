@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Hero, { PhotoBand } from "@/components/preview/Hero";
+import { Divider, StickyCta } from "@/components/preview/Ornaments";
 import { MockNote, PButton, PCard, PTitle, useAos, useField, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { About, Feature } from "@/components/preview/Features";
 import { Points, Product, Reviews } from "@/components/preview/Sections";
@@ -37,7 +38,13 @@ export default function BrandMainPage() {
   return (
     <>
       <Hero onStart={scrollToForm} />
-      {skin.order.map((s) => SECTION[s])}
+      {skin.order.map((s, i) => (
+        <Fragment key={s}>
+          {i > 0 && <Divider />}
+          {SECTION[s]}
+        </Fragment>
+      ))}
+      <StickyCta onStart={scrollToForm} />
     </>
   );
 }

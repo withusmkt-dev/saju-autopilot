@@ -21,7 +21,7 @@ export default function Hero({ onStart }: { onStart: () => void }) {
     case "poster":
       return (
         <section className="relative overflow-hidden bg-black px-[5.5cqw] pt-12 text-white">
-          <div className="absolute top-5 -right-12 rotate-12 bg-[var(--a)] px-12 py-1 text-xs font-black text-black">⚠ {page.badge}</div>
+          <div className="absolute top-6 -right-6 rotate-[10deg] bg-[var(--a)] py-1 pr-10 pl-5 text-[13px] font-black whitespace-nowrap text-black">⚠ {page.badge}</div>
           <h1 {...aos(0)} className="text-[clamp(44px,14.8cqw,60px)] leading-[0.98]" style={hf}>
             {lines.map((l) => (
               <span key={l} className="block">{l}</span>

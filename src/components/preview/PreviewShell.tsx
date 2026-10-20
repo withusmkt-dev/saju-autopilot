@@ -77,7 +77,7 @@ export default function PreviewShell({ children }: { children: React.ReactNode }
         >
           <Header />
           <main>{children}</main>
-          <footer className="border-t border-[var(--line)] px-5 py-6 text-[11px] leading-relaxed text-[var(--sub)]" style={{ fontFamily: "'Pretendard Variable', sans-serif" }}>
+          <footer className="border-t border-[var(--line)] px-[5.5cqw] pt-7 pb-24 text-[12px] leading-relaxed text-[var(--sub)]" style={{ fontFamily: "'Pretendard Variable', sans-serif" }}>
             <p className="font-medium">{brand.footerNote}</p>
             {/* 실서비스: 명월재 lib/companyInfo.ts 값을 그대로 씀 */}
             <p className="mt-2 opacity-80">
