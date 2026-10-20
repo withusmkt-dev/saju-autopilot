@@ -62,8 +62,8 @@ function Pillars() {
         <p className={sub}>태어난 해·달·날·시를 네 기둥으로 세우고, 기둥마다 위아래 두 글자씩 여덟 글자가 돼요.</p>
       </div>
       <div className="mt-6 grid grid-cols-4 gap-2 text-center">
-        {P.map(([h, k, m, d], i) => (
-          <div key={k} {...aos(i + 1)} className="rounded-xl bg-white/[0.06] px-1 py-4 ring-1 ring-white/10">
+        {P.map(([h, k, m, d]) => (
+          <div key={k} className="rounded-xl bg-white/[0.06] px-1 py-4 ring-1 ring-white/10">
             <p className="text-[clamp(24px,7.7cqw,32px)] leading-none text-[var(--a)]" style={serif}>{h}</p>
             <p className="mt-2 text-[13px] font-bold text-white">{k}</p>
             <p className="text-[12px] text-[var(--a)]">{m}</p>
@@ -119,14 +119,14 @@ function LoveTypes() {
         <PTitle>내 일간으로 보는 연애 유형</PTitle>
         <p className={sub}>사주의 주인공 글자(일간)가 어느 오행인지에 따라 연애하는 모습이 달라요. 하나씩 눌러 보세요.</p>
       </div>
-      <div {...aos(1)} className="mt-5 flex gap-2">
+      <div className="mt-5 flex gap-2">
         {LOVE.map(([e], i) => (
           <button key={e} type="button" onClick={() => setSel(i)} className={`h-12 flex-1 rounded-full text-[16px] font-bold transition ${i === sel ? "bg-[var(--p)] text-white" : "bg-white text-[var(--p)] shadow-sm"}`}>
             {e}
           </button>
         ))}
       </div>
-      <div {...aos(2)} className="mt-4">
+      <div className="mt-4">
         <PCard>
           <p className="text-[13px] text-[var(--sub)]">{el} 일간</p>
           <p className="mt-1 text-[20px] font-bold text-[var(--p)]" style={hf}>{name}</p>
@@ -154,7 +154,7 @@ function WealthBowls() {
       </div>
       <div className="mt-5 grid grid-cols-2 gap-2">
         {B.map(([n, t, d], i) => (
-          <div key={n} {...aos(i + 1)}>
+          <div key={n}>
             <PCard className="h-full">
               <p className="text-[12px] font-bold text-[var(--sub)]">TYPE {String.fromCharCode(65 + i)} · {t}</p>
               <p className="mt-1 text-[17px] font-bold text-[var(--ink)]" style={hf}>{n}</p>
@@ -182,7 +182,7 @@ function Glossary() {
       <div {...aos()}>
         <PTitle>해설서에 나오는 말들</PTitle>
       </div>
-      <div {...aos(1)} className="border-t border-[var(--p)]/40">
+      <div className="border-t border-[var(--p)]/40">
         {G.map(([k, h, d], i) => (
           <div key={k} className="border-b border-[var(--p)]/30">
             <button type="button" onClick={() => setOpen(open === i ? -1 : i)} className="flex w-full items-center justify-between py-4 text-left">
@@ -220,7 +220,7 @@ function Zodiac2027() {
       </div>
       <div className="no-scrollbar mt-5 flex snap-x gap-2 overflow-x-auto px-[5.5cqw] pb-2">
         {ZODIAC.map(([h, n], i) => (
-          <div key={n} {...aos(Math.min(i, 5))} className="w-36 shrink-0 snap-start">
+          <div key={n} className="w-36 shrink-0 snap-start">
             <PCard className="h-full">
               <p className="text-[clamp(21px,6.7cqw,27px)] leading-none text-[var(--p)]" style={serif}>{h}</p>
               <p className="mt-2 text-[15px] font-bold text-[var(--ink)]">{n}</p>
@@ -249,7 +249,7 @@ function JobMatch() {
       <div {...aos()}>
         <PTitle>일간별 직무 궁합표</PTitle>
       </div>
-      <div {...aos(1)}>
+      <div>
         <PCard className="!p-0 overflow-hidden">
           <table className="w-full text-left text-[14px]">
             <thead className="bg-[#1f1f1f] text-[13px] text-[var(--a)]">
@@ -289,7 +289,7 @@ function WeekIljin() {
         <PTitle>이번 주 일진</PTitle>
         <p className={sub}>날마다 바뀌는 간지와 그날의 한 단어. 내 사주와 맞는 날은 무료 풀이에서 표시해 드려요.</p>
       </div>
-      <div {...aos(1)} className="mt-5 grid grid-cols-7 border-y-2 border-[var(--p)] text-center">
+      <div className="mt-5 grid grid-cols-7 border-y-2 border-[var(--p)] text-center">
         {W.map(([d, w, g, k], i) => (
           <div key={d} className={`py-3 ${i ? "border-l border-[var(--p)]/25" : "bg-[var(--p)] text-[#f7f1e6]"}`}>
             <p className="text-[12px] opacity-80">{w}</p>
@@ -324,7 +324,7 @@ function ZodiacMatch() {
       <div {...aos()}>
         <PTitle>띠로 먼저 맛보는 궁합</PTitle>
       </div>
-      <div {...aos(1)}>
+      <div>
         <PCard>
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
             <select className={sel} value={a} onChange={(e) => setA(Number(e.target.value))} aria-label="내 띠">
@@ -364,7 +364,7 @@ function ReunionCheck() {
       <div {...aos()}>
         <PTitle>혹시, 이런 신호가 있었나요</PTitle>
       </div>
-      <div {...aos(1)}>
+      <div>
         <PCard className="px-[5.5cqw]">
           <ul className="space-y-1">
             {C.map((c, i) => {
@@ -408,7 +408,7 @@ function LuckyPouch() {
           <button
             key={i}
             type="button"
-            {...aos(i + 1)}
+           
             onClick={() => setPick(i)}
             aria-label={`${i + 1}번 복주머니`}
             className={`transition duration-300 ${pick === null ? "hover:-translate-y-1" : pick === i ? "-translate-y-2 scale-110" : "scale-90 opacity-40"}`}
@@ -423,7 +423,7 @@ function LuckyPouch() {
         ))}
       </div>
       {r ? (
-        <div {...aos(0, "zoom-in")} className="mt-6">
+        <div {...aos("zoom-in")} className="mt-6">
           <PCard className="text-left">
             <p className="text-[13px] text-[var(--sub)]">오늘 토끼가 골라 온 것</p>
             <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 text-[15px]">
@@ -476,7 +476,7 @@ function DaeunTimeline() {
         <PTitle>인생을 열 해씩 나누면</PTitle>
         <p className={sub}>사주에는 열 해마다 바뀌는 큰 계절, 대운이 있어요. 아래는 샘플 사주의 평생 그래프예요.</p>
       </div>
-      <div {...aos(1)} className="mt-6">
+      <div className="mt-6">
         <svg viewBox={`0 0 ${W} ${H + 16}`} className="w-full" aria-label="평생 대운 그래프">
           <polyline points={pts} fill="none" stroke="var(--a)" strokeWidth="1.6" strokeLinejoin="round" opacity="0.9" />
           {DAEUN.map((dd, i) => (
@@ -532,7 +532,7 @@ function MoodWeather() {
           <button
             key={mo.k}
             type="button"
-            {...aos(i + 1)}
+           
             onClick={() => setM(i)}
             className={`rounded-2xl py-3 transition ${m === i ? "bg-[var(--p)] text-white shadow-md" : "bg-white/70 text-[var(--p)] ring-1 ring-white"}`}
           >
@@ -542,7 +542,7 @@ function MoodWeather() {
         ))}
       </div>
       {r && (
-        <div key={r.k} {...aos(0)} className="mt-5">
+        <div key={r.k} {...aos()} className="mt-5">
           <PCard className="text-center">
             <p className="text-[16px] leading-loose text-[var(--ink)]" style={hf}>{r.msg}</p>
             <p className="mt-4 inline-block rounded-full bg-[var(--a)]/50 px-3 py-1 text-[13px]">오늘의 쉼표 · {r.rest}</p>
@@ -571,7 +571,7 @@ function WeddingYear() {
           <PTitle>결혼하기 좋은 해, 미리 짚어 봐요</PTitle>
         </div>
       </div>
-      <div {...aos(1)} className="grid grid-cols-3 border-y border-[var(--a)]">
+      <div className="grid grid-cols-3 border-y border-[var(--a)]">
         {WED.map((wy, i) => (
           <button key={wy.y} type="button" onClick={() => setSel(i)} className={`py-3 transition ${i ? "border-l border-[var(--a)]/60" : ""} ${i === sel ? "bg-[var(--p)] text-[#fbf8f1]" : "text-[var(--ink)]"}`}>
             <span className="block text-[20px]" style={serif}>{wy.y}</span>
@@ -605,7 +605,7 @@ export function About() {
     return (
       <section className="bg-black px-[5.5cqw] py-12 text-white">
         <p {...aos()} className="text-[clamp(23px,7.2cqw,30px)] leading-tight" style={display}>{a.title}</p>
-        <p {...aos(1)} className="mt-4 text-[16px] leading-relaxed text-white/85">{a.body}</p>
+        <p className="mt-4 text-[16px] leading-relaxed text-white/85">{a.body}</p>
         <p className="mt-6 text-right text-[14px] text-[var(--a)]">— {a.sign}</p>
       </section>
     );
@@ -614,8 +614,8 @@ export function About() {
     return (
       <section className="px-[6.5cqw] py-14 text-center">
         <p {...aos()} className="text-[13px] tracking-[0.2em] text-[var(--a)]">ABOUT</p>
-        <p {...aos(1)} className="mt-3 text-[clamp(20px,6.2cqw,25px)] text-white" style={hf}>{a.title}</p>
-        <p {...aos(2)} className="mx-auto mt-4 max-w-[320px] text-[15px] leading-loose text-[var(--sub)]">{a.body}</p>
+        <p className="mt-3 text-[clamp(20px,6.2cqw,25px)] text-white" style={hf}>{a.title}</p>
+        <p className="mx-auto mt-4 max-w-[320px] text-[15px] leading-loose text-[var(--sub)]">{a.body}</p>
         <p className="mt-6 text-[14px] text-[var(--a)]">{a.sign}</p>
       </section>
     );
@@ -624,8 +624,8 @@ export function About() {
     return (
       <section className="px-[7cqw] py-14 text-center">
         <div {...aos()} className="mx-auto grid h-14 w-14 place-items-center border border-[var(--a)] text-[24px] text-[var(--a)] outline outline-1 outline-offset-[3px] outline-[var(--a)]/40" style={serif}>宮</div>
-        <p {...aos(1)} className="mt-6 text-[clamp(20px,6.2cqw,25px)] text-[#f3e6c8]" style={hf}>{a.title}</p>
-        <p {...aos(2)} className="mx-auto mt-4 max-w-[320px] text-[15px] leading-loose text-[var(--sub)]">{a.body}</p>
+        <p className="mt-6 text-[clamp(20px,6.2cqw,25px)] text-[#f3e6c8]" style={hf}>{a.title}</p>
+        <p className="mx-auto mt-4 max-w-[320px] text-[15px] leading-loose text-[var(--sub)]">{a.body}</p>
         <p className="mt-6 text-[13px] tracking-[0.2em] text-[var(--a)]">{a.sign}</p>
       </section>
     );

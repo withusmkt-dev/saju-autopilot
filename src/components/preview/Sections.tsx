@@ -95,7 +95,7 @@ export function Points() {
           {head}
           <ul className="border-t-2 border-black">
             {pts.map((p, i) => (
-              <li key={p.title} {...aos(i + 1)} className="flex items-center gap-4 border-b-2 border-black py-5">
+              <li key={p.title} className="flex items-center gap-4 border-b-2 border-black py-5">
                 <span className="w-16 shrink-0 text-5xl leading-none whitespace-nowrap text-[var(--a)]" style={display}>{String(i + 1).padStart(2, "0")}</span>
                 <div>
                   <p className="text-[19px] font-black">{p.title}</p>
@@ -112,7 +112,7 @@ export function Points() {
           <div className="px-[5.5cqw]">{head}</div>
           <ul className="no-scrollbar flex snap-x gap-3 overflow-x-auto px-[5.5cqw] pb-3">
             {pts.map((p, i) => (
-              <li key={p.title} {...aos(i + 1)} className="w-48 shrink-0 snap-start">
+              <li key={p.title} className="w-48 shrink-0 snap-start">
                 <PCard className="h-full">
                   <p className="text-[13px] font-bold text-[var(--p)] opacity-60">No.{i + 1}</p>
                   <p className="mt-2 text-[17px] font-bold text-[var(--p)]">{p.title}</p>
@@ -130,7 +130,7 @@ export function Points() {
           {head}
           <ul className="grid grid-cols-3 gap-2">
             {pts.map((p, i) => (
-              <li key={p.title} {...aos(i + 1)}>
+              <li key={p.title}>
                 <PCard className="h-full !px-3">
                   <p className="text-[clamp(19px,5.6cqw,23px)] font-bold text-[var(--ink)]" style={hf}>{["₩", "↗", "◎"][i]}</p>
                   <p className="mt-2 text-[15px] font-bold text-[var(--ink)]">{p.title}</p>
@@ -145,7 +145,7 @@ export function Points() {
       return (
         <section className="px-[5.5cqw] py-12">
           {head}
-          <table {...aos(1)} className="w-full border-collapse border border-[var(--p)]/50 text-[15px]">
+          <table className="w-full border-collapse border border-[var(--p)]/50 text-[15px]">
             <tbody>
               {pts.map((p, i) => (
                 <tr key={p.title} className="border-b border-[var(--p)]/30">
@@ -166,7 +166,7 @@ export function Points() {
           {head}
           <div className="space-y-3">
             {pts.map((p, i) => (
-              <div key={p.title} {...aos(i + 1)}>
+              <div key={p.title}>
                 <PCard className="flex gap-4">
                   <span className="w-12 shrink-0 text-[13px] font-bold text-[var(--sub)]">PART<br /><b className="text-2xl text-[var(--ink)]">{i + 1}</b></span>
                   <div>
@@ -183,7 +183,7 @@ export function Points() {
       return (
         <section className="px-[5.5cqw] py-10">
           {head}
-          <div {...aos(1)}>
+          <div>
             <PCard>
               <ul className="space-y-4">
                 {pts.map((p, i) => (
@@ -208,7 +208,7 @@ export function Points() {
           {head}
           <ul className="grid grid-cols-3 divide-x divide-[var(--p)]/25 border-y border-[var(--p)]/40 py-5 text-center">
             {pts.map((p, i) => (
-              <li key={p.title} {...aos(i + 1)} className="px-2">
+              <li key={p.title} className="px-2">
                 <p className="text-[clamp(23px,7.2cqw,30px)] text-[var(--ink)]" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{["日", "合", "色"][i]}</p>
                 <p className="mt-1 text-[15px] font-bold text-[var(--ink)]">{p.title}</p>
                 <p className="mt-1 text-[12.5px] leading-snug text-[var(--sub)]">{p.desc}</p>
@@ -223,7 +223,7 @@ export function Points() {
           {head}
           <div className="space-y-3">
             {pts.map((p, i) => (
-              <div key={p.title} {...aos(i + 1)}>
+              <div key={p.title}>
                 <PCard className="flex items-center gap-3">
                   <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-full text-sm font-bold ${i === 1 ? "bg-[var(--a)] text-[var(--p)]" : i === 2 ? "bg-[#4a5f8f] text-white" : "bg-[var(--p)] text-white"}`}>
                     {["나", "너", "우리"][i]}
@@ -261,7 +261,7 @@ export function Points() {
           {head}
           <ul className="grid grid-cols-3 gap-3">
             {pts.map((p, i) => (
-              <li key={p.title} {...aos(i + 1)}>
+              <li key={p.title}>
                 <div className={`mx-auto grid aspect-square w-full max-w-[104px] place-items-center rounded-full border-2 border-[var(--p)] shadow-[0_4px_0_var(--p)] ${["-rotate-6 bg-[var(--a)]", "rotate-3 bg-[#cfe6d4]", "-rotate-2 bg-[#f7cfd8]"][i]}`}>
                   <StickerIcon i={i} />
                 </div>
@@ -278,7 +278,7 @@ export function Points() {
           <div className="text-center">{head}</div>
           <ul className="border-t border-[var(--a)]/35">
             {pts.map((p, i) => (
-              <li key={p.title} {...aos(i + 1)} className="flex items-center gap-4 border-b border-[var(--a)]/35 py-5">
+              <li key={p.title} className="flex items-center gap-4 border-b border-[var(--a)]/35 py-5">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-[var(--a)]/70 text-[20px] text-[var(--a)]" style={serif}>{["器", "運", "時"][i]}</span>
                 <div>
                   <p className="text-[17px] text-[#f3e6c8]" style={hf}>{p.title}</p>
@@ -294,7 +294,7 @@ export function Points() {
       return (
         <section className="px-[5.5cqw] py-10">
           {head}
-          <div {...aos(1)}>
+          <div>
             <PCard className="grid grid-cols-3 divide-x divide-[var(--p)]/15 !px-1 text-center">
               {pts.map((p, i) => (
                 <div key={p.title} className="px-2 py-1">
@@ -315,7 +315,7 @@ export function Points() {
           <div className="mt-2">{head}</div>
           <ol className="space-y-6">
             {pts.map((p, i) => (
-              <li key={p.title} {...aos(i + 1)}>
+              <li key={p.title}>
                 <p className="text-[15px] text-[var(--a)]" style={{ ...serif, filter: "brightness(0.8)" }}>{["Ⅰ", "Ⅱ", "Ⅲ"][i]}</p>
                 <p className="mt-1 text-[18px] text-[var(--ink)]" style={hf}>{p.title}</p>
                 <p className={`mt-1 ${desc}`}>{p.desc}</p>
@@ -330,8 +330,8 @@ export function Points() {
         <section className="px-[6.5cqw] py-12">
           {head}
           <ol className="relative ml-2 border-l border-[var(--a)]/40">
-            {pts.map((p, i) => (
-              <li key={p.title} {...aos(i + 1)} className="relative pb-8 pl-6 last:pb-0">
+            {pts.map((p) => (
+              <li key={p.title} className="relative pb-8 pl-6 last:pb-0">
                 <span className="absolute top-1 -left-[5px] h-[9px] w-[9px] rounded-full bg-[var(--a)]" />
                 <p className="text-[17px] font-bold text-white">{p.title}</p>
                 <p className={`mt-1 ${desc}`}>{p.desc}</p>
@@ -358,7 +358,7 @@ export function Reviews() {
         {head}
         <div className="space-y-4">
           {rv.map((r, i) => (
-            <div key={r.name} {...aos(i + 1, i % 2 ? "fade-left" : "fade-right")} className={`flex flex-col ${i % 2 ? "items-end" : "items-start"}`}>
+            <div key={r.name} className={`flex flex-col ${i % 2 ? "items-end" : "items-start"}`}>
               <p className={`max-w-[85%] px-4 py-3 text-[15px] leading-relaxed ${i % 2 ? me : you}`}>{r.text}</p>
               <p className="mt-1 text-[12px] text-[var(--sub)]">{r.name}</p>
             </div>
@@ -373,7 +373,7 @@ export function Reviews() {
         {head}
         <div className="grid grid-cols-2 gap-3">
           {rv.map((r, i) => (
-            <div key={r.name} {...aos(i + 1)}>
+            <div key={r.name}>
               <div className={`rounded-md bg-white p-3 pb-5 shadow-md ${i % 2 ? "rotate-2" : "-rotate-2"}`}>
                 <div className="grid h-20 place-items-center rounded bg-[var(--a)]/35 text-[40px] leading-none text-[var(--p)]" style={hf}>&ldquo;</div>
                 <p className="mt-3 text-[14px] leading-relaxed">{r.text}</p>
@@ -389,7 +389,7 @@ export function Reviews() {
     return (
       <section className="px-[5.5cqw] py-10">
         {head}
-        <div {...aos(1)} className="border border-dashed border-black/30 bg-white px-4 py-3">
+        <div className="border border-dashed border-black/30 bg-white px-4 py-3">
           <p className="text-center font-mono text-[12px] text-[var(--sub)]">REVIEW RECEIPT</p>
           {rv.map((r) => (
             <div key={r.name} className="border-b border-dashed border-black/20 py-3 last:border-0">
@@ -409,8 +409,8 @@ export function Reviews() {
     <section className="px-[5.5cqw] py-10">
       {head}
       <div className="space-y-3">
-        {rv.map((r, i) => (
-          <div key={r.name} {...aos(i + 1)}>
+        {rv.map((r) => (
+          <div key={r.name}>
             <PCard>
               <p className="text-4xl leading-none text-[var(--ink)] opacity-50" style={hf}>&ldquo;</p>
               <p className="-mt-1 text-[15px] leading-relaxed">{r.text}</p>

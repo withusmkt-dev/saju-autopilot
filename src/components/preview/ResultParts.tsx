@@ -58,7 +58,7 @@ export function FreeReadings({ items, name, brand }: { items: { title: string; t
       return (
         <div className="border-t-2 border-[var(--p)]">
           {items.map((s, i) => (
-            <article key={s.title} {...aos(i)} className="border-b border-[var(--p)]/25 py-5">
+            <article key={s.title} className="border-b border-[var(--p)]/25 py-5">
               <p className="text-[12px] tracking-[0.2em] text-[var(--sub)]">{i === 0 ? "오늘의 머리기사" : `${i + 1}면`}</p>
               <h3 className={`mt-1 text-[var(--ink)] ${i === 0 ? "text-[clamp(19px,5.6cqw,23px)]" : "text-[18px]"} font-bold`} style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{s.title}</h3>
               <p className={`mt-2 leading-relaxed ${i === 0 ? "text-[16px] first-letter:float-left first-letter:mr-1.5 first-letter:text-[40px] first-letter:leading-[0.9] first-letter:text-[var(--p)]" : "text-[15px]"}`}>{s.text}</p>
@@ -70,7 +70,7 @@ export function FreeReadings({ items, name, brand }: { items: { title: string; t
       return (
         <ol className="border-t border-[var(--line)]">
           {items.map((s, i) => (
-            <li key={s.title} {...aos(i)} className="flex gap-4 border-b border-[var(--line)] py-5">
+            <li key={s.title} className="flex gap-4 border-b border-[var(--line)] py-5">
               <div className="w-10 shrink-0 pt-0.5 text-center">{num(i)}</div>
               <div>
                 <h3 className="text-[17px] font-bold text-[var(--ink)]" style={sf}>{s.title}</h3>
@@ -83,8 +83,8 @@ export function FreeReadings({ items, name, brand }: { items: { title: string; t
     default:
       return (
         <div className="space-y-3">
-          {items.map((s, i) => (
-            <PCard key={s.title} aos={aos(i)}>
+          {items.map((s) => (
+            <PCard key={s.title}>
               <h3 className="text-[17px] font-bold text-[var(--ink)]" style={sf}>{s.title}</h3>
               <p className="mt-2 text-[15px] leading-relaxed">{s.text}</p>
             </PCard>
@@ -131,7 +131,7 @@ export function PaidChapters() {
     return (
       <ol className={v === "column" ? "border-t-2 border-[var(--p)]" : "border-t border-[var(--line)]"}>
         {PAID_CHAPTERS.map((c, i) => (
-          <li key={c} {...aos(Math.min(i, 4))} className={v === "column" ? "border-b border-[var(--p)]/25" : "border-b border-[var(--line)]"}>
+          <li key={c} className={v === "column" ? "border-b border-[var(--p)]/25" : "border-b border-[var(--line)]"}>
             <button type="button" onClick={() => toggle(i)} className="flex w-full items-center gap-4 py-4 text-left">
               <span className="w-10 shrink-0 text-center">{num(i)}</span>
               <span className={`flex-1 text-[17px] text-[var(--ink)] ${v === "column" ? "" : "font-semibold"}`} style={v === "column" ? { fontFamily: "'Nanum Myeongjo', serif" } : sf}>{c}</span>
@@ -146,7 +146,7 @@ export function PaidChapters() {
   return (
     <ol className="space-y-2">
       {PAID_CHAPTERS.map((c, i) => (
-        <li key={c} {...aos(Math.min(i, 4))}>
+        <li key={c}>
           <PCard className="!p-0 overflow-hidden">
             <button type="button" onClick={() => toggle(i)} className="flex w-full items-center justify-between px-4 py-4 text-left">
               <span className="text-[16px] font-semibold text-[var(--ink)]" style={sf}>

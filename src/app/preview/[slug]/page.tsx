@@ -131,7 +131,7 @@ function IntakeForm() {
   return (
     <section id="form" className="scroll-mt-24 px-[5.5cqw] py-8">
       <div {...aos()}><PTitle>{page.titles.form}</PTitle></div>
-      <form onSubmit={submit} className="space-y-3" {...aos(1)}>
+      <form onSubmit={submit} className="space-y-3">
         {couple ? (
           <>
             <PCard>

@@ -19,7 +19,7 @@ export interface Skin {
   order: Section[];
   bodyFont?: string; // 본문까지 바꾸는 스킨 (한지·편지)
   /** AOS 등장 효과 */
-  motion: { type: string; duration: number; easing: string; stagger: number };
+  motion: { type: string; duration: number; easing: string };
   /** 바탕·글자색 */
   vars: (t: BrandTheme) => Record<string, string>;
 }
@@ -34,7 +34,7 @@ const light = (pbg: string, text: string, sub: string, t: BrandTheme, ink = t.pr
 
 export const SKINS: Record<SkinKey, Skin> = {
   night: {
-    motion: { type: "fade-up", duration: 1000, easing: "ease-out-cubic", stagger: 150 },
+    motion: { type: "fade-up", duration: 1000, easing: "ease-out-cubic" },
     label: "밤하늘",
     header: "solid",
     card: "rounded-2xl bg-white/[0.06] ring-1 ring-white/10",
@@ -45,7 +45,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => ({ "--pbg": t.primary, "--text": "#ece6f8", "--sub": "rgba(236,230,248,0.8)", "--ink": t.accent, "--line": "rgba(255,255,255,0.12)" }),
   },
   poster: {
-    motion: { type: "zoom-in", duration: 450, easing: "ease-out-back", stagger: 80 },
+    motion: { type: "zoom-in", duration: 450, easing: "ease-out-back" },
     label: "포스터",
     header: "plain",
     card: "border-2 border-black bg-white shadow-[5px_5px_0_var(--a)]",
@@ -56,7 +56,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#f4f1ea", "#111", "#3d3d3d", t, "#111"),
   },
   soft: {
-    motion: { type: "fade-up", duration: 700, easing: "ease-out-back", stagger: 120 },
+    motion: { type: "fade-up", duration: 700, easing: "ease-out-back" },
     label: "말랑",
     header: "plain",
     card: "rounded-[28px] bg-white shadow-[0_10px_30px_rgba(122,31,75,0.08)]",
@@ -67,7 +67,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#fff0f4", "#3a2430", "#6e5260", t),
   },
   finance: {
-    motion: { type: "fade-left", duration: 600, easing: "ease-out-quad", stagger: 100 },
+    motion: { type: "fade-left", duration: 600, easing: "ease-out-quad" },
     label: "리포트",
     header: "solid",
     card: "rounded-xl border border-black/10 bg-white",
@@ -78,7 +78,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#faf7ef", "#2a2216", "#5f533f", t),
   },
   hanji: {
-    motion: { type: "fade", duration: 1300, easing: "ease-in-out-sine", stagger: 250 },
+    motion: { type: "fade", duration: 1300, easing: "ease-in-out-sine" },
     label: "한지",
     header: "center",
     card: "border border-[var(--p)]/40 bg-[#fffdf6] outline outline-1 -outline-offset-[5px] outline-[var(--p)]/20",
@@ -90,7 +90,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#f3ecdc", "#2b2a26", "#575144", t),
   },
   calendar: {
-    motion: { type: "flip-left", duration: 700, easing: "ease-out-cubic", stagger: 90 },
+    motion: { type: "flip-left", duration: 700, easing: "ease-out-cubic" },
     label: "달력",
     header: "solid",
     card: "rounded-lg border-t-4 border-[var(--a)] bg-white shadow-sm",
@@ -101,7 +101,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#eef5f4", "#10292a", "#435859", t),
   },
   office: {
-    motion: { type: "fade-right", duration: 500, easing: "ease-out-quad", stagger: 80 },
+    motion: { type: "fade-right", duration: 500, easing: "ease-out-quad" },
     label: "서류",
     header: "plain",
     card: "rounded-md border border-black/15 bg-white",
@@ -112,7 +112,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#f2f2f0", "#1f1f1f", "#4d4d4d", t, "#1f1f1f"),
   },
   daily: {
-    motion: { type: "fade-down", duration: 800, easing: "ease-out-sine", stagger: 120 },
+    motion: { type: "fade-down", duration: 800, easing: "ease-out-sine" },
     label: "신문",
     header: "center",
     card: "border-y-2 border-[var(--p)] bg-[#fffcf5]",
@@ -123,7 +123,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#f7f1e6", "#2e241a", "#5f4f3c", t),
   },
   duo: {
-    motion: { type: "zoom-in-up", duration: 700, easing: "ease-out-cubic", stagger: 120 },
+    motion: { type: "zoom-in-up", duration: 700, easing: "ease-out-cubic" },
     label: "둘",
     header: "plain",
     card: "rounded-3xl bg-white shadow-[0_6px_20px_rgba(36,48,77,0.10)]",
@@ -134,7 +134,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#eef3fc", "#1d2740", "#4b556e", t),
   },
   letter: {
-    motion: { type: "fade-up", duration: 1100, easing: "ease-in-out-sine", stagger: 200 },
+    motion: { type: "fade-up", duration: 1100, easing: "ease-in-out-sine" },
     label: "편지",
     header: "center",
     card: "rounded-sm border border-[#e3cfc0] bg-[#fffaf5] shadow-[0_2px_6px_rgba(109,26,26,0.08)]",
@@ -146,7 +146,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#f7ece6", "#3b1f1f", "#6b4d47", t),
   },
   sticker: {
-    motion: { type: "zoom-in", duration: 600, easing: "ease-out-back", stagger: 110 },
+    motion: { type: "zoom-in", duration: 600, easing: "ease-out-back" },
     label: "스티커",
     header: "plain",
     card: "rounded-[22px] border-2 border-[var(--p)] bg-white shadow-[0_4px_0_var(--p)]",
@@ -157,7 +157,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#f6f2e9", "#24304f", "#55607a", t),
   },
   royal: {
-    motion: { type: "fade", duration: 1200, easing: "ease-in-out-sine", stagger: 200 },
+    motion: { type: "fade", duration: 1200, easing: "ease-in-out-sine" },
     label: "궁",
     header: "center",
     card: "border border-[var(--a)]/50 bg-white/[0.03] outline outline-1 -outline-offset-[6px] outline-[var(--a)]/25",
@@ -168,7 +168,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => ({ "--pbg": t.primary, "--text": "#efe6d2", "--sub": "rgba(239,230,210,0.78)", "--ink": t.accent, "--line": "rgba(201,164,92,0.25)" }),
   },
   sky: {
-    motion: { type: "fade-up", duration: 1200, easing: "ease-out-sine", stagger: 180 },
+    motion: { type: "fade-up", duration: 1200, easing: "ease-out-sine" },
     label: "하늘",
     header: "plain",
     card: "rounded-3xl bg-white/75 ring-1 ring-white shadow-[0_8px_24px_rgba(58,110,165,0.10)] backdrop-blur",
@@ -179,7 +179,7 @@ export const SKINS: Record<SkinKey, Skin> = {
     vars: (t) => light("#eef5fc", "#23344a", "#536479", t),
   },
   invite: {
-    motion: { type: "fade", duration: 1000, easing: "ease-out-sine", stagger: 160 },
+    motion: { type: "fade", duration: 1000, easing: "ease-out-sine" },
     label: "청첩장",
     header: "center",
     card: "border border-[var(--a)] bg-white outline outline-1 -outline-offset-[5px] outline-[var(--a)]/60",

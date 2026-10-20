@@ -171,15 +171,15 @@ export function PCard({ className = "", children, aos }: { className?: string; c
 export function useAosInit() {
   const { skin } = usePreview();
   useEffect(() => {
-    AOS.init({ once: false, startEvent: "DOMContentLoaded", duration: skin.motion.duration, easing: skin.motion.easing as AOS.easingOptions, offset: 40 });
+    AOS.init({ once: true, startEvent: "DOMContentLoaded", duration: skin.motion.duration, easing: skin.motion.easing as AOS.easingOptions, offset: 40 });
     AOS.refreshHard();
   }, [skin]);
 }
 
-/** AOS 속성: aos(순번) → data-aos·delay (스킨 효과를 따름) */
+/** AOS 속성: 섹션 제목 같은 첫 덩어리에만 한 번 쓴다. 항목마다 붙이지 않는다 */
 export function useAos() {
   const { skin } = usePreview();
-  return (i = 0, type = skin.motion.type) => ({ "data-aos": type, "data-aos-delay": Math.min(i * skin.motion.stagger, 900) });
+  return (type = skin.motion.type) => ({ "data-aos": type });
 }
 
 /** 입력칸 클래스 */
