@@ -166,7 +166,13 @@ export const ASSET_IMAGES: AssetImage[] = [
   ["pink-silk", ["연애", "파스텔"]], ["couple-bouquet", ["연애", "사진"]], ["couple-sunset", ["연애", "사진"]], ["hands-sea", ["연애", "사진"]],
   ["beach-couple-heart", ["연애", "일러스트"]], ["window-summer", ["일상", "일러스트"]], ["desk-night", ["일상", "일러스트"]],
   ["clipboard", ["서류", "모던"]], ["sky-dawn-pastel", ["하늘", "파스텔"]], ["sky-blue-clouds", ["하늘"]],
-].map(([name, tags], i) => ({ id: `img_${name}`, name: `${name}.webp`, src: `/assets/bg/${name}.webp`, tags: tags as string[], addedAt: `2026-10-${String(1 + i).padStart(2, "0")}` }));
+  // 2026-10-20 추가: 붉은 선화 아이콘 16종 (배경 투명, 맛보기·포인트 그림용)
+  ["red-lucky-pouch", ["아이콘", "재물"]], ["red-treasure-ship", ["아이콘", "재물"]], ["red-gourd-lotus", ["아이콘", "건강"]], ["red-gourd-clouds", ["아이콘", "건강"]],
+  ["red-hearts-knot", ["아이콘", "연애"]], ["red-mandarin-ducks", ["아이콘", "연애"]], ["red-hat-brush", ["아이콘", "합격"]], ["red-book-brush", ["아이콘", "합격"]],
+  ["red-flag", ["아이콘", "직장"]], ["red-hanok-sun", ["아이콘", "가정"]], ["red-mountain-house", ["아이콘", "가정"]], ["red-mountain-river", ["아이콘", "대운"]],
+  ["red-crane", ["아이콘", "대운"]], ["red-plum-knot", ["아이콘", "행운"]], ["red-norigae", ["아이콘", "행운"]], ["red-lotus", ["아이콘", "마음"]],
+  ["pastel-hands", ["아이콘", "파스텔"]], ["frame-pavilion", ["동양풍", "액자"]], ["pet-dog-cat", ["반려동물", "사진"]], ["black-critters", ["귀여움", "일러스트"]],
+].map(([name, tags], i) => ({ id: `img_${name}`, name: `${name}.webp`, src: `/assets/bg/${name}.webp`, tags: tags as string[], addedAt: i < 18 ? `2026-10-${String(1 + i).padStart(2, "0")}` : "2026-10-20" }));
 
 /**
  * [브랜드 자동 생성] 더미. 키워드·이미지 둘 다 없으면 완전 랜덤,
@@ -198,7 +204,7 @@ export function makeContent(id: string, brandId: string, concept: string, mode: 
     ],
     instagram: [
       { key: "instagram.cardNews", label: "카드뉴스 (장별)", lines: [`1장: ${concept}`, "2장: 이런 사주는 올해 이렇게 흘러가요", "3장: 지금 확인해야 할 한 가지", `4장: 무료 풀이는 프로필 링크에서`] },
-      { key: "instagram.reelsScript", label: "릴스 대본", lines: ["0–3초: 이 사주 가진 사람, 올해 조심하세요", "3–12초: 재성이 강한데 일간이 약하면…", "12–15초: 내 사주는 프로필 링크에서"] },
+      { key: "instagram.reelsScript", label: "릴스 대본", lines: ["0–3초: 이 사주 가진 사람, 올해 하반기를 기억하세요", "3–12초: 재성이 강한데 일간이 약하면…", "12–15초: 내 사주는 프로필 링크에서"] },
       { key: "instagram.caption", label: "피드 캡션", lines: [`${concept} 🌙 내 사주에도 있을까? 무료 풀이는 프로필 링크에서.`, "#사주 #운세 #2027운세 #" + brand.name] },
     ],
     tiktok: [

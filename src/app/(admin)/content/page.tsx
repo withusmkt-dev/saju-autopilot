@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Badge, Button, Card, Field, PageHead, Segmented, inputCls } from "@/components/ui";
 import { CHANNEL_ICON, CHANNEL_LABEL, CONCEPTS, makeContent } from "@/lib/dummy";
 import { useBrandMap, useStore } from "@/lib/store";
-import type { Channel, ContentItem, GenerateMode, PartKey, UploadMode } from "@/lib/types";
+import PostPreview from "@/components/content/PostPreview";
+import type { Brand, Channel, ContentItem, GenerateMode, PartKey, UploadMode } from "@/lib/types";
 
 const PART_OPTIONS: Record<Channel, { key: PartKey; label: string }[]> = {
   threads: [
@@ -157,17 +158,20 @@ export default function ContentPage() {
       <h2 className="mt-8 mb-3 text-sm font-semibold">생성 결과 {contents.length}개</h2>
       <div className="space-y-4">
         {contents.map((item) => (
-          <ContentCard key={item.id} item={item} brandName={brandMap.get(item.brandId)?.name ?? item.brandId} />
+          <ContentCard key={item.id} item={item} brand={brandMap.get(item.brandId)} />
         ))}
       </div>
     </>
   );
 }
 
-function ContentCard({ item, brandName }: { item: ContentItem; brandName: string }) {
+function ContentCard({ item, brand }: { item: ContentItem; brand: Brand | undefined }) {
+  const brandName = brand?.name ?? item.brandId;
   const { setContents, notify } = useStore();
   const [picked, setPicked] = useState<Channel[]>(item.channels.filter((c) => c.status === "ready").map((c) => c.channel));
   const [open, setOpen] = useState(true);
+  // 매체별 보기: 미리보기(업로드했을 때 모습) / 문구
+  const [view, setView] = useState<Record<string, "preview" | "text">>({});
 
   const post = () => {
     // TODO(API): auto 면 POST /api/content/{id}/post { channels }, manual 이면 게시 완료 표시만
@@ -211,8 +215,22 @@ function ContentCard({ item, brandName }: { item: ContentItem; brandName: string
                     />
                     {CHANNEL_ICON[c.channel]} {CHANNEL_LABEL[c.channel]}
                   </label>
-                  {c.status === "posted" ? <Badge color="green">게시됨 {c.postedAt?.slice(5)}</Badge> : c.status === "failed" ? <Badge color="red">실패</Badge> : <Badge>대기</Badge>}
+                  <div className="flex items-center gap-2">
+                    {brand && (
+                      <Segmented
+                        value={view[c.channel] ?? "preview"}
+                        options={[{ value: "preview", label: "업로드 미리보기" }, { value: "text", label: "문구" }]}
+                        onChange={(v) => setView((m) => ({ ...m, [c.channel]: v }))}
+                      />
+                    )}
+                    {c.status === "posted" ? <Badge color="green">게시됨 {c.postedAt?.slice(5)}</Badge> : c.status === "failed" ? <Badge color="red">실패</Badge> : <Badge>대기</Badge>}
+                  </div>
                 </div>
+                {brand && (view[c.channel] ?? "preview") === "preview" ? (
+                  <div className="rounded-lg bg-paper py-4">
+                    <PostPreview channel={c.channel} parts={c.parts} brand={brand} link={item.shortLink} />
+                  </div>
+                ) : (
                 <div className="space-y-2">
                   {c.parts.map((p) => (
                     <div key={p.key}>
@@ -223,6 +241,7 @@ function ContentCard({ item, brandName }: { item: ContentItem; brandName: string
                     </div>
                   ))}
                 </div>
+                )}
               </div>
             ))}
           </div>
