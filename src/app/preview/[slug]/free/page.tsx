@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MockNote, PButton, PCard, PTitle, usePreview } from "@/components/preview/PreviewShell";
-import { ElementBars, MonthFlow, PillarTable } from "@/components/preview/SajuChart";
+import { MockNote, PButton, PCard, PTitle, useAos, useAosInit, usePreview } from "@/components/preview/PreviewShell";
+import { ElementBars, Lock, MonthFlow, PillarTable } from "@/components/preview/SajuChart";
 import { josa } from "@/lib/format";
 import { PAID_CHAPTERS, SAMPLE_SAJU } from "@/lib/preview/brandPages";
 import { sendResultAlimtalkMock, useIntake } from "@/lib/preview/mock";
@@ -11,9 +11,11 @@ import { sendResultAlimtalkMock, useIntake } from "@/lib/preview/mock";
 const hf = { fontFamily: "var(--hf)" };
 
 export default function FreeResultPage() {
+  useAosInit();
   const { slug, base, brand, page } = usePreview();
   const intake = useIntake(slug);
   const router = useRouter();
+  const aos = useAos();
   const [sent, setSent] = useState<string | null>(null);
   const couple = page.formType === "couple" && intake.partner;
 
@@ -26,17 +28,17 @@ export default function FreeResultPage() {
   return (
     <>
       <section className="px-5 pt-8 pb-2">
-        <p className="text-xs text-[var(--sub)]">무료 풀이 · {page.topic}</p>
+        <p className="text-[13px] text-[var(--sub)]">무료 풀이 · {page.topic}</p>
         <h1 className="mt-1 text-[28px] font-bold text-[var(--ink)]" style={hf}>
           {couple ? `${intake.name} ♥ ${intake.partner!.name}` : `${intake.name}님의 사주`}
         </h1>
-        <p className="mt-1 text-xs text-[var(--sub)]">
+        <p className="mt-1 text-[13px] text-[var(--sub)]">
           {intake.birthDate} ({intake.calendar === "solar" ? "양력" : "음력"}) · {intake.birthTime ?? "시간 모름"} · 일간 {SAMPLE_SAJU.dayMaster}
         </p>
       </section>
 
       {couple && (
-        <section className="px-5 pt-5">
+        <section className="px-5 pt-5" {...aos()}>
           <PCard className="text-center">
             <p className="text-xs text-[var(--sub)]">두 사람의 궁합 점수</p>
             <p className="mt-1 text-5xl font-bold text-[var(--ink)]" style={hf}>78<span className="text-xl">점</span></p>
@@ -45,7 +47,7 @@ export default function FreeResultPage() {
         </section>
       )}
 
-      <section className="px-5 py-5">
+      <section className="px-5 py-5" {...aos()}>
         <PCard>
           <p className="mb-3 text-sm font-bold text-[var(--ink)]">사주 원국</p>
           <PillarTable />
@@ -58,8 +60,8 @@ export default function FreeResultPage() {
       <section className="px-5 pb-5">
         <PTitle eyebrow="무료 풀이">{josa(brand.name, "이", "가")} 읽은 이야기</PTitle>
         <div className="space-y-3">
-          {page.free.map((s) => (
-            <PCard key={s.title}>
+          {page.free.map((s, i) => (
+            <PCard key={s.title} aos={aos(i)}>
               <h3 className="font-bold text-[var(--ink)]">{s.title}</h3>
               <p className="mt-2 text-[15px] leading-relaxed">{s.text}</p>
             </PCard>
@@ -67,7 +69,7 @@ export default function FreeResultPage() {
         </div>
       </section>
 
-      <section className="px-5 pb-5">
+      <section className="px-5 pb-5" {...aos()}>
         <PCard>
           <p className="mb-3 text-sm font-bold text-[var(--ink)]">2027년 월별 흐름</p>
           <MonthFlow locked />
@@ -78,12 +80,12 @@ export default function FreeResultPage() {
       {/* 잠긴 목차 → 결제로 */}
       <section className="px-5 pb-10">
         <PCard className="!p-0 overflow-hidden">
-          <div className="bg-[var(--a)] px-4 py-2 text-sm font-bold text-[var(--p)]">🔒 해설서에서 이어지는 이야기</div>
+          <div className="bg-[var(--a)] px-4 py-2 text-sm font-bold text-[var(--p)]">해설서에서 이어지는 이야기</div>
           <ol className="divide-y divide-[var(--line)] px-4">
             {PAID_CHAPTERS.map((c, i) => (
               <li key={c} className={`flex items-center justify-between py-2.5 text-sm ${i < 3 ? "" : "text-[var(--sub)]"}`}>
                 <span>{String(i + 1).padStart(2, "0")}. {c}</span>
-                {i >= 3 && <span>🔒</span>}
+                {i >= 3 && <Lock />}
               </li>
             ))}
           </ol>
@@ -97,7 +99,7 @@ export default function FreeResultPage() {
         </PCard>
 
         <button type="button" onClick={sendLink} className="mt-4 w-full border border-[var(--line)] py-3 text-sm text-[var(--sub)]">
-          📩 무료 결과 링크 문자로 받기
+          무료 결과 문자로 받기
         </button>
         {sent && <p className="mt-2 text-center text-xs text-[var(--ink)]">{sent}</p>}
       </section>

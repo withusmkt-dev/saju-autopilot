@@ -3,8 +3,10 @@
 // 예시 브랜드 페이지 공통 틀: 브랜드 색·글꼴 변수, 스킨, 머리, 바닥.
 // 실서비스(명월재 /brand/[slug])에서도 같은 구조로 옮긴다.
 import Link from "next/link";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { notFound, useParams } from "next/navigation";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { getBrandPage, type BrandPage } from "@/lib/preview/brandPages";
 import { SKINS, type Skin } from "@/lib/preview/skins";
 import type { Brand, FontKey } from "@/lib/types";
@@ -22,6 +24,7 @@ interface Ctx {
   page: BrandPage;
   skin: Skin;
   base: string; // /preview/{slug}
+  notes: boolean; // 개발 메모 보이기
 }
 const PreviewCtx = createContext<Ctx | null>(null);
 
@@ -39,9 +42,10 @@ export default function PreviewShell({ children }: { children: React.ReactNode }
   const skin = SKINS[page.skin];
   const base = `/preview/${slug}`;
   const t = brand.theme;
+  const [notes, setNotes] = useState(false);
 
   return (
-    <PreviewCtx.Provider value={{ slug, brand, page, skin, base }}>
+    <PreviewCtx.Provider value={{ slug, brand, page, skin, base, notes }}>
       <div
         className="min-h-screen bg-[#e9e7e2]"
         style={
@@ -54,7 +58,8 @@ export default function PreviewShell({ children }: { children: React.ReactNode }
         }
       >
         <div className="sticky top-0 z-50 bg-black/80 px-3 py-1.5 text-center text-[11px] text-white">
-          예시 페이지 · {skin.label} 스킨 · 분석·결제·알림톡은 목업 ·{" "}
+          예시 페이지 ({skin.label} 스킨) · 분석·결제·알림톡은 목업 ·{" "}
+          <button type="button" onClick={() => setNotes((v) => !v)} className="underline">개발 메모 {notes ? "숨기기" : "보기"}</button> ·{" "}
           <Link href="/brands" className="underline">관리자로</Link>
         </div>
         <div className="mx-auto min-h-screen max-w-[430px] bg-[var(--pbg)] text-[var(--text)] shadow-xl" style={{ fontFamily: skin.bodyFont }}>
@@ -137,9 +142,27 @@ export function PButton({ className = "", ...rest }: React.ButtonHTMLAttributes<
   );
 }
 
-export function PCard({ className = "", children }: { className?: string; children: React.ReactNode }) {
+export function PCard({ className = "", children, aos }: { className?: string; children: React.ReactNode; aos?: Record<string, string | number> }) {
   const { skin } = usePreview();
-  return <div className={`p-4 ${skin.card} ${className}`}>{children}</div>;
+  return <div {...aos} className={`p-4 ${skin.card} ${className}`}>{children}</div>;
+}
+
+/**
+ * AOS 켜기. 각 화면(page)에서 부른다 — 화면이 다 붙은(hydrate) 뒤에 켜야 서버 HTML 과 어긋나지 않는다.
+ * 스킨마다 다른 등장 효과(skins.ts motion)
+ */
+export function useAosInit() {
+  const { skin } = usePreview();
+  useEffect(() => {
+    AOS.init({ once: false, startEvent: "DOMContentLoaded", duration: skin.motion.duration, easing: skin.motion.easing as AOS.easingOptions, offset: 40 });
+    AOS.refreshHard();
+  }, [skin]);
+}
+
+/** AOS 속성: aos(순번) → data-aos·delay (스킨 효과를 따름) */
+export function useAos() {
+  const { skin } = usePreview();
+  return (i = 0, type = skin.motion.type) => ({ "data-aos": type, "data-aos-delay": Math.min(i * skin.motion.stagger, 900) });
 }
 
 /** 입력칸 클래스 */
@@ -158,9 +181,11 @@ export function PTitle({ eyebrow, children }: { eyebrow?: string; children: Reac
 }
 
 export function MockNote({ children }: { children: React.ReactNode }) {
+  const { notes } = usePreview();
+  if (!notes) return null;
   return (
     <p className="mt-2 rounded-lg border border-dashed border-amber-400 bg-amber-50 px-3 py-2 text-[11px] text-amber-800" style={{ fontFamily: "'Pretendard Variable', sans-serif" }}>
-      🧪 {children}
+      개발 메모 · {children}
     </p>
   );
 }

@@ -2,13 +2,14 @@
 
 // 스킨별 첫 화면. 같은 문구(heroTitle·heroDesc·badge·cta)를 스킨마다 다른 구도로 보여 준다.
 import Motif from "./Motif";
-import { PButton, usePreview } from "./PreviewShell";
+import { PButton, useAos, usePreview } from "./PreviewShell";
 import { SAMPLE_SAJU } from "@/lib/preview/brandPages";
 
 const hf = { fontFamily: "var(--hf)" };
 
 export default function Hero({ onStart }: { onStart: () => void }) {
   const { brand, page } = usePreview();
+  const aos = useAos();
   const title = page.heroTitle;
   const lines = title.split("\n");
   const cta = <PButton onClick={onStart}>{page.cta}</PButton>;
@@ -19,13 +20,13 @@ export default function Hero({ onStart }: { onStart: () => void }) {
       return (
         <section className="relative overflow-hidden bg-black px-5 pt-12 text-white">
           <div className="absolute top-5 -right-12 rotate-12 bg-[var(--a)] px-12 py-1 text-xs font-black text-black">⚠ {page.badge}</div>
-          <h1 className="text-[58px] leading-[0.98]" style={hf}>
+          <h1 {...aos(0)} className="text-[58px] leading-[0.98]" style={hf}>
             {lines.map((l) => (
               <span key={l} className="block">{l}</span>
             ))}
           </h1>
-          <p className="mt-5 max-w-[300px] text-sm leading-relaxed text-white/70">{page.heroDesc}</p>
-          <div className="mt-7 pb-9">{cta}</div>
+          <p {...aos(1)} className="mt-5 max-w-[300px] text-[15px] leading-relaxed text-white/70">{page.heroDesc}</p>
+          <div {...aos(2)} className="mt-7 pb-9">{cta}</div>
           <div className="-mx-5 overflow-hidden bg-[var(--a)] py-2 text-sm font-black whitespace-nowrap text-black">
             <div className="marquee inline-block">{"팩폭 주의 ✕ 돌려 말 안 함 ✕ ".repeat(8)}</div>
           </div>
@@ -35,14 +36,12 @@ export default function Hero({ onStart }: { onStart: () => void }) {
     case "soft":
       return (
         <section className="relative overflow-hidden px-6 pt-12 pb-12">
-          <div className="absolute -top-20 -right-16 h-64 w-64 rounded-full bg-[var(--a)]/45" />
-          <div className="absolute -bottom-10 -left-12 h-40 w-40 rounded-full bg-[var(--a)]/30" />
           <Motif kind="flower" accent={t.accent} bg="#fff0f4" />
           <div className="relative">
-            <span className="inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[var(--p)] shadow-sm">💗 {page.badge}</span>
-            <h1 className="mt-5 text-[34px] leading-tight whitespace-pre-line text-[var(--p)]" style={hf}>{title}</h1>
-            <p className="mt-3 max-w-[290px] text-sm leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
-            <div className="mt-8 max-w-[260px]">{cta}</div>
+            <span className="inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[var(--p)] shadow-sm">{page.badge}</span>
+            <h1 {...aos(0)} className="mt-5 text-[34px] leading-tight whitespace-pre-line text-[var(--p)]" style={hf}>{title}</h1>
+            <p {...aos(1)} className="mt-3 max-w-[290px] text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+            <div {...aos(2)} className="mt-8 max-w-[260px]">{cta}</div>
           </div>
         </section>
       );
@@ -69,9 +68,9 @@ export default function Hero({ onStart }: { onStart: () => void }) {
             </div>
           </div>
           <p className="mt-7 text-xs font-bold tracking-wider text-[var(--sub)]">{page.badge}</p>
-          <h1 className="mt-2 text-[30px] leading-tight whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
-          <p className="mt-3 text-sm leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
-          <div className="mt-6">{cta}</div>
+          <h1 {...aos(0)} className="mt-2 text-[30px] leading-tight whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+          <p {...aos(1)} className="mt-3 text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+          <div {...aos(2)} className="mt-6">{cta}</div>
         </section>
       );
     }
@@ -86,10 +85,10 @@ export default function Hero({ onStart }: { onStart: () => void }) {
           <div className="relative flex gap-4">
             <div className="flex-1 pt-14">
               <p className="text-xs tracking-[0.3em] text-[var(--sub)]">{page.badge}</p>
-              <p className="mt-6 text-[15px] leading-loose">{page.heroDesc}</p>
-              <div className="mt-8">{cta}</div>
+              <p {...aos(1)} className="mt-6 text-[15px] leading-loose">{page.heroDesc}</p>
+              <div {...aos(2)} className="mt-8">{cta}</div>
             </div>
-            <h1 className="h-[310px] text-[34px] leading-snug text-[var(--ink)] [writing-mode:vertical-rl]" style={hf}>
+            <h1 {...aos(0)} className="h-[310px] text-[34px] leading-snug text-[var(--ink)] [writing-mode:vertical-rl]" style={hf}>
               {lines.map((l) => (
                 <span key={l} className="block">{l}</span>
               ))}
@@ -107,8 +106,8 @@ export default function Hero({ onStart }: { onStart: () => void }) {
         <section className="px-5 pt-8 pb-10">
           <p className="text-xs font-bold tracking-widest text-[var(--sub)]">{page.badge}</p>
           <p className="mt-1 text-[96px] leading-none font-black text-[var(--p)]" style={hf}>2027</p>
-          <h1 className="mt-3 text-2xl leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
-          <p className="mt-3 text-sm leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+          <h1 {...aos(0)} className="mt-3 text-2xl leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+          <p {...aos(1)} className="mt-3 text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
           <div className="mt-5 grid grid-cols-6 gap-1.5">
             {m.map((v, i) => (
               <div key={i} className="flex h-14 flex-col justify-between rounded-md bg-white p-1.5 shadow-sm">
@@ -117,7 +116,7 @@ export default function Hero({ onStart }: { onStart: () => void }) {
               </div>
             ))}
           </div>
-          <div className="mt-6">{cta}</div>
+          <div {...aos(2)} className="mt-6">{cta}</div>
         </section>
       );
     }
@@ -127,11 +126,11 @@ export default function Hero({ onStart }: { onStart: () => void }) {
         <section className="px-5 pt-8 pb-10">
           <div className="relative rounded-md border border-black/15 bg-white p-5 font-mono text-[11px] text-[#777] shadow-sm">
             <div className="flex justify-between">
-              <span>📄 career_check.pdf</span>
+              <span>career_check.pdf</span>
               <span>p.1 / 10</span>
             </div>
             <span className="absolute top-12 right-4 rotate-[-8deg] border-2 border-red-500 px-2 py-0.5 font-sans text-xs font-black text-red-500">{page.badge}</span>
-            <h1 className="mt-6 font-sans text-[34px] leading-tight text-[#1f1f1f]" style={hf}>
+            <h1 {...aos(0)} className="mt-6 font-sans text-[34px] leading-tight text-[#1f1f1f]" style={hf}>
               {lines.map((l) => (
                 <span key={l} className="block">
                   <span className="bg-[var(--a)] px-1">{l}</span>
@@ -143,9 +142,9 @@ export default function Hero({ onStart }: { onStart: () => void }) {
                 <li key={c}>☐ {c}</li>
               ))}
             </ul>
-            <p className="mt-4 font-sans text-sm leading-relaxed text-[#555]">{page.heroDesc}</p>
+            <p className="mt-4 font-sans text-[15px] leading-relaxed text-[#444]">{page.heroDesc}</p>
           </div>
-          <div className="mt-5">{cta}</div>
+          <div {...aos(2)} className="mt-5">{cta}</div>
         </section>
       );
 
@@ -157,8 +156,8 @@ export default function Hero({ onStart }: { onStart: () => void }) {
             <p className="mt-1 text-[60px] leading-none text-[var(--p)]" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>甲辰日</p>
             <p className="mt-2 text-xs text-[var(--sub)]">갑진일 · 나무와 흙의 날 · 샘플</p>
           </div>
-          <h1 className="mt-6 text-[28px] leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
-          <div className="mt-4 grid grid-cols-[1fr_auto_1fr] gap-3 text-[13px] leading-relaxed">
+          <h1 {...aos(0)} className="mt-6 text-[28px] leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+          <div className="mt-4 grid grid-cols-[1fr_auto_1fr] gap-3 text-[14px] leading-relaxed">
             <p>{page.heroDesc}</p>
             <span className="w-px bg-[var(--p)]/30" />
             <ul className="space-y-1 text-[var(--sub)]">
@@ -167,7 +166,7 @@ export default function Hero({ onStart }: { onStart: () => void }) {
               <li>행운의 숫자 · 3</li>
             </ul>
           </div>
-          <div className="mt-6">{cta}</div>
+          <div {...aos(2)} className="mt-6">{cta}</div>
         </section>
       );
 
@@ -184,9 +183,9 @@ export default function Hero({ onStart }: { onStart: () => void }) {
             <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl text-white">♥</span>
           </div>
           <span className="mt-6 inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[var(--p)] shadow-sm">{page.badge}</span>
-          <h1 className="mt-4 text-[32px] leading-tight whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
-          <p className="mx-auto mt-3 max-w-[300px] text-sm leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
-          <div className="mx-auto mt-7 max-w-[280px]">{cta}</div>
+          <h1 {...aos(0)} className="mt-4 text-[32px] leading-tight whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+          <p {...aos(1)} className="mx-auto mt-3 max-w-[300px] text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+          <div {...aos(2)} className="mx-auto mt-7 max-w-[280px]">{cta}</div>
         </section>
       );
 
@@ -198,24 +197,24 @@ export default function Hero({ onStart }: { onStart: () => void }) {
           </svg>
           <div className="relative mt-10 rotate-[-1.5deg] rounded-sm border border-[#e3cfc0] bg-[#fffaf5] px-6 py-8 shadow-[0_8px_20px_rgba(109,26,26,0.12)]">
             <p className="text-xs text-[var(--sub)]">To. 아직 마음이 남은 당신에게</p>
-            <h1 className="mt-4 text-[28px] leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
+            <h1 {...aos(0)} className="mt-4 text-[28px] leading-snug whitespace-pre-line text-[var(--ink)]" style={hf}>{title}</h1>
             <p className="mt-4 text-[15px] leading-loose">{page.heroDesc}</p>
             <p className="mt-6 text-right text-xs text-[var(--sub)]">From. {brand.name}</p>
           </div>
-          <div className="mt-8">{cta}</div>
+          <div {...aos(2)} className="mt-8">{cta}</div>
         </section>
       );
 
     default:
-      // night — 밤하늘
+      // night: 밤하늘
       return (
         <section className="relative overflow-hidden px-6 pt-16 pb-14 text-center">
           <Motif kind={page.motif} accent={t.accent} bg={t.primary} />
           <div className="relative">
             <span className="inline-block rounded-full border border-[var(--a)]/60 px-3 py-1 text-xs text-[var(--a)]">{page.badge}</span>
-            <h1 className="mt-5 text-[34px] leading-tight whitespace-pre-line text-white" style={hf}>{title}</h1>
-            <p className="mx-auto mt-4 max-w-[290px] text-sm leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
-            <div className="mx-auto mt-8 max-w-[260px]">{cta}</div>
+            <h1 {...aos(0)} className="mt-5 text-[34px] leading-tight whitespace-pre-line text-white" style={hf}>{title}</h1>
+            <p {...aos(1)} className="mx-auto mt-4 max-w-[290px] text-[15px] leading-relaxed text-[var(--sub)]">{page.heroDesc}</p>
+            <div {...aos(2)} className="mx-auto mt-8 max-w-[260px]">{cta}</div>
             <p className="mt-3 text-[11px] text-[var(--sub)]">무료 풀이 · 1분이면 끝나요</p>
           </div>
         </section>

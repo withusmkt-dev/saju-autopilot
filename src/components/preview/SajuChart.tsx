@@ -20,7 +20,7 @@ function Cell({ char, ko, el }: { char: string; ko: string; el: Element }) {
   return (
     <div className="rounded-lg py-2" style={{ background: ELEMENT[el].bg, color: ELEMENT[el].color }}>
       <p className="text-2xl leading-none font-bold" style={{ fontFamily: "'Nanum Myeongjo', serif" }}>{char}</p>
-      <p className="mt-1 text-[10px]">{ko} · {el}</p>
+      <p className="mt-1 text-[11px]">{ko} · {el}</p>
     </div>
   );
 }
@@ -67,10 +67,20 @@ export function MonthFlow({ locked = false }: { locked?: boolean }) {
           </div>
         ))}
       </div>
-      <div className="mt-2 flex justify-between text-xs">
-        <span>최고의 달: {locked ? "🔒" : `${m.indexOf(max) + 1}월`}</span>
-        <span>조심할 달: {locked ? "🔒" : `${m.indexOf(min) + 1}월`}</span>
+      <div className="mt-2 flex justify-between text-[13px]">
+        <span>최고의 달: {locked ? <Lock /> : `${m.indexOf(max) + 1}월`}</span>
+        <span>조심할 달: {locked ? <Lock /> : `${m.indexOf(min) + 1}월`}</span>
       </div>
     </div>
+  );
+}
+
+/** 잠김 표시 (이모지 대신) */
+export function Lock() {
+  return (
+    <svg viewBox="0 0 16 16" className="inline h-3.5 w-3.5 -translate-y-px" fill="none" stroke="currentColor" strokeWidth="1.6" aria-label="잠김">
+      <rect x="3" y="7" width="10" height="7" rx="1.5" />
+      <path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" />
+    </svg>
   );
 }

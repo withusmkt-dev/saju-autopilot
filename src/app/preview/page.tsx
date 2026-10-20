@@ -4,7 +4,7 @@ import { SKINS } from "@/lib/preview/skins";
 
 export const metadata = { title: "예시 브랜드 페이지", robots: { index: false, follow: false } };
 
-/** 예시 브랜드 페이지 모음 — 주제별 10개 */
+/** 예시 브랜드 페이지 모음 (주제별 10개) */
 export default function PreviewIndex() {
   const items = SHOWCASE.map((slug) => getBrandPage(slug)!).filter(Boolean);
   return (

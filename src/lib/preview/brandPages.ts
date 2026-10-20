@@ -22,10 +22,12 @@ export interface BrandPage {
   heroTitle: string; // 줄바꿈은 \n
   heroDesc: string;
   cta: string;
+  /** 섹션 제목 (브랜드 말투) */
+  titles: { points: string; reviews: string; form: string };
   points: { title: string; desc: string }[];
   reviews: { name: string; text: string }[];
   product: PageProduct;
-  /** 무료 결과 3단락 — 브랜드 말투로 */
+  /** 무료 결과 3단락, 브랜드 말투로 */
   free: { title: string; text: string }[];
   /** 유료 결과 앞머리 한 줄 */
   paidIntro: string;
@@ -44,6 +46,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "오늘 밤,\n내 사주를 펼쳐 볼까요",
     heroDesc: "생년월일시만 넣으면 타고난 기질과 올해의 흐름을 차분히 읽어 드려요.",
     cta: "무료로 내 사주 보기",
+    titles: { points: "오늘 밤 펼쳐 볼 세 가지", reviews: "다녀간 분들이 남긴 말", form: "생년월일시를 알려 주세요" },
     points: [
       { title: "타고난 기질", desc: "일간과 오행으로 보는 나의 바탕" },
       { title: "올해의 흐름", desc: "2027년 달마다 오는 기운" },
@@ -70,6 +73,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "뼈 때리는\n진짜 내 사주",
     heroDesc: "듣기 좋은 말은 빼고, 지금 알아야 할 것만 짧고 세게 알려 드려요.",
     cta: "각오하고 무료로 보기",
+    titles: { points: "각오할 것 세 개", reviews: "맞아서 화난 사람들", form: "정보 입력. 빨리." },
     points: [
       { title: "내 성격 팩폭", desc: "남들이 말 못 한 내 진짜 모습" },
       { title: "반복되는 실수", desc: "연애·돈에서 매번 걸리는 패턴" },
@@ -96,6 +100,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "내 사주에\n도화가 피는 달",
     heroDesc: "연애 흐름과 인연이 들어오는 시기를 달마다 짚어 드려요.",
     cta: "내 연애운 무료로 보기",
+    titles: { points: "연구소에서 보는 것", reviews: "먼저 본 언니들 후기", form: "내 정보만 있으면 돼요" },
     points: [
       { title: "연애 스타일", desc: "나는 어떤 사랑을 하는 사람일까" },
       { title: "인연의 시기", desc: "인연이 들어오는 달" },
@@ -122,6 +127,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "돈이 들어오는 달,\n사주에 적혀 있어요",
     heroDesc: "재물운의 흐름과 모으기 좋은 시기, 조심할 시기를 알려 드려요.",
     cta: "내 재물운 무료로 보기",
+    titles: { points: "재물 리포트 구성", reviews: "이용자 후기", form: "기본 정보 입력" },
     points: [
       { title: "타고난 재물 그릇", desc: "돈을 버는 방식과 쓰는 습관" },
       { title: "들어오는 달", desc: "2027년 재물 흐름 그래프" },
@@ -148,6 +154,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "청월당의\n고품격 운명 보고서",
     heroDesc: "명리학 전통 해석으로 격국과 용신, 대운의 흐름을 정중하게 풀어 드립니다.",
     cta: "무료 풀이 받아 보기",
+    titles: { points: "해석의 차례", reviews: "독자 소감", form: "명조를 세울 정보" },
     points: [
       { title: "원국과 격국", desc: "타고난 사주의 짜임" },
       { title: "용신과 기신", desc: "나를 돕는 기운, 막는 기운" },
@@ -174,6 +181,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "2027년,\n나에게 오는 열두 달",
     heroDesc: "새해 총운부터 달마다 오는 기운, 삼재와 귀인까지 한 번에 정리해 드려요.",
     cta: "2027 운세 무료로 보기",
+    titles: { points: "2027 운세에 담긴 것", reviews: "작년에 본 분들", form: "새해 운세 받을 정보" },
     points: [
       { title: "2027 총운", desc: "한 해를 관통하는 키워드" },
       { title: "월별 흐름", desc: "1월부터 12월까지 기운의 높낮이" },
@@ -200,6 +208,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "이직각인지\n버틸각인지",
     heroDesc: "사주로 보는 내 일 체질, 움직일 타이밍, 지금 회사에 남을지 말지.",
     cta: "내 이직운 무료로 보기",
+    titles: { points: "진단 항목", reviews: "먼저 진단받은 사람들", form: "지원서 작성" },
     points: [
       { title: "일 체질", desc: "조직형인지 독립형인지" },
       { title: "움직일 타이밍", desc: "이직·취업이 잘 풀리는 달" },
@@ -226,6 +235,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "오늘 하루,\n어떤 기운이 올까요",
     heroDesc: "내 사주와 오늘의 일진을 맞춰 보고, 오늘 챙길 것 하나를 알려 드려요.",
     cta: "오늘의 운세 무료로 보기",
+    titles: { points: "오늘의 지면", reviews: "독자 엽서", form: "오늘 운세 받을 정보" },
     points: [
       { title: "오늘의 일진", desc: "오늘 날의 간지와 기운" },
       { title: "나와의 궁합", desc: "오늘이 나에게 맞는 날일까" },
@@ -252,6 +262,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "우리 둘,\n사주로 보면 어떨까",
     heroDesc: "두 사람의 생년월일시로 서로 채워 주는 기운과 부딪히는 지점을 알려 드려요.",
     cta: "우리 궁합 무료로 보기",
+    titles: { points: "궁합에서 보는 것", reviews: "같이 본 커플들", form: "두 사람 정보" },
     points: [
       { title: "궁합 점수", desc: "오행으로 보는 두 사람의 균형" },
       { title: "잘 맞는 점", desc: "서로를 채워 주는 기운" },
@@ -278,6 +289,7 @@ const PAGES: Record<string, BrandPage> = {
     heroTitle: "그 사람과\n다시 만날 수 있을까",
     heroDesc: "헤어진 인연이 다시 이어질 흐름이 있는지, 언제쯤인지 조심스럽게 짚어 드려요.",
     cta: "재회운 무료로 보기",
+    titles: { points: "이 편지에 담길 이야기", reviews: "같은 마음이었던 분들", form: "당신의 정보를 적어 주세요" },
     points: [
       { title: "인연의 끈", desc: "아직 이어져 있는 기운" },
       { title: "다시 만날 시기", desc: "연락이 닿기 쉬운 달" },

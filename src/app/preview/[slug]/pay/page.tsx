@@ -2,12 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MockNote, PButton, PCard, PTitle, usePreview } from "@/components/preview/PreviewShell";
+import { MockNote, PButton, PCard, PTitle, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { confirmPaymentMock, prepareOrderMock, saveOrder, sendResultAlimtalkMock, useIntake } from "@/lib/preview/mock";
 
 const METHODS = ["신용·체크카드", "토스페이", "카카오페이", "네이버페이", "계좌이체"];
 
 export default function PayPage() {
+  useAosInit();
   const { slug, base, brand, page } = usePreview();
   const intake = useIntake(slug);
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function PayPage() {
     setPaying(true);
     const order = prepareOrderMock(brand.orderNamePrefix, page.product.name, page.product.price);
 
-    /* 실서비스 (토스 결제위젯) — 키 연결 후 주석 해제
+    /* 실서비스 (토스 결제위젯): 키 연결 후 주석 해제
     const widgets = (await loadTossPayments(process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!)).widgets({ customerKey: ANONYMOUS });
     await widgets.setAmount({ currency: "KRW", value: order.amount });
     await widgets.renderPaymentMethods({ selector: "#payment-method" });
@@ -65,7 +66,7 @@ export default function PayPage() {
             </button>
           ))}
         </div>
-        <p id="agreement" className="mt-3 text-[11px] text-[#999]">결제 약관 동의는 토스 결제창에서 받아요. 결제창 표시 — 상점명: 명월재 · 상품명: {orderName}</p>
+        <p id="agreement" className="mt-3 text-[12px] text-[#666]">결제 약관 동의는 토스 결제창에서 받아요. 결제창 표시: 상점명: 명월재 · 상품명: {orderName}</p>
         <MockNote>여기에 토스 결제위젯이 들어가요. 지금은 버튼을 누르면 결제 완료로 처리해요.</MockNote>
       </div>
 

@@ -1,25 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { MockNote, PCard, PTitle, usePreview } from "@/components/preview/PreviewShell";
+import { MockNote, PCard, PTitle, useAos, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { ElementBars, MonthFlow, PillarTable } from "@/components/preview/SajuChart";
 import { PAID_CHAPTERS, PAID_SAMPLE } from "@/lib/preview/brandPages";
 import { useIntake, useOrder } from "@/lib/preview/mock";
 
 export default function PaidResultPage() {
+  useAosInit();
   const { slug, brand, page } = usePreview();
   const intake = useIntake(slug);
   const order = useOrder(slug);
+  const aos = useAos();
   const [open, setOpen] = useState(0);
   const [note, setNote] = useState("");
 
   return (
     <>
       {order && (
-        <div className="bg-emerald-50 px-5 py-3 text-xs text-emerald-800">
-          ✓ 결제 완료 · 주문번호 {order.orderId}
+        <div className="bg-emerald-50 px-5 py-3 text-[13px] text-emerald-800">
+          결제 완료 · 주문번호 {order.orderId}
           <br />
-          {intake.phone} 으로 해설서 링크를 보냈어요 (목업) · 🔗 {order.shortLink}
+          {intake.phone} 으로 해설서 링크를 보냈어요 (목업) · {order.shortLink}
         </div>
       )}
 
@@ -46,7 +48,7 @@ export default function PaidResultPage() {
         <PTitle eyebrow="목차">열 장의 이야기</PTitle>
         <ol className="space-y-2">
           {PAID_CHAPTERS.map((c, i) => (
-            <li key={c}>
+            <li key={c} {...aos(i)}>
               <PCard className="!p-0 overflow-hidden">
               <button type="button" onClick={() => setOpen(open === i ? -1 : i)} className="flex w-full items-center justify-between px-4 py-3.5 text-left">
                 <span className="font-bold text-[var(--ink)]">
@@ -74,7 +76,7 @@ export default function PaidResultPage() {
       <section className="px-5 pb-10">
         <div className="grid grid-cols-2 gap-2">
           <button type="button" onClick={() => setNote("PDF 저장은 실서비스에서 /api/pdf 로 만들어요 (목업)")} className="border border-[var(--line)] py-3 text-sm">
-            📄 PDF로 저장
+            PDF로 저장
           </button>
           <button
             type="button"
@@ -84,7 +86,7 @@ export default function PaidResultPage() {
             }}
             className="border border-[var(--line)] py-3 text-sm"
           >
-            🔗 링크 복사
+            링크 복사
           </button>
         </div>
         {note && <p className="mt-2 text-center text-xs text-[var(--ink)]">{note}</p>}

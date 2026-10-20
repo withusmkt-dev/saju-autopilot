@@ -2,13 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { MockNote, usePreview } from "@/components/preview/PreviewShell";
+import { MockNote, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { josa } from "@/lib/format";
 import { useIntake } from "@/lib/preview/mock";
 
 const STEPS = ["만세력으로 사주 여덟 글자 세우는 중", "오행과 십성 살피는 중", "올해 흐름 정리하는 중", "풀이 문장 다듬는 중"];
 
 export default function AnalyzingPage() {
+  useAosInit();
   const { base, brand, page, slug } = usePreview();
   const intake = useIntake(slug);
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function AnalyzingPage() {
       <p className="mt-8 text-lg font-bold text-[var(--ink)]" style={{ fontFamily: "var(--hf)" }}>
         {intake.name}님의 {josa(page.topic, "을", "를")} 읽고 있어요
       </p>
-      <ul className="mt-6 space-y-2 text-left text-sm">
+      <ul className="mt-6 space-y-2 text-left text-[15px]">
         {STEPS.map((s, i) => (
           <li key={s} className={`flex items-center gap-2 transition ${i < step ? "text-[var(--ink)]" : "text-[var(--sub)] opacity-50"}`}>
             <span>{i < step ? "✓" : "·"}</span>

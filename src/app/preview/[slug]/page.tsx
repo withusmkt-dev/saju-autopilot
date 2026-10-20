@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Hero from "@/components/preview/Hero";
-import { MockNote, PButton, PCard, PTitle, useField, usePreview } from "@/components/preview/PreviewShell";
+import { MockNote, PButton, PCard, PTitle, useAos, useField, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { Points, Product, Reviews } from "@/components/preview/Sections";
 import { requestFreeReadingMock, type Intake } from "@/lib/preview/mock";
 import type { Section } from "@/lib/preview/skins";
@@ -17,6 +17,7 @@ const SIJIN = [
 ];
 
 export default function BrandMainPage() {
+  useAosInit();
   const { skin } = usePreview();
   const scrollToForm = () => document.getElementById("form")?.scrollIntoView({ behavior: "smooth" });
   const SECTION: Record<Section, React.ReactNode> = {
@@ -36,6 +37,7 @@ export default function BrandMainPage() {
 function IntakeForm() {
   const { page, slug, base } = usePreview();
   const field = useField();
+  const aos = useAos();
   const router = useRouter();
   const [sending, setSending] = useState(false);
   const [agree, setAgree] = useState(false);
@@ -113,8 +115,8 @@ function IntakeForm() {
 
   return (
     <section id="form" className="scroll-mt-24 px-5 py-8">
-      <PTitle eyebrow="무료 풀이">{couple ? "두 사람 정보를 넣어 주세요" : "내 정보를 넣어 주세요"}</PTitle>
-      <form onSubmit={submit} className="space-y-3">
+      <div {...aos()}><PTitle>{page.titles.form}</PTitle></div>
+      <form onSubmit={submit} className="space-y-3" {...aos(1)}>
         {couple ? (
           <>
             <PCard>
@@ -132,9 +134,9 @@ function IntakeForm() {
         )}
         <PCard className="space-y-3">
           <input className={field} inputMode="numeric" placeholder="휴대폰 번호 (결과 링크를 보내 드려요)" value={f.phone} onChange={(e) => set({ phone: e.target.value.replace(/[^\d-]/g, "") })} />
-          <label className="flex items-start gap-2 text-xs text-[var(--sub)]">
+          <label className="flex items-start gap-2 text-[13px] leading-relaxed text-[var(--sub)]">
             <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 accent-[var(--ink)]" />
-            <span>[필수] 개인정보 수집·이용 동의 — 이름·생년월일시·휴대폰 번호를 풀이와 결과 안내에만 쓰고 1년 뒤 지워요.</span>
+            <span>[필수] 개인정보 수집·이용 동의. 이름, 생년월일시, 휴대폰 번호는 풀이와 결과 안내에만 쓰고 1년 뒤 지워요.</span>
           </label>
         </PCard>
         {error && <p className="text-sm text-red-500">{error}</p>}

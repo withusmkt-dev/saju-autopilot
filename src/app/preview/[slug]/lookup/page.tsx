@@ -2,11 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MockNote, PButton, PTitle, useField, usePreview } from "@/components/preview/PreviewShell";
+import { MockNote, PButton, PTitle, useField, useAosInit, usePreview } from "@/components/preview/PreviewShell";
 import { useOrder } from "@/lib/preview/mock";
 
-/** 결제 내역 / 결과 다시 보기 — 명월재와 같은 방식(주문번호 + 연락처) */
+/** 결제 내역 / 결과 다시 보기. 명월재와 같은 방식(주문번호 + 연락처) */
 export default function LookupPage() {
+  useAosInit();
   const { slug, base } = usePreview();
   const field = useField();
   const lastOrder = useOrder(slug);
@@ -17,7 +18,7 @@ export default function LookupPage() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    // 실서비스: app/actions/lookup.ts — 주문번호+연락처 일치 시 report_token 링크로 이동 (틀린 횟수 제한)
+    // 실서비스: app/actions/lookup.ts: 주문번호+연락처 일치 시 report_token 링크로 이동 (틀린 횟수 제한)
     if (!orderId.trim() || phone.replace(/\D/g, "").length < 10) return setError("주문번호와 휴대폰 번호를 넣어 주세요.");
     if (!lastOrder) return setError("일치하는 주문이 없어요. (목업: 이 브라우저에서 결제한 주문만 찾을 수 있어요)");
     router.push(`${base}/result`);
