@@ -52,6 +52,7 @@ export default function ContentPage() {
     if (brandIds.length === 0 || chosenChannels.length === 0) return;
     setLoading(true);
     // TODO(API): POST /api/content/generate (GenerateRequest) → ContentItem[]
+    //   프롬프트: src/lib/prompts/adContent.ts, 호출: src/lib/server/generate.ts generateContents
     window.setTimeout(() => {
       const stamp = Date.now().toString(36);
       const made: ContentItem[] = brandIds.flatMap((bid) =>
