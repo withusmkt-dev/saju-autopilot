@@ -1,0 +1,19 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	// 관리자 앱(사주 오토파일럿)을 Cloudflare Workers 로 배포하는 설정
+	// 빌드 결과물은 `opennextjs-cloudflare build` 가 .open-next/ 에 만든다
+	"main": ".open-next/worker.js",
+	"name": "saju-autopilot-admin",
+	"compatibility_date": "2026-10-01",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	// 지금은 더미 데이터만 쓰므로 R2·KV·이미지 바인딩과 비밀 값이 없다.
+	// 실제 데이터·재검증(revalidate)이 필요해지면 R2 캐시를 추가한다:
+	// https://opennext.js.org/cloudflare/caching
+	"observability": {
+		"enabled": true
+	}
+}
